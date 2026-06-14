@@ -3,8 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --primary: #3b82f6;
-  --on-primary: #ffffff;
+  --primary: #00ffcc;
+  --on-primary: #000000;
+  --background: #0a0a2a;
 }
 
 html, body, #root {
@@ -12,8 +13,9 @@ html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: #ffffff;
+  background: var(--background);
   overflow: hidden;
+  color: #ffffff;
 }
 
 * {
@@ -25,12 +27,12 @@ html, body, #root {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #1a1a3a;
 }
 ::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
+  background: #00ffcc;
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+  background: #00ccaa;
 }

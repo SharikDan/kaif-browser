@@ -21,8 +21,8 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-    <div className="fixed top-12 left-0 right-0 z-20 bg-white shadow-md border-b border-gray-200">
-      <div className="max-w-3xl mx-auto px-4 py-3">
+    <div className="fixed top-14 left-0 right-0 z-20">
+      <div className="max-w-2xl mx-auto px-4">
         <form onSubmit={handleSubmit}>
           <div className="relative">
             <input
@@ -30,12 +30,12 @@ const SearchBar: React.FC = () => {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Введите поисковый запрос или URL..."
-              className="w-full bg-gray-100 border border-gray-300 rounded-full px-6 py-4 text-lg text-gray-900 placeholder-gray-500 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              placeholder="Поиск или введите адрес..."
+              className="w-full bg-black/50 backdrop-blur-md border border-cyan-400 rounded-full px-6 py-4 text-lg text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent shadow-[0_0_15px_rgba(0,255,204,0.3)] transition-all"
             />
             <button
               type="submit"
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full text-sm font-medium transition"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-cyan-500 hover:bg-cyan-600 text-black font-semibold px-5 py-2 rounded-full text-sm transition shadow-lg shadow-cyan-500/50"
             >
               Найти
             </button>
