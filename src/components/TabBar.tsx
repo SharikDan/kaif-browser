@@ -1,13 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTabs } from '../contexts/TabsContext';
-import { useTheme } from '../contexts/ThemeContext';
 import { X, Plus } from 'lucide-react';
 
 export const TabBar: React.FC = () => {
   const { tabs, activeTabId, addTab, closeTab, setActiveTab } = useTabs();
-  const { primary } = useTheme();
-
   return (
     <div className="fixed top-0 left-0 right-0 z-30 bg-black/30 backdrop-blur-md border-b border-cyan-400/30 flex items-center gap-1 px-2 py-1 overflow-x-auto shadow-sm">
       {tabs.map((tab) => (
@@ -20,7 +17,7 @@ export const TabBar: React.FC = () => {
           }`}
         >
           <span className="text-sm max-w-[150px] truncate">
-            {tab.title.length > 20 ? tab.title.slice(0, 18) + '…' : tab.title}
+            {tab.title.length > 20 ? tab.title.slice(0, 18) + 'Ã¢â‚¬Â¦' : tab.title}
           </span>
           <button
             onClick={(e) => { e.stopPropagation(); closeTab(tab.id); }}
