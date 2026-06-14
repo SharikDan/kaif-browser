@@ -26,5 +26,12 @@
     "security": {
       "csp": "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;"
     }
+  },
+  "plugins": {
+    "opener": {
+      "open": {
+        "allow": true
+      }
+    }
   }
 }
