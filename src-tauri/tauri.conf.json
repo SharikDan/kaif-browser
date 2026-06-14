@@ -26,5 +26,26 @@
     "security": {
       "csp": "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;"
     }
+  },
+  "bundle": {
+    "active": true,
+    "identifier": "com.danil.kaif-browser",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": "http://timestamp.digicert.com",
+      "nsis": {
+        "installMode": "currentUser",
+        "languages": ["Russian", "English"],
+        "displayLanguageSelector": true
+      }
+    }
   }
 }
