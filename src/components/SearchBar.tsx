@@ -1,10 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { motion } from 'framer-motion';
 import { useTabs } from '../contexts/TabsContext';
 
 const SearchBar: React.FC = () => {
   const [query, setQuery] = useState('');
-  const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { addTab } = useTabs();
 
@@ -32,8 +30,6 @@ const SearchBar: React.FC = () => {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
               placeholder="Введите поисковый запрос или URL..."
               className="w-full bg-gray-100 border border-gray-300 rounded-full px-6 py-4 text-lg text-gray-900 placeholder-gray-500 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             />
