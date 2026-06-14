@@ -3,9 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --primary: #00ffcc;
-  --on-primary: #000000;
-  --background: #0a0a2a;
+  --primary: #06b6d4;
+  --on-primary: #ffffff;
 }
 
 html, body, #root {
@@ -13,9 +12,8 @@ html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: var(--background);
+  background: #0a0a0f;
   overflow: hidden;
-  color: #ffffff;
 }
 
 * {
@@ -23,16 +21,21 @@ html, body, #root {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #1a1a3a;
+  background: #1a1a1f;
 }
 ::-webkit-scrollbar-thumb {
-  background: #00ffcc;
+  background: #06b6d4;
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #00ccaa;
+  background: #0891b2;
+}
+
+/* Неоновое свечение для активных элементов */
+.neon-glow {
+  text-shadow: 0 0 5px #06b6d4, 0 0 10px #06b6d4;
 }
