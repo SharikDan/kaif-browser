@@ -19,6 +19,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Remove cached configs
+        run: |
+          rm -f src-tauri/tauri.conf.json
+          rm -f src-tauri/capabilities/default.json
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -38,7 +43,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: v__VERSION__
-          releaseName: '??????????? v__VERSION__'
-          releaseBody: '???????? ?????????? ??? Windows.'
+          releaseName: 'КайфБраузер v__VERSION__'
+          releaseBody: 'Скачайте установщик для Windows.'
           releaseDraft: true
           prerelease: false
