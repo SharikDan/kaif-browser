@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useTabs } from '../contexts/TabsContext';
 
@@ -31,8 +31,7 @@ const SearchBar: React.FC = () => {
     >
       <form onSubmit={handleSubmit}>
         <div
-          className="relative rounded-2xl backdrop-blur-xl bg-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] border border-white/20"
-          style={{ mixBlendMode: 'difference' }}
+          className="relative rounded-2xl backdrop-blur-xl bg-black/50 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] border border-white/20"
         >
           <input
             ref={inputRef}
@@ -43,7 +42,7 @@ const SearchBar: React.FC = () => {
             onBlur={() => setIsFocused(false)}
             placeholder="Поиск или введите адрес..."
             className="w-full bg-transparent px-6 py-4 text-xl text-white placeholder-white/70 outline-none"
-            style={{ color: 'var(--on-primary)', caretColor: 'var(--primary)' }}
+            style={{ caretColor: 'white' }}
           />
         </div>
       </form>
