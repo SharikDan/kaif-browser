@@ -23,30 +23,30 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-    <motion.div
-      initial={{ width: '40%', opacity: 0.9 }}
-      animate={{ width: isFocused ? '70%' : '40%', opacity: 1 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20"
-    >
-      <form onSubmit={handleSubmit}>
-        <div
-          className="relative rounded-2xl backdrop-blur-xl bg-black/50 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] border border-white/20"
-        >
-          <input
-            ref={inputRef}
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            placeholder="Поиск или введите адрес..."
-            className="w-full bg-transparent px-6 py-4 text-xl text-white placeholder-white/70 outline-none"
-            style={{ caretColor: 'white' }}
-          />
-        </div>
-      </form>
-    </motion.div>
+    <div className="fixed top-12 left-0 right-0 z-20 bg-white shadow-md border-b border-gray-200">
+      <div className="max-w-3xl mx-auto px-4 py-3">
+        <form onSubmit={handleSubmit}>
+          <div className="relative">
+            <input
+              ref={inputRef}
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              placeholder="Введите поисковый запрос или URL..."
+              className="w-full bg-gray-100 border border-gray-300 rounded-full px-6 py-4 text-lg text-gray-900 placeholder-gray-500 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            />
+            <button
+              type="submit"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full text-sm font-medium transition"
+            >
+              Найти
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 
