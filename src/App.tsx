@@ -1,5 +1,4 @@
-﻿import React from 'react';
-import { ThemeProvider } from './contexts/ThemeContext';
+﻿import { ThemeProvider } from './contexts/ThemeContext';
 import { TabsProvider, useTabs } from './contexts/TabsContext';
 import { Background } from './components/Background';
 import { TabBar } from './components/TabBar';

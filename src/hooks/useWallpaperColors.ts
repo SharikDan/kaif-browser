@@ -1,5 +1,5 @@
 ﻿import { useEffect, useState } from 'react';
-import ColorThief from 'colorthief';
+import * as ColorThief from 'colorthief';
 
 export const useWallpaperColors = (imageSrc: string) => {
   const [primary, setPrimary] = useState('#ffffff');
@@ -11,7 +11,7 @@ export const useWallpaperColors = (imageSrc: string) => {
     img.crossOrigin = 'Anonymous';
     img.src = imageSrc;
     img.onload = () => {
-      const colorThief = new ColorThief();
+      const colorThief = new ColorThief.ColorThief();
       const [r, g, b] = colorThief.getColor(img);
       const rgb = `rgb(${r}, ${g}, ${b})`;
       setPrimary(rgb);
