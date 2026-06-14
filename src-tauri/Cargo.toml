@@ -8,6 +8,10 @@ edition = "2021"
 [lib]
 crate-type = ["cdylib", "staticlib"]
 
+[[bin]]
+name = "kaif-browser"
+path = "src/main.rs"
+
 [dependencies]
 tauri = { version = "2", features = [] }
 tauri-build = "2"
