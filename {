@@ -1,0 +1,7 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useTabs } from '../contexts/TabsContext';
+import { useTheme } from '../contexts/ThemeContext';
+import { X, Plus } from 'lucide-react';
+
+export const TabBar: React.FC = (
