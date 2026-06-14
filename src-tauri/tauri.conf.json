@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "???????????",
+        "title": "КайфБраузер",
         "fullscreen": false,
         "resizable": true,
         "width": 1280,
