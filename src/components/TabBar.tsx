@@ -1,12 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTabs } from '../contexts/TabsContext';
-import { useTheme } from '../contexts/ThemeContext';
 import { X, Plus } from 'lucide-react';
 
 export const TabBar: React.FC = () => {
   const { tabs, activeTabId, addTab, closeTab, setActiveTab } = useTabs();
-  const { primary } = useTheme();
 
   return (
     <div className="fixed top-0 left-0 right-0 z-30 backdrop-blur-xl bg-black/60 border-b border-cyan-400/50 flex items-center gap-1 px-2 py-1 overflow-x-auto">
