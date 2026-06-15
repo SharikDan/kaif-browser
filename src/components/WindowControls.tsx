@@ -9,13 +9,13 @@ const WindowControls: React.FC = () => {
 
   return (
     <div className="flex items-center gap-2 ml-auto">
-      <button onClick={handleMinimize} className="p-1 rounded-md hover:bg-white/10 text-white/80" aria-label="Minimize">
+      <button onClick={handleMinimize} className="p-1 rounded-md hover:bg-white/10 text-white/80">
         <Minus size={14} />
       </button>
-      <button onClick={handleMaximize} className="p-1 rounded-md hover:bg-white/10 text-white/80" aria-label="Maximize">
+      <button onClick={handleMaximize} className="p-1 rounded-md hover:bg-white/10 text-white/80">
         <Square size={12} />
       </button>
-      <button onClick={handleClose} className="p-1 rounded-md hover:bg-red-500/80 text-white/80" aria-label="Close">
+      <button onClick={handleClose} className="p-1 rounded-md hover:bg-red-500/80 text-white/80">
         <X size={14} />
       </button>
     </div>
