@@ -35,10 +35,7 @@ export const TabBar: React.FC = () => {
             </button>
           </motion.div>
         ))}
-        <button
-          onClick={() => addTab()}
-          className="p-2 rounded-full hover:bg-[#ff0040]/30 transition"
-        >
+        <button onClick={() => addTab()} className="p-2 rounded-full hover:bg-[#ff0040]/30 transition">
           <Plus size={16} />
         </button>
       </div>
