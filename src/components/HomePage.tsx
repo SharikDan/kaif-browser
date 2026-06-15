@@ -3,8 +3,9 @@ import { motion } from 'framer-motion';
 import { useTabs } from '../contexts/TabsContext';
 
 const SEARCH_ENGINES = {
+  ducklite: { name: 'DuckDuckGo Lite', url: 'https://lite.duckduckgo.com/lite/?q=' },
+  brave: { name: 'Brave Search', url: 'https://search.brave.com/search?q=' },
   google: { name: 'Google', url: 'https://www.google.com/search?q=' },
-  duck: { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=' },
   yandex: { name: 'Yandex', url: 'https://yandex.ru/search/?text=' },
   bing: { name: 'Bing', url: 'https://www.bing.com/search?q=' }
 };
@@ -13,7 +14,7 @@ const HomePage: React.FC = () => {
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [engine, setEngine] = useState<keyof typeof SEARCH_ENGINES>('google');
+  const [engine, setEngine] = useState<keyof typeof SEARCH_ENGINES>('ducklite');
   const inputRef = useRef<HTMLInputElement>(null);
   const { addTab } = useTabs();
 
@@ -65,7 +66,7 @@ const HomePage: React.FC = () => {
               style={{ caretColor: '#ff0040' }}
             />
           </div>
-          <div className="flex justify-center gap-3 mt-4">
+          <div className="flex justify-center gap-3 mt-4 flex-wrap">
             {(Object.keys(SEARCH_ENGINES) as Array<keyof typeof SEARCH_ENGINES>).map(key => (
               <button
                 key={key}
