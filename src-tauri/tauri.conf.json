@@ -52,6 +52,22 @@
                               ],
                   "security":  {
                                    "csp":  "default-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 https: http: data: blob:; frame-src https: http:;"
-                               }
+                               },
+                  "allowlist":  {
+                                    "window":  {
+                                                   "all":  true,
+                                                   "minimize":  true,
+                                                   "maximize":  true,
+                                                   "close":  true,
+                                                   "startDragging":  true,
+                                                   "isMaximized":  true,
+                                                   "isFullscreen":  true,
+                                                   "setFullscreen":  true
+                                               },
+                                    "shell":  {
+                                                  "all":  false,
+                                                  "open":  true
+                                              }
+                                }
               }
 }
