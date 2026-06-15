@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { WebviewWindow } from '@tauri-apps/api/window';
+import { useTabs } from '../contexts/TabsContext';
 
 const SEARCH_ENGINES = {
   google: { name: 'Google', url: 'https://www.google.com/search?q=' },
@@ -16,7 +16,7 @@ const HomePage: React.FC = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [engine, setEngine] = useState<keyof typeof SEARCH_ENGINES>('google');
   const inputRef = useRef<HTMLInputElement>(null);
-  const [windowCounter, setWindowCounter] = useState(0);
+  const { addTab } = useTabs();
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -34,29 +34,7 @@ const HomePage: React.FC = () => {
       finalUrl = SEARCH_ENGINES[engine].url + encodeURIComponent(query);
     }
     
-    // Создаём новое окно Tauri WebView
-    const label = `search-${Date.now()}-${windowCounter}`;
-    setWindowCounter(prev => prev + 1);
-    
-    try {
-      const webview = new WebviewWindow(label, {
-        url: finalUrl,
-        title: `${query} - KaifBrowser`,
-        width: 1200,
-        height: 800,
-        resizable: true,
-        fullscreen: false,
-        decorations: true,
-        center: true
-      });
-      
-      webview.once('tauri://error', (e) => {
-        console.error('Window creation error:', e);
-      });
-    } catch (e) {
-      console.error('Failed to create window:', e);
-    }
-    
+    await addTab(finalUrl, query);
     setQuery('');
     inputRef.current?.blur();
   };
