@@ -4,38 +4,31 @@ import { X, Minus, Square } from 'lucide-react';
 
 const WindowControls: React.FC = () => {
   const handleMinimize = () => appWindow.minimize();
-  const handleToggleFullscreen = async () => {
-    const isFullscreen = await appWindow.isFullscreen();
-    if (isFullscreen) {
-      await appWindow.setFullscreen(false);
-    } else {
-      await appWindow.setFullscreen(true);
-    }
-  };
+  const handleMaximize = () => appWindow.toggleMaximize();
   const handleClose = () => appWindow.close();
 
   return (
-    <div className="flex items-center gap-2 ml-auto">
+    <div className="flex items-center gap-2 ml-auto" data-tauri-drag-region>
       <button
         onClick={handleMinimize}
-        className="p-1 rounded-md hover:bg-white/10 transition-all"
+        className="p-1 rounded-md hover:bg-white/10 transition-all text-white/80"
         aria-label="Minimize"
       >
-        <Minus size={14} className="text-white/80" />
+        <Minus size={14} />
       </button>
       <button
-        onClick={handleToggleFullscreen}
-        className="p-1 rounded-md hover:bg-white/10 transition-all"
-        aria-label="Fullscreen"
+        onClick={handleMaximize}
+        className="p-1 rounded-md hover:bg-white/10 transition-all text-white/80"
+        aria-label="Maximize"
       >
-        <Square size={12} className="text-white/80" />
+        <Square size={12} />
       </button>
       <button
         onClick={handleClose}
-        className="p-1 rounded-md hover:bg-red-500/80 transition-all"
+        className="p-1 rounded-md hover:bg-red-500/80 transition-all text-white/80"
         aria-label="Close"
       >
-        <X size={14} className="text-white/80" />
+        <X size={14} />
       </button>
     </div>
   );

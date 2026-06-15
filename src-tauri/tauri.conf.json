@@ -25,7 +25,7 @@
                                                ],
                                  "copyright":  "",
                                  "category":  "DeveloperTool",
-                                 "shortDescription":  "KaiÃŒË†fBrowser with neon red theme",
+                                 "shortDescription":  "KaifBrowser with neon red theme",
                                  "longDescription":  "Minimalistic browser with glassmorphism and neon red glow",
                                  "windows":  {
                                                  "certificateThumbprint":  null,
@@ -35,7 +35,7 @@
                              },
                   "windows":  [
                                   {
-                                      "title":  "ÃÅ¡ÃÂ°ÃÂ¹Ã‘â€žÃâ€˜Ã‘â‚¬ÃÂ°Ã‘Æ’ÃÂ·ÃÂµÃ‘â‚¬",
+                                      "title":  "KaifBrowser",
                                       "fullscreen":  false,
                                       "resizable":  true,
                                       "width":  1280,

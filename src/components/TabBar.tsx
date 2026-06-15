@@ -25,7 +25,7 @@ export const TabBar: React.FC = () => {
             }`}
           >
             <span className="text-sm max-w-[150px] truncate">
-              {tab.title.length > 20 ? tab.title.slice(0, 18) + '…' : tab.title}
+              {tab.title.length > 20 ? tab.title.slice(0, 18) + '...' : tab.title}
             </span>
             <button
               onClick={(e) => { e.stopPropagation(); closeTab(tab.id); }}

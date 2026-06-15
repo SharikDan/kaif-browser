@@ -18,7 +18,7 @@ const HomePage: React.FC = () => {
     e.preventDefault();
     if (!query.trim()) return;
     let finalUrl: string;
-    if (query.includes('.') && !query.includes(' ') || query.startsWith('http')) {
+    if ((query.includes('.') && !query.includes(' ')) || query.startsWith('http')) {
       finalUrl = query.startsWith('http') ? query : `https://${query}`;
     } else {
       finalUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
@@ -62,7 +62,7 @@ const HomePage: React.FC = () => {
               onChange={(e) => setQuery(e.target.value)}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
-              placeholder="Поиск в Google или введите адрес..."
+              placeholder="Google search or enter URL..."
               className="w-full bg-transparent px-6 py-4 text-xl text-white placeholder-white/70 outline-none"
               style={{ caretColor: '#ff0040' }}
             />
