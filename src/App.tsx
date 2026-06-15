@@ -13,7 +13,7 @@ const AppContent: React.FC = () => {
       <Background />
       <TabBar />
       {activeTab?.url ? (
-        <WebView url={activeTab.url} onTitleChange={(title) => {
+        <WebView url={activeTab.url} onTitleChange={(title: string) => {
           if (activeTabId) updateTabUrl(activeTabId, activeTab.url, title);
         }} />
       ) : (
