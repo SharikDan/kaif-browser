@@ -13,9 +13,9 @@ const SearchBar: React.FC = () => {
     if (!query.trim()) return;
     let searchUrl: string;
     if (query.includes('.') && !query.includes(' ')) {
-      searchUrl = query.startsWith('http') ? query : https://;
+      searchUrl = query.startsWith('http') ? query : `https://${query}`;
     } else {
-      searchUrl = https://duckduckgo.com/?q=;
+      searchUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
     }
     addTab(searchUrl, query);
     setQuery('');

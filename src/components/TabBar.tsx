@@ -13,7 +13,11 @@ export const TabBar: React.FC = () => {
           key={tab.id}
           layout
           onClick={() => setActiveTab(tab.id)}
-          className={group relative flex items-center gap-2 px-4 py-2 rounded-t-lg cursor-pointer transition-all }
+          className={`group relative flex items-center gap-2 px-4 py-2 rounded-t-lg cursor-pointer transition-all ${
+            activeTabId === tab.id
+              ? 'bg-[#ff0040]/20 text-white shadow-[inset_0_-2px_0_#ff0040]'
+              : 'hover:bg-white/10 text-white/80'
+          }`}
         >
           <span className="text-sm max-w-[150px] truncate">
             {tab.title.length > 20 ? tab.title.slice(0, 18) + '…' : tab.title}
