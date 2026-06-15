@@ -31,4 +31,4 @@ jobs:
         with:
           tagName: v__VERSION__
           releaseName: "KaifBrowser v__VERSION__"
-          releaseBody: "KaifBrowser build with neon red theme"
+          releaseBody: "KaifBrowser v__VERSION__ - neon red theme browser"

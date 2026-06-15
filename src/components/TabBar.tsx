@@ -13,7 +13,7 @@ export const TabBar: React.FC = () => {
       data-tauri-drag-region
     >
       <div className="flex items-center gap-1 flex-1 overflow-x-auto" data-tauri-drag-region>
-        {tabs.map((tab) => (
+        {tabs.map(tab => (
           <motion.div
             key={tab.id}
             layout
@@ -29,17 +29,14 @@ export const TabBar: React.FC = () => {
             </span>
             <button
               onClick={(e) => { e.stopPropagation(); closeTab(tab.id); }}
-              className="opacity-0 group-hover:opacity-100 transition p-1 rounded-full hover:bg-[#ff0040]/30"
+              className="opacity-0 group-hover:opacity-100 p-1 rounded-full hover:bg-[#ff0040]/30"
             >
-              <X size={12} className="text-white/70" />
+              <X size={12} />
             </button>
           </motion.div>
         ))}
-        <button
-          onClick={() => addTab()}
-          className="p-2 rounded-full hover:bg-[#ff0040]/30 transition"
-        >
-          <Plus size={16} className="text-white/80" />
+        <button onClick={() => addTab()} className="p-2 rounded-full hover:bg-[#ff0040]/30">
+          <Plus size={16} />
         </button>
       </div>
       <WindowControls />
