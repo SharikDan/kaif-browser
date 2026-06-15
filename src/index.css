@@ -3,8 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --primary: #ffffff;
-  --on-primary: #000000;
+  --primary: #ff0040;
+  --on-primary: #ffffff;
+  --bg-dark: rgba(0, 0, 0, 0.65);
 }
 
 html, body, #root {
@@ -16,6 +17,15 @@ html, body, #root {
   overflow: hidden;
 }
 
+/* Полупрозрачный тёмный слой поверх обоев */
+.dark-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-dark);
+  backdrop-filter: blur(2px);
+  z-index: 5;
+}
+
 * {
   user-select: none;
 }
@@ -25,16 +35,10 @@ html, body, #root {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #1a1a1a;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
+  background: #ff0040;
   border-radius: 10px;
-}
-
-/* Улучшенный стеклянный эффект */
-.glass {
-  backdrop-filter: blur(25px) saturate(180%);
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 6px #ff0040;
 }

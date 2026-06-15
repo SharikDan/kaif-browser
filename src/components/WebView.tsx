@@ -15,9 +15,7 @@ export const WebView: React.FC<WebViewProps> = ({ url, onTitleChange }) => {
         if (iframeRef.current?.contentDocument?.title) {
           onTitleChange?.(iframeRef.current.contentDocument.title);
         }
-      } catch (e) {
-        // CORS блокирует доступ к заголовку
-      }
+      } catch (e) {}
     };
     iframeRef.current?.addEventListener('load', handler);
     return () => iframeRef.current?.removeEventListener('load', handler);

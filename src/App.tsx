@@ -1,26 +1,30 @@
-﻿import { ThemeProvider } from './contexts/ThemeContext';
+﻿import React from 'react';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { TabsProvider, useTabs } from './contexts/TabsContext';
 import { Background } from './components/Background';
 import { TabBar } from './components/TabBar';
 import SearchBar from './components/SearchBar';
 import { WebView } from './components/WebView';
 
-const AppContent = () => {
+const AppContent: React.FC = () => {
   const { tabs, activeTabId, updateTabUrl } = useTabs();
   const activeTab = tabs.find(tab => tab.id === activeTabId);
 
   return (
-    <>
+    <div className="w-full h-full relative">
       <Background />
       <TabBar />
       {activeTab?.url ? (
-        <WebView url={activeTab.url} onTitleChange={(title) => {
-          if (activeTabId) updateTabUrl(activeTabId, activeTab.url, title);
-        }} />
+        <WebView 
+          url={activeTab.url} 
+          onTitleChange={(title) => {
+            if (activeTabId) updateTabUrl(activeTabId, activeTab.url, title);
+          }} 
+        />
       ) : (
         <SearchBar />
       )}
-    </>
+    </div>
   );
 };
 

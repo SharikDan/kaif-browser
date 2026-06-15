@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+﻿import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useTabs } from '../contexts/TabsContext';
 
@@ -13,9 +13,9 @@ const SearchBar: React.FC = () => {
     if (!query.trim()) return;
     let searchUrl: string;
     if (query.includes('.') && !query.includes(' ')) {
-      searchUrl = query.startsWith('http') ? query : `https://${query}`;
+      searchUrl = query.startsWith('http') ? query : https://;
     } else {
-      searchUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+      searchUrl = https://duckduckgo.com/?q=;
     }
     addTab(searchUrl, query);
     setQuery('');
@@ -30,10 +30,7 @@ const SearchBar: React.FC = () => {
       className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20"
     >
       <form onSubmit={handleSubmit}>
-        <div
-          className="relative rounded-2xl backdrop-blur-xl bg-black/70 border border-cyan-400"
-          style={{ boxShadow: '0 0 15px cyan, inset 0 0 5px cyan' }}
-        >
+        <div className="relative rounded-2xl backdrop-blur-xl bg-black/60 border-2 border-[#ff0040] shadow-[0_0_15px_#ff0040] transition-all duration-300 hover:shadow-[0_0_25px_#ff0040]">
           <input
             ref={inputRef}
             type="text"
@@ -43,7 +40,7 @@ const SearchBar: React.FC = () => {
             onBlur={() => setIsFocused(false)}
             placeholder="Поиск или введите адрес..."
             className="w-full bg-transparent px-6 py-4 text-xl text-white placeholder-white/70 outline-none"
-            style={{ textShadow: '0 0 5px cyan', caretColor: 'cyan' }}
+            style={{ caretColor: '#ff0040' }}
           />
         </div>
       </form>

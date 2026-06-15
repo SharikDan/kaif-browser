@@ -1,25 +1,20 @@
 [package]
 name = "kaif-browser"
 version = "0.1.0"
-description = "A Tauri App"
+description = "КайфБраузер - минималистичный браузер"
 authors = ["you"]
+license = ""
+repository = ""
 edition = "2021"
 
-[lib]
-name = "kaif_browser_lib"
-crate-type = ["staticlib", "cdylib", "rlib"]
-
-[[bin]]
-name = "kaif-browser"
-path = "src/main.rs"
-
 [build-dependencies]
-tauri-build = { version = "2", features = [] }
+tauri-build = { version = "1.5", features = [] }
 
 [dependencies]
-tauri = { version = "2", features = [] }
-serde_json = "1"
+tauri = { version = "1.5", features = ["shell-open"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
 
-[patch.crates-io]
-alloc-no-stdlib = { git = "https://github.com/dropbox/rust-alloc-no-stdlib", branch = "master" }
-brotli = { git = "https://github.com/dropbox/rust-brotli", branch = "master" }
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
