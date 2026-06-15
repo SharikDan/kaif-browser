@@ -47,7 +47,6 @@ const HomePage: React.FC = () => {
         </div>
         <div className="text-xl text-white/80">{formatDate(currentTime)}</div>
       </div>
-
       <motion.div animate={{ width: isFocused ? '70%' : '50%' }} className="w-full max-w-2xl">
         <form onSubmit={handleSubmit}>
           <div className="relative rounded-2xl backdrop-blur-xl bg-black/60 border-2 border-[#ff0040] shadow-[0_0_15px_#ff0040]">
