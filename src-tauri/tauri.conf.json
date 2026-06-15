@@ -8,7 +8,7 @@
   "tauri": {
     "windows": [
       {
-        "title": "КайфБраузер",
+        "title": "ÐšÐ°Ð¹Ñ„Ð‘Ñ€Ð°ÑƒÐ·ÐµÑ€",
         "fullscreen": false,
         "resizable": true,
         "width": 1280,
