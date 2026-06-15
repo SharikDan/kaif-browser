@@ -53,7 +53,7 @@
                                       "width":  1280,
                                       "height":  800,
                                       "decorations":  false,
-                                      "transparent":  true,
+                                      "transparent":  false,
                                       "alwaysOnTop":  false,
                                       "visible":  true
                                   }

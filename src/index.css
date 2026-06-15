@@ -5,7 +5,7 @@
 :root {
   --primary: #ff0040;
   --on-primary: #ffffff;
-  --bg-dark: rgba(0, 0, 0, 0.65);
+  --bg-dark: #1a1a1a;
 }
 
 html, body, #root {
@@ -13,17 +13,8 @@ html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: transparent;
+  background: #1a1a1a;
   overflow: hidden;
-}
-
-/* Полупрозрачный тёмный слой поверх обоев */
-.dark-overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--bg-dark);
-  backdrop-filter: blur(2px);
-  z-index: 5;
 }
 
 * {
