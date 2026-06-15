@@ -21,7 +21,7 @@ const HomePage: React.FC = () => {
     if (query.includes('.') && !query.includes(' ') || query.startsWith('http')) {
       finalUrl = query.startsWith('http') ? query : `https://${query}`;
     } else {
-      finalUrl = `https://yandex.ru/search/?text=${encodeURIComponent(query)}`;
+      finalUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
     }
     addTab(finalUrl, query);
     setQuery('');
@@ -62,7 +62,7 @@ const HomePage: React.FC = () => {
               onChange={(e) => setQuery(e.target.value)}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
-              placeholder="ÐŸÐ¾Ð¸ÑÐº Ð² Ð˜Ð½Ñ‚ÐµÑ€Ð½ÐµÑ‚Ðµ Ð¸Ð»Ð¸ Ð²Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð°Ð´Ñ€ÐµÑ..."
+              placeholder="Поиск в Google или введите адрес..."
               className="w-full bg-transparent px-6 py-4 text-xl text-white placeholder-white/70 outline-none"
               style={{ caretColor: '#ff0040' }}
             />

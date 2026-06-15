@@ -1,25 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTabs } from '../contexts/TabsContext';
-import { X, Plus, Minus, Square } from 'lucide-react';
-import { appWindow } from '@tauri-apps/api/window';
+import { X, Plus } from 'lucide-react';
+import WindowControls from './WindowControls';
 
 export const TabBar: React.FC = () => {
   const { tabs, activeTabId, addTab, closeTab, setActiveTab } = useTabs();
 
-  const handleMinimize = () => appWindow.minimize();
-  const handleToggleFullscreen = async () => {
-    const isFullscreen = await appWindow.isFullscreen();
-    if (isFullscreen) {
-      await appWindow.setFullscreen(false);
-    } else {
-      await appWindow.setFullscreen(true);
-    }
-  };
-  const handleClose = () => appWindow.close();
-
   return (
-    <div data-tauri-drag-region className="fixed top-0 left-0 right-0 z-30 backdrop-blur-xl bg-black/70 border-b border-[#ff0040] shadow-[0_1px_0_#ff0040] flex items-center gap-1 px-2 py-1 overflow-x-auto">
+    <div
+      className="fixed top-0 left-0 right-0 z-30 backdrop-blur-xl bg-black/70 border-b border-[#ff0040] shadow-[0_1px_0_#ff0040] flex items-center gap-1 px-2 py-1 overflow-x-auto"
+      data-tauri-drag-region
+    >
       <div className="flex items-center gap-1 flex-1 overflow-x-auto" data-tauri-drag-region>
         {tabs.map((tab) => (
           <motion.div
@@ -50,17 +42,7 @@ export const TabBar: React.FC = () => {
           <Plus size={16} className="text-white/80" />
         </button>
       </div>
-      <div className="flex items-center gap-2 ml-auto" data-tauri-drag-region>
-        <button onClick={handleMinimize} className="p-1 rounded-md hover:bg-white/10 transition-all">
-          <Minus size={14} className="text-white/80" />
-        </button>
-        <button onClick={handleToggleFullscreen} className="p-1 rounded-md hover:bg-white/10 transition-all">
-          <Square size={12} className="text-white/80" />
-        </button>
-        <button onClick={handleClose} className="p-1 rounded-md hover:bg-red-500/80 transition-all">
-          <X size={14} className="text-white/80" />
-        </button>
-      </div>
+      <WindowControls />
     </div>
   );
 };
