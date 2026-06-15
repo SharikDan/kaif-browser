@@ -1,3 +1,6 @@
+permissions:
+  contents: write
+
 name: Release
 
 on:
@@ -39,5 +42,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: v__VERSION__
-          releaseName: "KaïfBrowser v__VERSION__"
-          releaseBody: "Сборка браузера с неоновой красной темой и главным экраном"
+          releaseName: "KaiÌˆfBrowser v__VERSION__"
+          releaseBody: "Ð¡Ð±Ð¾Ñ€ÐºÐ° Ð±Ñ€Ð°ÑƒÐ·ÐµÑ€Ð° Ñ Ð½ÐµÐ¾Ð½Ð¾Ð²Ð¾Ð¹ ÐºÑ€Ð°ÑÐ½Ð¾Ð¹ Ñ‚ÐµÐ¼Ð¾Ð¹ Ð¸ Ð³Ð»Ð°Ð²Ð½Ñ‹Ð¼ ÑÐºÑ€Ð°Ð½Ð¾Ð¼"
