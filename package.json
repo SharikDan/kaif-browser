@@ -13,7 +13,8 @@
                          "lucide-react":  "^0.309.0",
                          "react":  "^18.2.0",
                          "react-dom":  "^18.2.0",
-                         "colorthief":  "^2.4.0"
+                         "colorthief":  "^2.4.0",
+                         "@tauri-apps/api":  "^1.5.0"
                      },
     "devDependencies":  {
                             "@types/colorthief":  "^2.0.4",
