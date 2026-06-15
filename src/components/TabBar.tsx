@@ -1,8 +1,7 @@
-﻿import React from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useTabs } from '../contexts/TabsContext';
 import { X, Plus } from 'lucide-react';
-import WindowControls from './WindowControls';
 
 export const TabBar: React.FC = () => {
   const { tabs, activeTabId, addTab, closeTab, setActiveTab } = useTabs();
@@ -39,7 +38,6 @@ export const TabBar: React.FC = () => {
           <Plus size={16} className="text-white/80" />
         </button>
       </div>
-      <WindowControls />
     </div>
   );
 };
