@@ -50,10 +50,9 @@ const HomePage: React.FC = () => {
       <motion.div
         animate={{ width: isFocused ? '70%' : '50%' }}
         className="w-full max-w-2xl"
-        data-tauri-drag-region
       >
         <form onSubmit={handleSubmit}>
-          <div data-tauri-drag-region className="relative rounded-2xl backdrop-blur-xl bg-black/60 border-2 border-[#ff0040] shadow-[0_0_15px_#ff0040]">
+          <div className="relative rounded-2xl backdrop-blur-xl bg-black/60 border-2 border-[#ff0040] shadow-[0_0_15px_#ff0040]">
             <input
               ref={inputRef}
               type="text"
@@ -63,8 +62,7 @@ const HomePage: React.FC = () => {
               onBlur={() => setIsFocused(false)}
               placeholder="Search or enter URL..."
               className="w-full bg-transparent px-6 py-4 text-xl text-white placeholder-white/70 outline-none"
-              style={{ caretColor: '#ff0040', WebkitAppRegion: 'no-drag' } as any}
-              data-tauri-drag-region={undefined as any}
+              style={{ caretColor: '#ff0040' }}
             />
           </div>
           <div className="flex justify-center gap-3 mt-4">

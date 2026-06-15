@@ -17,15 +17,13 @@ const AppContent: React.FC = () => {
     >
       <Background />
       <TabBar />
-      <div className="fixed inset-0 top-10" data-tauri-drag-region>
-        {activeTab?.url ? (
-          <WebView url={activeTab.url} onTitleChange={(title) => {
-            if (activeTabId) updateTabUrl(activeTabId, activeTab.url, title);
-          }} />
-        ) : (
-          <HomePage />
-        )}
-      </div>
+      {activeTab?.url ? (
+        <WebView url={activeTab.url} onTitleChange={(title) => {
+          if (activeTabId) updateTabUrl(activeTabId, activeTab.url, title);
+        }} />
+      ) : (
+        <HomePage />
+      )}
     </div>
   );
 };

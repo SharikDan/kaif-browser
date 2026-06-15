@@ -24,7 +24,7 @@ export const WebView: React.FC<WebViewProps> = ({ url, onTitleChange }) => {
   if (!url) return null;
 
   return (
-    <div className="fixed inset-0 top-10 left-0 right-0 bottom-0 z-10 bg-transparent">
+    <div className="fixed inset-2.5 top-12 bottom-2.5 left-2.5 right-2.5 z-10 bg-transparent rounded-lg overflow-hidden shadow-2xl">
       <iframe
         ref={iframeRef}
         src={url}
