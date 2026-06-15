@@ -1,0 +1,45 @@
+﻿{
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devPath": "http://localhost:5173",
+    "distDir": "../dist"
+  },
+  "package": {
+    "productName": "kaif-browser",
+    "version": "10.0.0"
+  },
+  "tauri": {
+    "bundle": {
+      "identifier": "com.danil.kaif-browser",
+      "active": true,
+      "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"],
+      "resources": [],
+      "copyright": "",
+      "category": "DeveloperTool",
+      "shortDescription": "KaïfBrowser with neon red theme",
+      "longDescription": "Minimalistic browser with glassmorphism and neon red glow",
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": ""
+      }
+    },
+    "windows": [
+      {
+        "title": "КайфБраузер",
+        "fullscreen": false,
+        "resizable": true,
+        "width": 1280,
+        "height": 800,
+        "decorations": false,
+        "transparent": true,
+        "alwaysOnTop": false,
+        "visible": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;"
+    }
+  }
+}
