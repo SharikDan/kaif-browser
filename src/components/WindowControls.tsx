@@ -1,10 +1,8 @@
 ﻿import React from 'react';
-import { getCurrentWindow } from '@tauri-apps/api/window';
+import { appWindow } from '@tauri-apps/api/window';
 import { X, Minus, Square } from 'lucide-react';
 
 const WindowControls: React.FC = () => {
-  const appWindow = getCurrentWindow();
-
   return (
     <div className="flex items-center gap-2 ml-auto">
       <button
