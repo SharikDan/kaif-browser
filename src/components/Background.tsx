@@ -1,14 +1,11 @@
 import React from 'react';
-import { useTheme } from '../contexts/ThemeContext';
 
 export const Background: React.FC = () => {
-  const { wallpaperSrc } = useTheme();
   return (
     <div
-      className="fixed inset-0 -z-10 bg-cover bg-center transition-all duration-700"
+      className="fixed inset-0 -z-10"
       style={{ 
-        backgroundImage: `url(${wallpaperSrc})`,
-        backgroundColor: '#1a1a1a'
+        background: 'linear-gradient(135deg, #1a1a1a 0%, #2d1f1f 50%, #1a1a1a 100%)'
       }}
     />
   );
