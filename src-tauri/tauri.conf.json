@@ -25,7 +25,7 @@
                                                ],
                                  "copyright":  "",
                                  "category":  "DeveloperTool",
-                                 "shortDescription":  "KaiÌˆfBrowser with neon red theme",
+                                 "shortDescription":  "KaiÃŒË†fBrowser with neon red theme",
                                  "longDescription":  "Minimalistic browser with glassmorphism and neon red glow",
                                  "windows":  {
                                                  "certificateThumbprint":  null,
@@ -35,7 +35,7 @@
                              },
                   "windows":  [
                                   {
-                                      "title":  "ÐšÐ°Ð¹Ñ„Ð‘Ñ€Ð°ÑƒÐ·ÐµÑ€",
+                                      "title":  "ÃÅ¡ÃÂ°ÃÂ¹Ã‘â€žÃâ€˜Ã‘â‚¬ÃÂ°Ã‘Æ’ÃÂ·ÃÂµÃ‘â‚¬",
                                       "fullscreen":  false,
                                       "resizable":  true,
                                       "width":  1280,
@@ -47,7 +47,7 @@
                                   }
                               ],
                   "security":  {
-                                   "csp":  "default-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 https: data: blob:;"
+                                   "csp":  "default-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 https: http: data: blob:; frame-src https: http:;"
                                }
               }
 }
