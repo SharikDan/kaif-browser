@@ -30,7 +30,11 @@
                                  "windows":  {
                                                  "certificateThumbprint":  null,
                                                  "digestAlgorithm":  "sha256",
-                                                 "timestampUrl":  ""
+                                                 "timestampUrl":  "",
+                                                 "wix":  null,
+                                                 "nsis":  {
+
+                                                          }
                                              }
                              },
                   "windows":  [
