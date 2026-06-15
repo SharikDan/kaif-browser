@@ -1,4 +1,4 @@
-permissions:
+﻿permissions:
   contents: write
 
 name: Release
@@ -15,18 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Remove BOM from JSON files
-        shell: pwsh
-        run: |
-          Get-ChildItem -Recurse -Include *.json | ForEach-Object {
-            $content = Get-Content $_.FullName -Raw
-            if ($content -and $content[0] -eq [char]0xFEFF) {
-              $content = $content.Substring(1)
-              [System.IO.File]::WriteAllText($_.FullName, $content, (New-Object System.Text.UTF8Encoding $false))
-              Write-Host "Removed BOM from $($_.FullName)"
-            }
-          }
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -42,5 +30,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: v__VERSION__
-          releaseName: "KaiÌˆfBrowser v__VERSION__"
-          releaseBody: "Ð¡Ð±Ð¾Ñ€ÐºÐ° Ð±Ñ€Ð°ÑƒÐ·ÐµÑ€Ð° Ñ Ð½ÐµÐ¾Ð½Ð¾Ð²Ð¾Ð¹ ÐºÑ€Ð°ÑÐ½Ð¾Ð¹ Ñ‚ÐµÐ¼Ð¾Ð¹ Ð¸ Ð³Ð»Ð°Ð²Ð½Ñ‹Ð¼ ÑÐºÑ€Ð°Ð½Ð¾Ð¼"
+          releaseName: "KaifBrowser v__VERSION__"
+          releaseBody: "Сборка браузера с неоновой красной темой"
