@@ -1,39 +1,62 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useTabs } from '../contexts/TabsContext';
+import { WebviewWindow } from '@tauri-apps/api/window';
 
 const SEARCH_ENGINES = {
-  duck: { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=' },
-  startpage: { name: 'Startpage', url: 'https://www.startpage.com/do/dsearch?query=' },
-  qwant: { name: 'Qwant', url: 'https://www.qwant.com/?q=' },
   google: { name: 'Google', url: 'https://www.google.com/search?q=' },
+  duck: { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=' },
   yandex: { name: 'Yandex', url: 'https://yandex.ru/search/?text=' },
-  bing: { name: 'Bing', url: 'https://www.bing.com/search?q=' }
+  bing: { name: 'Bing', url: 'https://www.bing.com/search?q=' },
+  brave: { name: 'Brave', url: 'https://search.brave.com/search?q=' }
 };
 
 const HomePage: React.FC = () => {
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [engine, setEngine] = useState<keyof typeof SEARCH_ENGINES>('duck');
+  const [engine, setEngine] = useState<keyof typeof SEARCH_ENGINES>('google');
   const inputRef = useRef<HTMLInputElement>(null);
-  const { addTab } = useTabs();
+  const [windowCounter, setWindowCounter] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
+    
     let finalUrl: string;
     if ((query.includes('.') && !query.includes(' ')) || query.startsWith('http')) {
       finalUrl = query.startsWith('http') ? query : `https://${query}`;
     } else {
       finalUrl = SEARCH_ENGINES[engine].url + encodeURIComponent(query);
     }
-    addTab(finalUrl, query);
+    
+    // Создаём новое окно Tauri WebView
+    const label = `search-${Date.now()}-${windowCounter}`;
+    setWindowCounter(prev => prev + 1);
+    
+    try {
+      const webview = new WebviewWindow(label, {
+        url: finalUrl,
+        title: `${query} - KaifBrowser`,
+        width: 1200,
+        height: 800,
+        resizable: true,
+        fullscreen: false,
+        decorations: true,
+        center: true
+      });
+      
+      webview.once('tauri://error', (e) => {
+        console.error('Window creation error:', e);
+      });
+    } catch (e) {
+      console.error('Failed to create window:', e);
+    }
+    
     setQuery('');
     inputRef.current?.blur();
   };
