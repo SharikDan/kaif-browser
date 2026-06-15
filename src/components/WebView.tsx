@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { WebviewWindow } from '@tauri-apps/api/window';
 
 interface WebViewProps {
   url: string;
@@ -12,7 +11,6 @@ export const WebView: React.FC<WebViewProps> = ({ url, onTitleChange }) => {
   useEffect(() => {
     if (!url || !containerRef.current) return;
 
-    // Создаём iframe внутри контейнера (Tauri использует iframe для WebView)
     const iframe = document.createElement('iframe');
     iframe.src = url;
     iframe.style.width = '100%';
@@ -23,7 +21,6 @@ export const WebView: React.FC<WebViewProps> = ({ url, onTitleChange }) => {
     containerRef.current.innerHTML = '';
     containerRef.current.appendChild(iframe);
 
-    // Отслеживаем изменение заголовка
     const checkTitle = setInterval(() => {
       try {
         if (iframe.contentDocument?.title) {
