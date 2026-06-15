@@ -40,16 +40,20 @@ const HomePage: React.FC = () => {
   const formatDate = (date: Date) => date.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' });
 
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center z-20 px-4">
-      <div className="text-center mb-8">
+    <div data-tauri-drag-region className="absolute inset-0 flex flex-col items-center justify-center z-20 px-4">
+      <div data-tauri-drag-region className="text-center mb-8">
         <div className="text-7xl font-light text-white drop-shadow-lg mb-2" style={{ textShadow: '0 0 10px rgba(255,0,64,0.5)' }}>
           {formatTime(currentTime)}
         </div>
         <div className="text-xl text-white/80">{formatDate(currentTime)}</div>
       </div>
-      <motion.div animate={{ width: isFocused ? '70%' : '50%' }} className="w-full max-w-2xl">
+      <motion.div
+        animate={{ width: isFocused ? '70%' : '50%' }}
+        className="w-full max-w-2xl"
+        data-tauri-drag-region
+      >
         <form onSubmit={handleSubmit}>
-          <div className="relative rounded-2xl backdrop-blur-xl bg-black/60 border-2 border-[#ff0040] shadow-[0_0_15px_#ff0040]">
+          <div data-tauri-drag-region className="relative rounded-2xl backdrop-blur-xl bg-black/60 border-2 border-[#ff0040] shadow-[0_0_15px_#ff0040]">
             <input
               ref={inputRef}
               type="text"
@@ -59,7 +63,8 @@ const HomePage: React.FC = () => {
               onBlur={() => setIsFocused(false)}
               placeholder="Search or enter URL..."
               className="w-full bg-transparent px-6 py-4 text-xl text-white placeholder-white/70 outline-none"
-              style={{ caretColor: '#ff0040' }}
+              style={{ caretColor: '#ff0040', WebkitAppRegion: 'no-drag' } as any}
+              data-tauri-drag-region={undefined as any}
             />
           </div>
           <div className="flex justify-center gap-3 mt-4">

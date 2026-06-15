@@ -11,17 +11,22 @@ const AppContent: React.FC = () => {
   const activeTab = tabs.find(tab => tab.id === activeTabId);
 
   return (
-    <>
+    <div
+      data-tauri-drag-region
+      className="w-full h-full relative overflow-hidden"
+    >
       <Background />
       <TabBar />
-      {activeTab?.url ? (
-        <WebView url={activeTab.url} onTitleChange={(title) => {
-          if (activeTabId) updateTabUrl(activeTabId, activeTab.url, title);
-        }} />
-      ) : (
-        <HomePage />
-      )}
-    </>
+      <div className="fixed inset-0 top-10" data-tauri-drag-region>
+        {activeTab?.url ? (
+          <WebView url={activeTab.url} onTitleChange={(title) => {
+            if (activeTabId) updateTabUrl(activeTabId, activeTab.url, title);
+          }} />
+        ) : (
+          <HomePage />
+        )}
+      </div>
+    </div>
   );
 };
 

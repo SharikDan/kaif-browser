@@ -6,42 +6,32 @@ interface WebViewProps {
 }
 
 export const WebView: React.FC<WebViewProps> = ({ url, onTitleChange }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
-    if (!url || !containerRef.current) return;
-
-    const iframe = document.createElement('iframe');
-    iframe.src = url;
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.border = 'none';
-    iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-popups allow-forms allow-downloads allow-modals allow-top-navigation');
-    
-    containerRef.current.innerHTML = '';
-    containerRef.current.appendChild(iframe);
-
-    const checkTitle = setInterval(() => {
+    if (!url) return;
+    const handler = () => {
       try {
-        if (iframe.contentDocument?.title) {
-          onTitleChange?.(iframe.contentDocument.title);
+        if (iframeRef.current?.contentDocument?.title) {
+          onTitleChange?.(iframeRef.current.contentDocument.title);
         }
       } catch (e) {}
-    }, 1000);
-
-    return () => {
-      clearInterval(checkTitle);
-      if (containerRef.current) {
-        containerRef.current.innerHTML = '';
-      }
     };
-  }, [url, onTitleChange]);
+    iframeRef.current?.addEventListener('load', handler);
+    return () => iframeRef.current?.removeEventListener('load', handler);
+  }, [url]);
 
   if (!url) return null;
 
   return (
     <div className="fixed inset-0 top-10 left-0 right-0 bottom-0 z-10 bg-transparent">
-      <div ref={containerRef} className="w-full h-full" />
+      <iframe
+        ref={iframeRef}
+        src={url}
+        className="w-full h-full border-0"
+        sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-downloads allow-modals"
+        title="webview"
+      />
     </div>
   );
 };
