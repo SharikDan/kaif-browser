@@ -2,26 +2,16 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useTabs } from '../contexts/TabsContext';
 import { X, Plus } from 'lucide-react';
-import { appWindow } from '@tauri-apps/api/window';
 import WindowControls from './WindowControls';
 
 export const TabBar: React.FC = () => {
   const { tabs, activeTabId, addTab, closeTab, setActiveTab } = useTabs();
 
-  // Перетаскивание окна при зажатии ЛКМ на пустом месте таб-бара
-  const startDrag = (e: React.MouseEvent) => {
-    // Только если кликнули по самому таб-бару (не по вкладке или кнопке)
-    if (e.target === e.currentTarget) {
-      appWindow.startDragging();
-    }
-  };
-
   return (
     <div
-      onMouseDown={startDrag}
+      data-tauri-drag-region
       className="fixed top-0 left-0 right-0 z-30 backdrop-blur-xl bg-black/70 border-b border-[#ff0040] shadow-[0_1px_0_#ff0040] flex items-center gap-1 px-2 py-1 h-10 select-none"
     >
-      {/* Вкладки */}
       <div className="flex items-center gap-1 flex-1 overflow-x-auto">
         {tabs.map(tab => (
           <motion.div
@@ -48,13 +38,10 @@ export const TabBar: React.FC = () => {
         <button
           onClick={() => addTab()}
           className="p-2 rounded-full hover:bg-[#ff0040]/30 transition"
-          title="New tab"
         >
           <Plus size={16} />
         </button>
       </div>
-
-      {/* Кнопки управления окном */}
       <WindowControls />
     </div>
   );
