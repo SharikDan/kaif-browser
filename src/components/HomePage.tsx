@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTabs } from '../contexts/TabsContext';
 
@@ -18,7 +18,6 @@ const HomePage: React.FC = () => {
     e.preventDefault();
     if (!query.trim()) return;
     let finalUrl: string;
-    // Проверяем, похоже ли на URL (содержит точку и нет пробелов, или начинается с http)
     if (query.includes('.') && !query.includes(' ') || query.startsWith('http')) {
       finalUrl = query.startsWith('http') ? query : `https://${query}`;
     } else {
@@ -36,13 +35,6 @@ const HomePage: React.FC = () => {
   const formatDate = (date: Date) => {
     return date.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' });
   };
-
-  const quickLinks = [
-    { name: 'Google', url: 'https://google.com', icon: '🔍' },
-    { name: 'YouTube', url: 'https://youtube.com', icon: '▶️' },
-    { name: 'GitHub', url: 'https://github.com', icon: '🐙' },
-    { name: 'Reddit', url: 'https://reddit.com', icon: '🤖' },
-  ];
 
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center z-20 px-4">
@@ -77,19 +69,6 @@ const HomePage: React.FC = () => {
           </div>
         </form>
       </motion.div>
-
-      <div className="flex gap-6 mt-12">
-        {quickLinks.map((link) => (
-          <button
-            key={link.name}
-            onClick={() => addTab(link.url, link.name)}
-            className="flex flex-col items-center gap-2 p-3 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#ff0040] transition-all duration-200 hover:shadow-[0_0_12px_#ff0040] group"
-          >
-            <span className="text-3xl">{link.icon}</span>
-            <span className="text-sm text-white/80 group-hover:text-white">{link.name}</span>
-          </button>
-        ))}
-      </div>
     </div>
   );
 };

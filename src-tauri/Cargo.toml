@@ -1,4 +1,4 @@
-﻿[package]
+[package]
 name = "kaif-browser"
 version = "1.4.3"
 description = "A Tauri App"
