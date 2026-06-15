@@ -1,11 +1,14 @@
-import React from 'react';
-
-export const Background: React.FC = () => {
+export const Background = () => {
   return (
     <div
-      className="fixed inset-0 -z-10"
-      style={{ 
-        background: 'linear-gradient(135deg, #1a1a1a 0%, #2d1f1f 50%, #1a1a1a 100%)'
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: -10,
+        background: 'linear-gradient(135deg, #0f0f0f 0%, #1a0a0a 50%, #0f0f0f 100%)'
       }}
     />
   );

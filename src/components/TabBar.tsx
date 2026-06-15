@@ -1,8 +1,6 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { useTabs } from '../contexts/TabsContext';
 import { appWindow } from '@tauri-apps/api/window';
-import { X, Plus, Minus, Square } from 'lucide-react';
 
 export const TabBar: React.FC = () => {
   const { tabs, activeTabId, addTab, closeTab, setActiveTab } = useTabs();
@@ -10,60 +8,143 @@ export const TabBar: React.FC = () => {
   return (
     <div
       data-tauri-drag-region
-      className="fixed top-0 left-0 right-0 z-30 backdrop-blur-xl bg-black/70 border-b border-[#ff0040] shadow-[0_1px_0_#ff0040] flex items-center gap-1 px-2 py-1 h-10 select-none"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: '40px',
+        background: 'rgba(0,0,0,0.7)',
+        backdropFilter: 'blur(20px)',
+        borderBottom: '1px solid #ff0040',
+        boxShadow: '0 1px 0 #ff0040',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '4px',
+        padding: '0 8px',
+        zIndex: 30,
+        userSelect: 'none'
+      }}
     >
-      <div className="flex items-center gap-1 flex-1 overflow-x-auto">
+      <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flex: 1, overflowX: 'auto' }}>
         {tabs.map(tab => (
-          <motion.div
+          <div
             key={tab.id}
-            layout
             onClick={() => setActiveTab(tab.id)}
-            className={`group relative flex items-center gap-2 px-4 py-1.5 rounded-t-lg cursor-pointer transition-all ${
-              activeTabId === tab.id
-                ? 'bg-[#ff0040]/20 text-white shadow-[inset_0_-2px_0_#ff0040]'
-                : 'hover:bg-white/10 text-white/80'
-            }`}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '6px 16px',
+              borderRadius: '8px 8px 0 0',
+              cursor: 'pointer',
+              background: activeTabId === tab.id ? 'rgba(255,0,64,0.2)' : 'transparent',
+              color: activeTabId === tab.id ? 'white' : 'rgba(255,255,255,0.7)',
+              boxShadow: activeTabId === tab.id ? 'inset 0 -2px 0 #ff0040' : 'none',
+              fontSize: '14px',
+              maxWidth: '180px'
+            }}
           >
-            <span className="text-sm max-w-[150px] truncate">
+            <span style={{ 
+              overflow: 'hidden', 
+              textOverflow: 'ellipsis', 
+              whiteSpace: 'nowrap',
+              maxWidth: '120px'
+            }}>
               {tab.title.length > 20 ? tab.title.slice(0, 18) + '...' : tab.title}
             </span>
             <button
               onClick={(e) => { e.stopPropagation(); closeTab(tab.id); }}
-              className="opacity-0 group-hover:opacity-100 p-1 rounded-full hover:bg-[#ff0040]/30"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'rgba(255,255,255,0.7)',
+                cursor: 'pointer',
+                padding: '2px',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: '16px'
+              }}
             >
-              <X size={12} />
+              ×
             </button>
-          </motion.div>
+          </div>
         ))}
-        <button onClick={() => addTab()} className="p-2 rounded-full hover:bg-[#ff0040]/30 transition">
-          <Plus size={16} />
+        <button 
+          onClick={() => addTab()} 
+          style={{
+            padding: '8px',
+            borderRadius: '50%',
+            background: 'transparent',
+            border: 'none',
+            color: 'rgba(255,255,255,0.8)',
+            cursor: 'pointer',
+            fontSize: '18px'
+          }}
+        >
+          +
         </button>
       </div>
-      <div className="flex items-center gap-1 ml-2">
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginLeft: '8px' }}>
         <button
           onClick={() => appWindow.minimize()}
-          className="w-8 h-8 flex items-center justify-center rounded hover:bg-white/10 transition text-white/80"
+          style={{
+            width: '32px',
+            height: '32px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '6px',
+            background: 'transparent',
+            border: 'none',
+            color: 'rgba(255,255,255,0.8)',
+            cursor: 'pointer',
+            fontSize: '16px'
+          }}
         >
-          <Minus size={14} />
+          −
         </button>
         <button
           onClick={async () => {
             const isMax = await appWindow.isMaximized();
-            if (isMax) {
-              await appWindow.unmaximize();
-            } else {
-              await appWindow.maximize();
-            }
+            if (isMax) await appWindow.unmaximize();
+            else await appWindow.maximize();
           }}
-          className="w-8 h-8 flex items-center justify-center rounded hover:bg-white/10 transition text-white/80"
+          style={{
+            width: '32px',
+            height: '32px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '6px',
+            background: 'transparent',
+            border: 'none',
+            color: 'rgba(255,255,255,0.8)',
+            cursor: 'pointer',
+            fontSize: '12px'
+          }}
         >
-          <Square size={12} />
+          □
         </button>
         <button
           onClick={() => appWindow.close()}
-          className="w-8 h-8 flex items-center justify-center rounded hover:bg-red-500/80 transition text-white/80"
+          style={{
+            width: '32px',
+            height: '32px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '6px',
+            background: 'transparent',
+            border: 'none',
+            color: 'rgba(255,255,255,0.8)',
+            cursor: 'pointer',
+            fontSize: '16px'
+          }}
         >
-          <X size={14} />
+          ×
         </button>
       </div>
     </div>

@@ -1,11 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { useTabs } from '../contexts/TabsContext';
 import SearchEngineSelector, { SearchEngine, SEARCH_ENGINES } from './SearchEngineSelector';
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
   const [query, setQuery] = useState('');
-  const [isFocused, setIsFocused] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [selectedEngine, setSelectedEngine] = useState<SearchEngine | null>(null);
   const [showSelector, setShowSelector] = useState(false);
@@ -13,7 +11,6 @@ const HomePage: React.FC = () => {
   const { addTab } = useTabs();
 
   useEffect(() => {
-    // Загружаем выбранный поисковик из localStorage
     const saved = localStorage.getItem('defaultSearchEngine') as SearchEngine | null;
     if (saved && SEARCH_ENGINES[saved]) {
       setSelectedEngine(saved);
@@ -55,47 +52,109 @@ const HomePage: React.FC = () => {
     return <SearchEngineSelector onSelect={handleEngineSelect} />;
   }
 
-  const currentEngine = SEARCH_ENGINES[selectedEngine!];
+  const currentEngine = selectedEngine ? SEARCH_ENGINES[selectedEngine] : null;
 
   return (
-    <div data-tauri-drag-region className="absolute inset-0 flex flex-col items-center justify-center z-20 px-4">
-      <div data-tauri-drag-region className="text-center mb-8">
-        <div className="text-7xl font-light text-white drop-shadow-lg mb-2" style={{ textShadow: '0 0 10px rgba(255,0,64,0.5)' }}>
+    <div 
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '20px',
+        paddingTop: '60px'
+      }}
+    >
+      {/* Часы */}
+      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+        <div style={{ 
+          fontSize: '80px', 
+          fontWeight: 300, 
+          color: 'white',
+          textShadow: '0 0 20px rgba(255,0,64,0.7)',
+          marginBottom: '10px'
+        }}>
           {formatTime(currentTime)}
         </div>
-        <div className="text-xl text-white/80">{formatDate(currentTime)}</div>
+        <div style={{ fontSize: '20px', color: 'rgba(255,255,255,0.7)' }}>
+          {formatDate(currentTime)}
+        </div>
       </div>
-      <motion.div
-        animate={{ width: isFocused ? '70%' : '50%' }}
-        className="w-full max-w-2xl"
-      >
-        <form onSubmit={handleSubmit}>
-          <div className="relative rounded-2xl backdrop-blur-xl bg-black/60 border-2 border-[#ff0040] shadow-[0_0_15px_#ff0040]">
-            <input
-              ref={inputRef}
-              type="text"
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              placeholder={`Search with ${currentEngine.name} or enter URL...`}
-              className="w-full bg-transparent px-6 py-4 text-xl text-white placeholder-white/70 outline-none"
-              style={{ caretColor: '#ff0040' }}
-            />
-          </div>
-          <div className="flex justify-center items-center gap-3 mt-4">
-            <span className="text-white/50 text-sm">Using:</span>
-            <button
-              type="button"
-              onClick={() => setShowSelector(true)}
-              className="px-4 py-1 rounded-full text-sm bg-[#ff0040] text-white shadow-[0_0_8px_#ff0040] hover:bg-[#ff0040]/80 transition-all"
-            >
-              {currentEngine.icon} {currentEngine.name}
-            </button>
-          </div>
-        </form>
-      </motion.div>
+
+      {/* Поисковая строка */}
+      <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '600px' }}>
+        <div style={{
+          position: 'relative',
+          borderRadius: '20px',
+          background: 'rgba(0,0,0,0.6)',
+          border: '2px solid #ff0040',
+          boxShadow: '0 0 20px #ff0040',
+          backdropFilter: 'blur(10px)'
+        }}>
+          <input
+            ref={inputRef}
+            type="text"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder={`Search with ${currentEngine?.name || 'engine'} or enter URL...`}
+            style={{
+              width: '100%',
+              background: 'transparent',
+              border: 'none',
+              outline: 'none',
+              padding: '20px 25px',
+              fontSize: '20px',
+              color: 'white',
+              boxSizing: 'border-box'
+            }}
+          />
+        </div>
+
+        {/* Кнопка смены поисковика */}
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          gap: '12px', 
+          marginTop: '20px' 
+        }}>
+          <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px' }}>Using:</span>
+          <button
+            type="button"
+            onClick={() => setShowSelector(true)}
+            style={{
+              padding: '8px 16px',
+              borderRadius: '20px',
+              background: '#ff0040',
+              color: 'white',
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: '14px',
+              boxShadow: '0 0 10px #ff0040'
+            }}
+          >
+            {currentEngine?.icon} {currentEngine?.name}
+          </button>
+        </div>
+      </form>
+
+      {/* Видимая подсказка для отладки */}
+      <div style={{
+        position: 'absolute',
+        bottom: '20px',
+        left: '20px',
+        color: 'rgba(255,255,255,0.3)',
+        fontSize: '12px'
+      }}>
+        KaifBrowser v4.5.0 — Drag window from any edge
+      </div>
     </div>
   );
 };
+
 export default HomePage;
