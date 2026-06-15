@@ -1,4 +1,5 @@
 import { TabsProvider, useTabs } from './contexts/TabsContext';
+import { Background } from './components/Background';
 import { TabBar } from './components/TabBar';
 import HomePage from './components/HomePage';
 import { WebView } from './components/WebView';
@@ -12,12 +13,12 @@ const AppContent = () => {
       style={{ 
         width: '100vw', 
         height: '100vh', 
-        background: 'linear-gradient(135deg, #0f0f0f 0%, #1a0a0a 50%, #0f0f0f 100%)',
         position: 'relative',
         overflow: 'hidden',
         color: 'white'
       }}
     >
+      <Background />
       <TabBar />
       {activeTab?.url ? (
         <WebView 
