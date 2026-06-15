@@ -2,23 +2,33 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useTabs } from '../contexts/TabsContext';
 import { X, Plus } from 'lucide-react';
+import { appWindow } from '@tauri-apps/api/window';
 import WindowControls from './WindowControls';
 
 export const TabBar: React.FC = () => {
   const { tabs, activeTabId, addTab, closeTab, setActiveTab } = useTabs();
 
+  // Перетаскивание окна при зажатии ЛКМ на пустом месте таб-бара
+  const startDrag = (e: React.MouseEvent) => {
+    // Только если кликнули по самому таб-бару (не по вкладке или кнопке)
+    if (e.target === e.currentTarget) {
+      appWindow.startDragging();
+    }
+  };
+
   return (
     <div
-      className="fixed top-0 left-0 right-0 z-30 backdrop-blur-xl bg-black/70 border-b border-[#ff0040] shadow-[0_1px_0_#ff0040] flex items-center gap-1 px-2 py-1 overflow-x-auto"
-      data-tauri-drag-region
+      onMouseDown={startDrag}
+      className="fixed top-0 left-0 right-0 z-30 backdrop-blur-xl bg-black/70 border-b border-[#ff0040] shadow-[0_1px_0_#ff0040] flex items-center gap-1 px-2 py-1 h-10 select-none"
     >
-      <div className="flex items-center gap-1 flex-1 overflow-x-auto" data-tauri-drag-region>
+      {/* Вкладки */}
+      <div className="flex items-center gap-1 flex-1 overflow-x-auto">
         {tabs.map(tab => (
           <motion.div
             key={tab.id}
             layout
             onClick={() => setActiveTab(tab.id)}
-            className={`group relative flex items-center gap-2 px-4 py-2 rounded-t-lg cursor-pointer transition-all ${
+            className={`group relative flex items-center gap-2 px-4 py-1.5 rounded-t-lg cursor-pointer transition-all ${
               activeTabId === tab.id
                 ? 'bg-[#ff0040]/20 text-white shadow-[inset_0_-2px_0_#ff0040]'
                 : 'hover:bg-white/10 text-white/80'
@@ -35,10 +45,16 @@ export const TabBar: React.FC = () => {
             </button>
           </motion.div>
         ))}
-        <button onClick={() => addTab()} className="p-2 rounded-full hover:bg-[#ff0040]/30">
+        <button
+          onClick={() => addTab()}
+          className="p-2 rounded-full hover:bg-[#ff0040]/30 transition"
+          title="New tab"
+        >
           <Plus size={16} />
         </button>
       </div>
+
+      {/* Кнопки управления окном */}
       <WindowControls />
     </div>
   );
