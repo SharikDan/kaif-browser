@@ -3,7 +3,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { TabsProvider, useTabs } from './contexts/TabsContext';
 import { Background } from './components/Background';
 import { TabBar } from './components/TabBar';
-import SearchBar from './components/SearchBar';
+import HomePage from './components/HomePage';
 import { WebView } from './components/WebView';
 
 const AppContent: React.FC = () => {
@@ -19,7 +19,7 @@ const AppContent: React.FC = () => {
           if (activeTabId) updateTabUrl(activeTabId, activeTab.url, title);
         }} />
       ) : (
-        <SearchBar />
+        <HomePage />
       )}
     </>
   );
