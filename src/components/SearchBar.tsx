@@ -15,7 +15,7 @@ const SearchBar: React.FC = () => {
     if (query.includes('.') && !query.includes(' ') || query.startsWith('http')) {
       finalUrl = query.startsWith('http') ? query : `https://${query}`;
     } else {
-      finalUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+      finalUrl = `https://yandex.ru/search/?text=${encodeURIComponent(query)}`;
     }
     addTab(finalUrl, query);
     setQuery('');
@@ -38,7 +38,7 @@ const SearchBar: React.FC = () => {
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            placeholder="Поиск или введите адрес..."
+            placeholder="ÐŸÐ¾Ð¸ÑÐº Ð¸Ð»Ð¸ Ð²Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð°Ð´Ñ€ÐµÑ..."
             className="w-full bg-transparent px-6 py-4 text-xl text-white placeholder-white/70 outline-none"
             style={{ caretColor: '#ff0040' }}
           />

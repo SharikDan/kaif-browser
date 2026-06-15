@@ -7,7 +7,7 @@
               },
     "package":  {
                     "productName":  "kaif-browser",
-                    "version":  "1.0.0"
+                    "version":  "2.0.0"
                 },
     "tauri":  {
                   "bundle":  {
@@ -25,7 +25,7 @@
                                                ],
                                  "copyright":  "",
                                  "category":  "DeveloperTool",
-                                 "shortDescription":  "KaïfBrowser with neon red theme",
+                                 "shortDescription":  "KaiÌˆfBrowser with neon red theme",
                                  "longDescription":  "Minimalistic browser with glassmorphism and neon red glow",
                                  "windows":  {
                                                  "certificateThumbprint":  null,
@@ -35,7 +35,7 @@
                              },
                   "windows":  [
                                   {
-                                      "title":  "КайфБраузер",
+                                      "title":  "ÐšÐ°Ð¹Ñ„Ð‘Ñ€Ð°ÑƒÐ·ÐµÑ€",
                                       "fullscreen":  false,
                                       "resizable":  true,
                                       "width":  1280,
