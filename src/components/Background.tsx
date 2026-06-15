@@ -4,12 +4,9 @@ import { useTheme } from '../contexts/ThemeContext';
 export const Background: React.FC = () => {
   const { wallpaperSrc } = useTheme();
   return (
-    <>
-      <div
-        className="fixed inset-0 -z-10 bg-cover bg-center transition-all duration-700"
-        style={{ backgroundImage: url() }}
-      />
-      <div className="dark-overlay" />
-    </>
+    <div
+      className="fixed inset-0 -z-10 bg-cover bg-center transition-all duration-700"
+      style={{ backgroundImage: url() }}
+    />
   );
 };

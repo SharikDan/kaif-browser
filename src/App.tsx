@@ -11,20 +11,17 @@ const AppContent: React.FC = () => {
   const activeTab = tabs.find(tab => tab.id === activeTabId);
 
   return (
-    <div className="w-full h-full relative">
+    <>
       <Background />
       <TabBar />
       {activeTab?.url ? (
-        <WebView 
-          url={activeTab.url} 
-          onTitleChange={(title) => {
-            if (activeTabId) updateTabUrl(activeTabId, activeTab.url, title);
-          }} 
-        />
+        <WebView url={activeTab.url} onTitleChange={(title) => {
+          if (activeTabId) updateTabUrl(activeTabId, activeTab.url, title);
+        }} />
       ) : (
         <SearchBar />
       )}
-    </div>
+    </>
   );
 };
 

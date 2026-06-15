@@ -1,5 +1,4 @@
 ﻿import { useEffect, useState } from 'react';
-import ColorThief from 'colorthief';
 
 export const useWallpaperColors = (imageSrc: string) => {
   const [primary, setPrimary] = useState('#ffffff');
@@ -11,11 +10,32 @@ export const useWallpaperColors = (imageSrc: string) => {
     img.crossOrigin = 'Anonymous';
     img.src = imageSrc;
     img.onload = () => {
-      const colorThief = new ColorThief();
-      const [r, g, b] = colorThief.getColor(img);
-      const rgb = `rgb(${r}, ${g}, ${b})`;
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+      const imageData = ctx.getImageData(0, 0, img.width, img.height).data;
+      const colorMap: { [key: string]: number } = {};
+      for (let i = 0; i < imageData.length; i += 4) {
+        const r = imageData[i];
+        const g = imageData[i+1];
+        const b = imageData[i+2];
+        const key = ${r},,;
+        colorMap[key] = (colorMap[key] || 0) + 1;
+      }
+      let maxCount = 0;
+      let dominant = '0,0,0';
+      for (const [color, count] of Object.entries(colorMap)) {
+        if (count > maxCount) {
+          maxCount = count;
+          dominant = color;
+        }
+      }
+      const [r, g, b] = dominant.split(',').map(Number);
+      const rgb = gb(, , );
       setPrimary(rgb);
-
       const brightness = (r * 299 + g * 587 + b * 114) / 1000;
       setOnPrimary(brightness > 128 ? '#1a1a1a' : '#f5f5f5');
     };

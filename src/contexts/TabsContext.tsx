@@ -19,7 +19,7 @@ const TabsContext = createContext<TabsContextType | undefined>(undefined);
 
 export const TabsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [tabs, setTabs] = useState<Tab[]>([{ id: '1', title: 'Новая вкладка', url: '' }]);
-  const [activeTabId, setActiveTabId] = useState<string>('1');
+  const [activeTabId, setActiveTabId] = useState<string | null>('1');
 
   const addTab = (url = '', title = 'Новая вкладка') => {
     const id = Date.now().toString();
@@ -38,11 +38,8 @@ export const TabsProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const setActiveTab = (id: string) => setActiveTabId(id);
-  
   const updateTabUrl = (id: string, url: string, title?: string) => {
-    setTabs(prev => prev.map(tab => 
-      tab.id === id ? { ...tab, url, title: title || tab.title } : tab
-    ));
+    setTabs(prev => prev.map(tab => tab.id === id ? { ...tab, url, title: title || tab.title } : tab));
   };
 
   return (
