@@ -1,40 +1,39 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { shell } from '@tauri-apps/api';
+import { useTabs } from '../contexts/TabsContext';
 
 const SEARCH_ENGINES = {
-  google: { name: 'Google', url: 'https://www.google.com/search?q=' },
   duck: { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=' },
+  startpage: { name: 'Startpage', url: 'https://www.startpage.com/do/dsearch?query=' },
+  qwant: { name: 'Qwant', url: 'https://www.qwant.com/?q=' },
+  google: { name: 'Google', url: 'https://www.google.com/search?q=' },
   yandex: { name: 'Yandex', url: 'https://yandex.ru/search/?text=' },
-  bing: { name: 'Bing', url: 'https://www.bing.com/search?q=' },
-  brave: { name: 'Brave', url: 'https://search.brave.com/search?q=' }
+  bing: { name: 'Bing', url: 'https://www.bing.com/search?q=' }
 };
 
 const HomePage: React.FC = () => {
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [engine, setEngine] = useState<keyof typeof SEARCH_ENGINES>('google');
+  const [engine, setEngine] = useState<keyof typeof SEARCH_ENGINES>('duck');
   const inputRef = useRef<HTMLInputElement>(null);
+  const { addTab } = useTabs();
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
-    
     let finalUrl: string;
     if ((query.includes('.') && !query.includes(' ')) || query.startsWith('http')) {
       finalUrl = query.startsWith('http') ? query : `https://${query}`;
     } else {
       finalUrl = SEARCH_ENGINES[engine].url + encodeURIComponent(query);
     }
-    
-    // Открываем в системном браузере
-    await shell.open(finalUrl);
+    addTab(finalUrl, query);
     setQuery('');
     inputRef.current?.blur();
   };
@@ -63,7 +62,7 @@ const HomePage: React.FC = () => {
               onChange={e => setQuery(e.target.value)}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
-              placeholder="Search or enter URL (opens in browser)..."
+              placeholder="Search or enter URL..."
               className="w-full bg-transparent px-6 py-4 text-xl text-white placeholder-white/70 outline-none"
               style={{ caretColor: '#ff0040' }}
             />
