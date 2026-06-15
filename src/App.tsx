@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { TabsProvider, useTabs } from './contexts/TabsContext';
 import { Background } from './components/Background';

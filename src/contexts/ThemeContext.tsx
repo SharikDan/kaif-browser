@@ -1,4 +1,4 @@
-﻿import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useWallpaperColors } from '../hooks/useWallpaperColors';
 
 interface ThemeContextType {

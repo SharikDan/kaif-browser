@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 
 export const Background: React.FC = () => {

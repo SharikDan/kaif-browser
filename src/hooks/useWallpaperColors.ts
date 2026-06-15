@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useWallpaperColors = (imageSrc: string) => {
   const [primary, setPrimary] = useState('#ffffff');
