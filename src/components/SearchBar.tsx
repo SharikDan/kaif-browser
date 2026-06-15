@@ -11,13 +11,13 @@ const SearchBar: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
-    let searchUrl: string;
-    if (query.includes('.') && !query.includes(' ')) {
-      searchUrl = query.startsWith('http') ? query : `https://${query}`;
+    let finalUrl: string;
+    if (query.includes('.') && !query.includes(' ') || query.startsWith('http')) {
+      finalUrl = query.startsWith('http') ? query : `https://${query}`;
     } else {
-      searchUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+      finalUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
     }
-    addTab(searchUrl, query);
+    addTab(finalUrl, query);
     setQuery('');
     inputRef.current?.blur();
   };

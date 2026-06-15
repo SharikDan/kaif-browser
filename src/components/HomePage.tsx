@@ -17,23 +17,17 @@ const HomePage: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
-    let searchUrl: string;
-    if (query.includes('.') && !query.includes(' ')) {
-      searchUrl = query.startsWith('http') ? query : `https://${query}`;
+    let finalUrl: string;
+    // Проверяем, похоже ли на URL (содержит точку и нет пробелов, или начинается с http)
+    if (query.includes('.') && !query.includes(' ') || query.startsWith('http')) {
+      finalUrl = query.startsWith('http') ? query : `https://${query}`;
     } else {
-      searchUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+      finalUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
     }
-    addTab(searchUrl, query);
+    addTab(finalUrl, query);
     setQuery('');
     inputRef.current?.blur();
   };
-
-  const quickLinks = [
-    { name: 'Google', url: 'https://google.com', icon: '🔍' },
-    { name: 'YouTube', url: 'https://youtube.com', icon: '▶️' },
-    { name: 'GitHub', url: 'https://github.com', icon: '🐙' },
-    { name: 'Reddit', url: 'https://reddit.com', icon: '🤖' },
-  ];
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
@@ -42,6 +36,13 @@ const HomePage: React.FC = () => {
   const formatDate = (date: Date) => {
     return date.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' });
   };
+
+  const quickLinks = [
+    { name: 'Google', url: 'https://google.com', icon: '🔍' },
+    { name: 'YouTube', url: 'https://youtube.com', icon: '▶️' },
+    { name: 'GitHub', url: 'https://github.com', icon: '🐙' },
+    { name: 'Reddit', url: 'https://reddit.com', icon: '🤖' },
+  ];
 
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center z-20 px-4">

@@ -11,7 +11,7 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [wallpaperSrc, setWallpaperSrc] = useState<string>('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1920');
+  const [wallpaperSrc, setWallpaperSrc] = useState<string>('/wallpaper.jpg');
   const { primary, onPrimary } = useWallpaperColors(wallpaperSrc);
 
   useEffect(() => {
