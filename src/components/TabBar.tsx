@@ -39,11 +39,9 @@ export const TabBar = () => {
           gap: '4px',
           padding: '0 8px',
           zIndex: 100,
-          userSelect: 'none',
-          WebkitAppRegion: 'drag' as any
+          userSelect: 'none'
         }}
       >
-        {/* Зона вкладок — тоже перетаскиваемая */}
         <div 
           data-tauri-drag-region
           style={{ display: 'flex', alignItems: 'center', gap: '4px', flex: 1, overflowX: 'auto' }}
@@ -109,7 +107,6 @@ export const TabBar = () => {
           </button>
         </div>
 
-        {/* Кнопки профиля и паролей — НЕ перетаскиваемые */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginRight: '8px' }}>
           <button
             onClick={() => setShowPasswords(true)}
@@ -152,7 +149,6 @@ export const TabBar = () => {
           </button>
         </div>
 
-        {/* Кнопки окна — НЕ перетаскиваемые */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
           <button
             onClick={() => appWindow.minimize()}

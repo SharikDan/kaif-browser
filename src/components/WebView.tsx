@@ -70,7 +70,6 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
         zIndex: 10
       }}
     >
-      {/* Адресная строка — НЕ перетаскиваемая (WebkitAppRegion: no-drag) */}
       <div 
         style={{
           height: '36px',
@@ -79,8 +78,7 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
           display: 'flex',
           alignItems: 'center',
           padding: '0 12px',
-          gap: '8px',
-          WebkitAppRegion: 'no-drag' as any
+          gap: '8px'
         }}
       >
         <button
@@ -135,8 +133,7 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
             justifyContent: 'center',
             background: 'rgba(0,0,0,0.95)',
             backdropFilter: 'blur(10px)',
-            zIndex: 100,
-            WebkitAppRegion: 'no-drag' as any
+            zIndex: 100
           }}
         >
           <div 
