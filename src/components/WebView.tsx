@@ -66,19 +66,23 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
         bottom: 0,
         width: '100%',
         height: 'calc(100% - 40px)',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        zIndex: 10
       }}
     >
-      {/* Адресная строка с кнопкой закладки */}
-      <div style={{
-        height: '36px',
-        background: 'rgba(0,0,0,0.8)',
-        borderBottom: '1px solid rgba(255,0,64,0.3)',
-        display: 'flex',
-        alignItems: 'center',
-        padding: '0 12px',
-        gap: '8px'
-      }}>
+      {/* Адресная строка — НЕ перетаскиваемая (WebkitAppRegion: no-drag) */}
+      <div 
+        style={{
+          height: '36px',
+          background: 'rgba(0,0,0,0.8)',
+          borderBottom: '1px solid rgba(255,0,64,0.3)',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '0 12px',
+          gap: '8px',
+          WebkitAppRegion: 'no-drag' as any
+        }}
+      >
         <button
           onClick={() => toggleBookmark(url, currentTitle)}
           title={bookmarked ? 'Remove bookmark' : 'Add bookmark'}
@@ -131,7 +135,8 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
             justifyContent: 'center',
             background: 'rgba(0,0,0,0.95)',
             backdropFilter: 'blur(10px)',
-            zIndex: 100
+            zIndex: 100,
+            WebkitAppRegion: 'no-drag' as any
           }}
         >
           <div 
