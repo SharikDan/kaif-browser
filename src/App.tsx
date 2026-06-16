@@ -14,10 +14,11 @@ const AppContent = () => {
         width: '100vw', 
         height: '100vh', 
         position: 'relative',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        background: '#0f0f0f'
       }}
     >
-      <Background />
+      {!activeTab?.url && <Background />}
       <TabBar />
       {activeTab?.url ? (
         <WebView 

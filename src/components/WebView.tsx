@@ -23,7 +23,7 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
           onTitleChange?.(iframeRef.current.contentDocument.title);
         }
       } catch (e) {
-        // Cross-origin error — это нормально
+        // Cross-origin error
       }
     };
 
@@ -43,28 +43,23 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
   if (!url) return null;
 
   return (
-    <div 
-      style={{
-        position: 'fixed',
-        top: '40px',
-        left: 0,
-        right: 0,
-        bottom: 0,
-        width: '100%',
-        height: 'calc(100% - 40px)',
-        zIndex: 10,
-        background: 'white',
-        overflow: 'hidden'
-      }}
-    >
+    <>
       <iframe
         ref={iframeRef}
         src={url}
         style={{
-          width: '100%',
-          height: '100%',
+          position: 'fixed',
+          top: '40px',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100vw',
+          height: 'calc(100vh - 40px)',
           border: 'none',
-          display: 'block'
+          margin: 0,
+          padding: 0,
+          zIndex: 10,
+          background: 'white'
         }}
         sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-downloads allow-modals allow-top-navigation"
         title="webview"
@@ -72,7 +67,7 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
       {loadTimeout && (
         <div 
           style={{
-            position: 'absolute',
+            position: 'fixed',
             top: 0,
             left: 0,
             right: 0,
@@ -80,48 +75,57 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'rgba(0,0,0,0.9)',
+            background: 'rgba(0,0,0,0.95)',
             backdropFilter: 'blur(10px)',
-            zIndex: 20
+            zIndex: 100
           }}
         >
           <div 
             style={{
               textAlign: 'center',
-              padding: '32px',
-              borderRadius: '16px',
-              background: 'rgba(0,0,0,0.8)',
-              border: '2px solid #ff0040',
-              boxShadow: '0 0 20px #ff0040',
-              maxWidth: '400px'
+              padding: '40px',
+              borderRadius: '20px',
+              background: 'rgba(0,0,0,0.9)',
+              border: '3px solid #ff0040',
+              boxShadow: '0 0 30px #ff0040',
+              maxWidth: '500px'
             }}
           >
-            <div style={{ fontSize: '48px', marginBottom: '16px' }}>⚠️</div>
-            <div style={{ fontSize: '24px', color: 'white', marginBottom: '12px' }}>
+            <div style={{ fontSize: '64px', marginBottom: '20px' }}>⚠️</div>
+            <div style={{ fontSize: '28px', color: 'white', marginBottom: '16px', fontWeight: 'bold' }}>
               Site blocked iframe
             </div>
-            <div style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '24px' }}>
-              This site doesn't allow embedding.
+            <div style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '30px', fontSize: '16px' }}>
+              This site doesn't allow embedding in iframes.
             </div>
             <button
               onClick={openInBrowser}
               style={{
-                padding: '12px 24px',
-                borderRadius: '20px',
-                background: '#ff0040',
+                padding: '16px 32px',
+                borderRadius: '25px',
+                background: 'linear-gradient(135deg, #ff0040 0%, #ff0066 100%)',
                 color: 'white',
                 border: 'none',
                 cursor: 'pointer',
-                fontSize: '16px',
-                fontWeight: 600,
-                boxShadow: '0 0 15px #ff0040'
+                fontSize: '18px',
+                fontWeight: 700,
+                boxShadow: '0 4px 20px rgba(255,0,64,0.5)',
+                transition: 'all 0.3s'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.boxShadow = '0 6px 30px rgba(255,0,64,0.7)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = '0 4px 20px rgba(255,0,64,0.5)';
               }}
             >
-              Open in system browser
+              Open in System Browser
             </button>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
