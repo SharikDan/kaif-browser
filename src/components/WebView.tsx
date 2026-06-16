@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { shell } from '@tauri-apps/api';
 
 interface WebViewProps {
@@ -6,19 +6,15 @@ interface WebViewProps {
   onTitleChange?: (title: string) => void;
 }
 
-export const WebView: React.FC<WebViewProps> = ({ url, onTitleChange }) => {
+export const WebView = ({ url, onTitleChange }: WebViewProps) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [loadError, setLoadError] = useState(false);
   const [loadTimeout, setLoadTimeout] = useState(false);
 
   useEffect(() => {
-    if (!url) return;
-    setLoadError(false);
+    if (!url || !iframeRef.current) return;
+    
     setLoadTimeout(false);
-
-    const timeout = setTimeout(() => {
-      setLoadTimeout(true);
-    }, 8000);
+    const timeout = setTimeout(() => setLoadTimeout(true), 8000);
 
     const handler = () => {
       clearTimeout(timeout);
@@ -32,11 +28,11 @@ export const WebView: React.FC<WebViewProps> = ({ url, onTitleChange }) => {
     };
 
     const iframe = iframeRef.current;
-    iframe?.addEventListener('load', handler);
+    iframe.addEventListener('load', handler);
 
     return () => {
       clearTimeout(timeout);
-      iframe?.removeEventListener('load', handler);
+      iframe.removeEventListener('load', handler);
     };
   }, [url, onTitleChange]);
 
@@ -47,25 +43,74 @@ export const WebView: React.FC<WebViewProps> = ({ url, onTitleChange }) => {
   if (!url) return null;
 
   return (
-    <div className="fixed inset-0 top-10 left-0 right-0 bottom-0 z-10 bg-white">
+    <div 
+      style={{
+        position: 'fixed',
+        top: '40px',
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 10,
+        background: 'white'
+      }}
+    >
       <iframe
         ref={iframeRef}
         src={url}
-        className="w-full h-full border-0"
+        style={{
+          width: '100%',
+          height: '100%',
+          border: 'none'
+        }}
         sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-downloads allow-modals allow-top-navigation"
         title="webview"
       />
-      {(loadError || loadTimeout) && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm">
-          <div className="text-center p-8 rounded-2xl bg-black/80 border-2 border-[#ff0040] shadow-[0_0_20px_#ff0040] max-w-md">
-            <div className="text-3xl mb-4">⚠️</div>
-            <div className="text-2xl text-white mb-3">Site blocked iframe</div>
-            <div className="text-white/70 mb-6">
-              {loadTimeout ? 'This site is loading too slowly or blocked iframe.' : 'This site does not allow loading inside applications.'}
+      {loadTimeout && (
+        <div 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(0,0,0,0.9)',
+            backdropFilter: 'blur(10px)'
+          }}
+        >
+          <div 
+            style={{
+              textAlign: 'center',
+              padding: '32px',
+              borderRadius: '16px',
+              background: 'rgba(0,0,0,0.8)',
+              border: '2px solid #ff0040',
+              boxShadow: '0 0 20px #ff0040',
+              maxWidth: '400px'
+            }}
+          >
+            <div style={{ fontSize: '48px', marginBottom: '16px' }}>⚠️</div>
+            <div style={{ fontSize: '24px', color: 'white', marginBottom: '12px' }}>
+              Site blocked iframe
+            </div>
+            <div style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '24px' }}>
+              This site is loading too slowly or blocked iframe.
             </div>
             <button
               onClick={openInBrowser}
-              className="px-6 py-3 rounded-full bg-[#ff0040] text-white font-semibold hover:bg-[#ff0040]/80 transition shadow-[0_0_15px_#ff0040]"
+              style={{
+                padding: '12px 24px',
+                borderRadius: '20px',
+                background: '#ff0040',
+                color: 'white',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '16px',
+                fontWeight: 600,
+                boxShadow: '0 0 15px #ff0040'
+              }}
             >
               Open in system browser
             </button>
