@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useTabs } from '../contexts/TabsContext';
+import { useBookmarks } from '../contexts/BookmarksContext';
 import SearchEngineSelector, { SearchEngine, SEARCH_ENGINES } from './SearchEngineSelector';
 
 const HomePage = () => {
@@ -9,6 +10,7 @@ const HomePage = () => {
   const [showSelector, setShowSelector] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { addTab } = useTabs();
+  const { bookmarks, removeBookmark } = useBookmarks();
 
   useEffect(() => {
     const saved = localStorage.getItem('defaultSearchEngine') as SearchEngine | null;
@@ -65,13 +67,13 @@ const HomePage = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
-        padding: '20px',
-        paddingTop: '60px'
+        justifyContent: 'flex-start',
+        padding: '60px 20px 20px',
+        overflowY: 'auto'
       }}
     >
       {/* Часы */}
-      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '30px' }}>
         <div style={{ 
           fontSize: '80px', 
           fontWeight: 300, 
@@ -87,7 +89,7 @@ const HomePage = () => {
       </div>
 
       {/* Поисковая строка */}
-      <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '600px' }}>
+      <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '600px', marginBottom: '40px' }}>
         <div style={{
           position: 'relative',
           borderRadius: '20px',
@@ -115,7 +117,6 @@ const HomePage = () => {
           />
         </div>
 
-        {/* Кнопка смены поисковика */}
         <div style={{ 
           display: 'flex', 
           justifyContent: 'center', 
@@ -143,15 +144,113 @@ const HomePage = () => {
         </div>
       </form>
 
-      {/* Видимая подсказка для отладки */}
+      {/* Закладки */}
+      {bookmarks.length > 0 && (
+        <div style={{ width: '100%', maxWidth: '900px' }}>
+          <h3 style={{ 
+            color: 'white', 
+            fontSize: '18px', 
+            marginBottom: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}>
+            ⭐ Your Bookmarks
+          </h3>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
+            gap: '12px'
+          }}>
+            {bookmarks.map(bm => (
+              <div
+                key={bm.id}
+                style={{
+                  position: 'relative',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: '12px',
+                  padding: '16px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+                onClick={() => addTab(bm.url, bm.title)}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#ff0040';
+                  e.currentTarget.style.background = 'rgba(255,0,64,0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+                }}
+              >
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeBookmark(bm.id);
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: '8px',
+                    right: '8px',
+                    background: 'transparent',
+                    border: 'none',
+                    color: 'rgba(255,255,255,0.3)',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    padding: '0',
+                    lineHeight: 1
+                  }}
+                >
+                  ×
+                </button>
+                {bm.favicon && (
+                  <img 
+                    src={bm.favicon} 
+                    alt="" 
+                    style={{ 
+                      width: '24px', 
+                      height: '24px', 
+                      marginBottom: '8px',
+                      borderRadius: '4px'
+                    }}
+                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                  />
+                )}
+                <div style={{ 
+                  color: 'white', 
+                  fontSize: '14px', 
+                  fontWeight: 600,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap'
+                }}>
+                  {bm.title}
+                </div>
+                <div style={{ 
+                  color: 'rgba(255,255,255,0.5)', 
+                  fontSize: '12px',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  marginTop: '4px'
+                }}>
+                  {bm.url.replace(/^https?:\/\//, '').split('/')[0]}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div style={{
-        position: 'absolute',
-        bottom: '20px',
+        position: 'fixed',
+        bottom: '10px',
         left: '20px',
         color: 'rgba(255,255,255,0.3)',
         fontSize: '12px'
       }}>
-        KaifBrowser v4.5.0 — Drag window from any edge
+        KaifBrowser v4.6.0
       </div>
     </div>
   );

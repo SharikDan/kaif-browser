@@ -1,18 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import { shell } from '@tauri-apps/api';
 import { appWindow } from '@tauri-apps/api/window';
+import { useBookmarks } from '../contexts/BookmarksContext';
 
 interface WebViewProps {
   url: string;
+  title?: string;
   onTitleChange?: (title: string) => void;
 }
 
-export const WebView = ({ url, onTitleChange }: WebViewProps) => {
+export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [loadTimeout, setLoadTimeout] = useState(false);
+  const [currentTitle, setCurrentTitle] = useState(title || '');
+  const { isBookmarked, toggleBookmark } = useBookmarks();
 
   useEffect(() => {
-    // Разворачиваем окно на весь экран при загрузке
     appWindow.maximize().catch(() => {});
   }, []);
 
@@ -20,16 +23,19 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
     if (!url || !iframeRef.current) return;
     
     setLoadTimeout(false);
+    setCurrentTitle(title || url);
     const timeout = setTimeout(() => setLoadTimeout(true), 8000);
 
     const handler = () => {
       clearTimeout(timeout);
       try {
         if (iframeRef.current?.contentDocument?.title) {
-          onTitleChange?.(iframeRef.current.contentDocument.title);
+          const t = iframeRef.current.contentDocument.title;
+          setCurrentTitle(t);
+          onTitleChange?.(t);
         }
       } catch (e) {
-        // Cross-origin error
+        // Cross-origin
       }
     };
 
@@ -40,13 +46,15 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
       clearTimeout(timeout);
       iframe.removeEventListener('load', handler);
     };
-  }, [url, onTitleChange]);
+  }, [url, onTitleChange, title]);
 
   const openInBrowser = async () => {
     await shell.open(url);
   };
 
   if (!url) return null;
+
+  const bookmarked = isBookmarked(url);
 
   return (
     <div 
@@ -61,14 +69,51 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
         overflow: 'hidden'
       }}
     >
+      {/* Адресная строка с кнопкой закладки */}
+      <div style={{
+        height: '36px',
+        background: 'rgba(0,0,0,0.8)',
+        borderBottom: '1px solid rgba(255,0,64,0.3)',
+        display: 'flex',
+        alignItems: 'center',
+        padding: '0 12px',
+        gap: '8px'
+      }}>
+        <button
+          onClick={() => toggleBookmark(url, currentTitle)}
+          title={bookmarked ? 'Remove bookmark' : 'Add bookmark'}
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: bookmarked ? '#ff0040' : 'rgba(255,255,255,0.6)',
+            cursor: 'pointer',
+            fontSize: '18px',
+            padding: '4px'
+          }}
+        >
+          {bookmarked ? '★' : '☆'}
+        </button>
+        <div style={{
+          flex: 1,
+          color: 'rgba(255,255,255,0.7)',
+          fontSize: '13px',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap'
+        }}>
+          {url}
+        </div>
+      </div>
+      
       <iframe
         ref={iframeRef}
         src={url}
         style={{
           width: '100%',
-          height: '100%',
+          height: 'calc(100% - 36px)',
           border: 'none',
-          display: 'block'
+          display: 'block',
+          background: 'white'
         }}
         sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-downloads allow-modals allow-top-navigation"
         title="webview"
@@ -77,7 +122,7 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
         <div 
           style={{
             position: 'absolute',
-            top: 0,
+            top: '36px',
             left: 0,
             right: 0,
             bottom: 0,

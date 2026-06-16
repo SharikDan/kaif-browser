@@ -1,4 +1,7 @@
+import { ThemeProvider } from './contexts/ThemeContext';
 import { TabsProvider, useTabs } from './contexts/TabsContext';
+import { ProfileProvider } from './contexts/ProfileContext';
+import { BookmarksProvider } from './contexts/BookmarksContext';
 import { Background } from './components/Background';
 import { TabBar } from './components/TabBar';
 import HomePage from './components/HomePage';
@@ -22,6 +25,7 @@ const AppContent = () => {
       {activeTab?.url ? (
         <WebView 
           url={activeTab.url} 
+          title={activeTab.title}
           onTitleChange={(title: string) => {
             if (activeTabId) updateTabUrl(activeTabId, activeTab.url, title);
           }} 
@@ -35,9 +39,15 @@ const AppContent = () => {
 
 function App() {
   return (
-    <TabsProvider>
-      <AppContent />
-    </TabsProvider>
+    <ThemeProvider>
+      <ProfileProvider>
+        <BookmarksProvider>
+          <TabsProvider>
+            <AppContent />
+          </TabsProvider>
+        </BookmarksProvider>
+      </ProfileProvider>
+    </ThemeProvider>
   );
 }
 
