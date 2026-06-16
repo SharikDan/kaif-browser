@@ -10,22 +10,10 @@ interface WebViewProps {
 export const WebView = ({ url, onTitleChange }: WebViewProps) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [loadTimeout, setLoadTimeout] = useState(false);
-  const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
 
   useEffect(() => {
-    // Отслеживаем изменение размера окна
-    const handleResize = () => {
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-    };
-
-    window.addEventListener('resize', handleResize);
-    
-    // Устанавливаем окно в maximized режим при загрузке
+    // Разворачиваем окно на весь экран при загрузке
     appWindow.maximize().catch(() => {});
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
   }, []);
 
   useEffect(() => {
@@ -112,7 +100,7 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
               maxWidth: '500px'
             }}
           >
-            <div style={{ fontSize: '64px', marginBottom: '20px' }}>️</div>
+            <div style={{ fontSize: '64px', marginBottom: '20px' }}>⚠️</div>
             <div style={{ fontSize: '28px', color: 'white', marginBottom: '16px', fontWeight: 'bold' }}>
               Site blocked iframe
             </div>
