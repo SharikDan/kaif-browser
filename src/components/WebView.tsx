@@ -43,23 +43,26 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
   if (!url) return null;
 
   return (
-    <>
+    <div 
+      style={{
+        position: 'absolute',
+        top: '40px',
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden'
+      }}
+    >
       <iframe
         ref={iframeRef}
         src={url}
         style={{
-          position: 'fixed',
-          top: '40px',
-          left: 0,
-          right: 0,
-          bottom: 0,
-          width: '100vw',
-          height: 'calc(100vh - 40px)',
+          width: '100%',
+          height: '100%',
           border: 'none',
-          margin: 0,
-          padding: 0,
-          zIndex: 10,
-          background: 'white'
+          display: 'block'
         }}
         sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-downloads allow-modals allow-top-navigation"
         title="webview"
@@ -67,7 +70,7 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
       {loadTimeout && (
         <div 
           style={{
-            position: 'fixed',
+            position: 'absolute',
             top: 0,
             left: 0,
             right: 0,
@@ -109,16 +112,7 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
                 cursor: 'pointer',
                 fontSize: '18px',
                 fontWeight: 700,
-                boxShadow: '0 4px 20px rgba(255,0,64,0.5)',
-                transition: 'all 0.3s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.05)';
-                e.currentTarget.style.boxShadow = '0 6px 30px rgba(255,0,64,0.7)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 4px 20px rgba(255,0,64,0.5)';
+                boxShadow: '0 4px 20px rgba(255,0,64,0.5)'
               }}
             >
               Open in System Browser
@@ -126,6 +120,6 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
