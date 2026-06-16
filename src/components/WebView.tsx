@@ -30,15 +30,16 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
 
     const handler = () => {
       clearTimeout(timeout);
+      const iframe = iframeRef.current;
+      if (!iframe) return;
+      
       try {
-        if (iframeRef.current?.contentDocument?.title) {
-          const t = iframeRef.current.contentDocument.title;
+        if (iframe.contentDocument?.title) {
+          const t = iframe.contentDocument.title;
           setCurrentTitle(t);
           onTitleChange?.(t);
         }
         
-        // Добавляем target="_blank" ко всем ссылкам
-        const iframe = iframeRef.current;
         const doc = iframe.contentDocument;
         if (doc) {
           const links = doc.querySelectorAll('a');
@@ -46,7 +47,6 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
             link.setAttribute('target', '_blank');
             link.setAttribute('rel', 'noopener noreferrer');
             
-            // Перехватываем клики по ссылкам — открываем в новой вкладке KaifBrowser
             link.addEventListener('click', (e) => {
               e.preventDefault();
               const href = link.getAttribute('href');
@@ -54,17 +54,15 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
                 let fullUrl = href;
                 if (href.startsWith('/')) {
                   try {
-                    const baseUrl = new URL(url);
-                    fullUrl = `${baseUrl.protocol}//${baseUrl.host}${href}`;
-                  } catch {}
+                    const base = new URL(url);
+                    fullUrl = `${base.protocol}//${base.host}${href}`;
+                  } catch { /* ignore */ }
                 } else if (!href.startsWith('http')) {
                   try {
-                    const baseUrl = new URL(url);
                     fullUrl = new URL(href, url).href;
-                  } catch {}
+                  } catch { /* ignore */ }
                 }
                 
-                // Открываем в новой вкладке KaifBrowser (как поиск!)
                 addTab(fullUrl, link.textContent?.substring(0, 50) || 'New Tab');
               }
             });
@@ -85,7 +83,6 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
   }, [url, onTitleChange, title, addTab]);
 
   const openInNewTab = () => {
-    // Открываем в новой вкладке KaifBrowser
     addTab(url, currentTitle || url);
   };
 
