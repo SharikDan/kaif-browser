@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { shell } from '@tauri-apps/api';
 
 interface WebViewProps {
@@ -50,8 +50,11 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
         left: 0,
         right: 0,
         bottom: 0,
+        width: '100%',
+        height: 'calc(100% - 40px)',
         zIndex: 10,
-        background: 'white'
+        background: 'white',
+        overflow: 'hidden'
       }}
     >
       <iframe
@@ -60,7 +63,8 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
         style={{
           width: '100%',
           height: '100%',
-          border: 'none'
+          border: 'none',
+          display: 'block'
         }}
         sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-downloads allow-modals allow-top-navigation"
         title="webview"
@@ -77,7 +81,8 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
             alignItems: 'center',
             justifyContent: 'center',
             background: 'rgba(0,0,0,0.9)',
-            backdropFilter: 'blur(10px)'
+            backdropFilter: 'blur(10px)',
+            zIndex: 20
           }}
         >
           <div 
@@ -96,7 +101,7 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
               Site blocked iframe
             </div>
             <div style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '24px' }}>
-              This site is loading too slowly or blocked iframe.
+              This site doesn't allow embedding.
             </div>
             <button
               onClick={openInBrowser}
