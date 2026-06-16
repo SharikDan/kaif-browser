@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { shell } from '@tauri-apps/api';
 import { appWindow } from '@tauri-apps/api/window';
 import { useBookmarks } from '../contexts/BookmarksContext';
+import { useTabs } from '../contexts/TabsContext';
 
 interface WebViewProps {
   url: string;
@@ -14,6 +15,7 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
   const [loadTimeout, setLoadTimeout] = useState(false);
   const [currentTitle, setCurrentTitle] = useState(title || '');
   const { isBookmarked, toggleBookmark } = useBookmarks();
+  const { addTab } = useTabs();
 
   useEffect(() => {
     appWindow.maximize().catch(() => {});
@@ -34,7 +36,43 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
           setCurrentTitle(t);
           onTitleChange?.(t);
         }
-      } catch (e) {}
+        
+        // Добавляем target="_blank" ко всем ссылкам
+        const iframe = iframeRef.current;
+        const doc = iframe.contentDocument;
+        if (doc) {
+          const links = doc.querySelectorAll('a');
+          links.forEach(link => {
+            link.setAttribute('target', '_blank');
+            link.setAttribute('rel', 'noopener noreferrer');
+            
+            // Перехватываем клики по ссылкам — открываем в новой вкладке KaifBrowser
+            link.addEventListener('click', (e) => {
+              e.preventDefault();
+              const href = link.getAttribute('href');
+              if (href) {
+                let fullUrl = href;
+                if (href.startsWith('/')) {
+                  try {
+                    const baseUrl = new URL(url);
+                    fullUrl = `${baseUrl.protocol}//${baseUrl.host}${href}`;
+                  } catch {}
+                } else if (!href.startsWith('http')) {
+                  try {
+                    const baseUrl = new URL(url);
+                    fullUrl = new URL(href, url).href;
+                  } catch {}
+                }
+                
+                // Открываем в новой вкладке KaifBrowser (как поиск!)
+                addTab(fullUrl, link.textContent?.substring(0, 50) || 'New Tab');
+              }
+            });
+          });
+        }
+      } catch (e) {
+        // Cross-origin
+      }
     };
 
     const iframe = iframeRef.current;
@@ -44,9 +82,14 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
       clearTimeout(timeout);
       iframe.removeEventListener('load', handler);
     };
-  }, [url, onTitleChange, title]);
+  }, [url, onTitleChange, title, addTab]);
 
-  const openInBrowser = async () => {
+  const openInNewTab = () => {
+    // Открываем в новой вкладке KaifBrowser
+    addTab(url, currentTitle || url);
+  };
+
+  const openInSystemBrowser = async () => {
     await shell.open(url);
   };
 
@@ -103,6 +146,34 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
         }}>
           {url}
         </div>
+        <button
+          onClick={openInNewTab}
+          title="Open in new tab"
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: 'rgba(255,255,255,0.6)',
+            cursor: 'pointer',
+            fontSize: '14px',
+            padding: '4px 8px'
+          }}
+        >
+          📑
+        </button>
+        <button
+          onClick={openInSystemBrowser}
+          title="Open in system browser"
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: 'rgba(255,255,255,0.6)',
+            cursor: 'pointer',
+            fontSize: '14px',
+            padding: '4px 8px'
+          }}
+        >
+          🌐
+        </button>
       </div>
       
       <iframe
@@ -115,7 +186,7 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
           display: 'block',
           background: 'white'
         }}
-        sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-downloads allow-modals allow-top-navigation"
+        sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms allow-downloads allow-modals allow-top-navigation-by-user-activation"
         title="webview"
       />
       {loadTimeout && (
@@ -152,22 +223,39 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
             <div style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '30px', fontSize: '16px' }}>
               This site doesn't allow embedding in iframes.
             </div>
-            <button
-              onClick={openInBrowser}
-              style={{
-                padding: '16px 32px',
-                borderRadius: '25px',
-                background: 'linear-gradient(135deg, #ff0040 0%, #ff0066 100%)',
-                color: 'white',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: '18px',
-                fontWeight: 700,
-                boxShadow: '0 4px 20px rgba(255,0,64,0.5)'
-              }}
-            >
-              Open in System Browser
-            </button>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+              <button
+                onClick={openInNewTab}
+                style={{
+                  padding: '14px 28px',
+                  borderRadius: '20px',
+                  background: 'linear-gradient(135deg, #ff0040 0%, #ff0066 100%)',
+                  color: 'white',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  fontWeight: 700,
+                  boxShadow: '0 4px 20px rgba(255,0,64,0.5)'
+                }}
+              >
+                 Open in New Tab
+              </button>
+              <button
+                onClick={openInSystemBrowser}
+                style={{
+                  padding: '14px 28px',
+                  borderRadius: '20px',
+                  background: 'rgba(255,255,255,0.1)',
+                  color: 'white',
+                  border: '1px solid rgba(255,255,255,0.3)',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  fontWeight: 600
+                }}
+              >
+                🌐 System Browser
+              </button>
+            </div>
           </div>
         </div>
       )}
