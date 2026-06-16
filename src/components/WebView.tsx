@@ -34,9 +34,7 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
           setCurrentTitle(t);
           onTitleChange?.(t);
         }
-      } catch (e) {
-        // Cross-origin
-      }
+      } catch (e) {}
     };
 
     const iframe = iframeRef.current;
