@@ -5,6 +5,15 @@ import { appWindow } from '@tauri-apps/api/window';
 export const TabBar: React.FC = () => {
   const { tabs, activeTabId, addTab, closeTab, setActiveTab } = useTabs();
 
+  const handleToggleMaximize = async () => {
+    const isMax = await appWindow.isMaximized();
+    if (isMax) {
+      await appWindow.unmaximize();
+    } else {
+      await appWindow.maximize();
+    }
+  };
+
   return (
     <div
       data-tauri-drag-region
@@ -14,10 +23,10 @@ export const TabBar: React.FC = () => {
         left: 0,
         right: 0,
         height: '40px',
-        background: 'rgba(0,0,0,0.7)',
+        background: 'rgba(0,0,0,0.9)',
         backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid #ff0040',
-        boxShadow: '0 1px 0 #ff0040',
+        borderBottom: '2px solid #ff0040',
+        boxShadow: '0 2px 10px rgba(255,0,64,0.3)',
         display: 'flex',
         alignItems: 'center',
         gap: '4px',
@@ -38,11 +47,12 @@ export const TabBar: React.FC = () => {
               padding: '6px 16px',
               borderRadius: '8px 8px 0 0',
               cursor: 'pointer',
-              background: activeTabId === tab.id ? 'rgba(255,0,64,0.2)' : 'transparent',
+              background: activeTabId === tab.id ? 'rgba(255,0,64,0.3)' : 'transparent',
               color: activeTabId === tab.id ? 'white' : 'rgba(255,255,255,0.7)',
               boxShadow: activeTabId === tab.id ? 'inset 0 -2px 0 #ff0040' : 'none',
               fontSize: '14px',
-              maxWidth: '180px'
+              maxWidth: '180px',
+              transition: 'all 0.2s'
             }}
           >
             <span style={{ 
@@ -107,11 +117,7 @@ export const TabBar: React.FC = () => {
           −
         </button>
         <button
-          onClick={async () => {
-            const isMax = await appWindow.isMaximized();
-            if (isMax) await appWindow.unmaximize();
-            else await appWindow.maximize();
-          }}
+          onClick={handleToggleMaximize}
           style={{
             width: '32px',
             height: '32px',

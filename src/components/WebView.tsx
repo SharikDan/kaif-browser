@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { shell } from '@tauri-apps/api';
+import { appWindow } from '@tauri-apps/api/window';
 
 interface WebViewProps {
   url: string;
@@ -9,6 +10,23 @@ interface WebViewProps {
 export const WebView = ({ url, onTitleChange }: WebViewProps) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [loadTimeout, setLoadTimeout] = useState(false);
+  const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+
+  useEffect(() => {
+    // Отслеживаем изменение размера окна
+    const handleResize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    window.addEventListener('resize', handleResize);
+    
+    // Устанавливаем окно в maximized режим при загрузке
+    appWindow.maximize().catch(() => {});
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     if (!url || !iframeRef.current) return;
@@ -51,7 +69,7 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
         right: 0,
         bottom: 0,
         width: '100%',
-        height: '100%',
+        height: 'calc(100% - 40px)',
         overflow: 'hidden'
       }}
     >
@@ -94,7 +112,7 @@ export const WebView = ({ url, onTitleChange }: WebViewProps) => {
               maxWidth: '500px'
             }}
           >
-            <div style={{ fontSize: '64px', marginBottom: '20px' }}>⚠️</div>
+            <div style={{ fontSize: '64px', marginBottom: '20px' }}>️</div>
             <div style={{ fontSize: '28px', color: 'white', marginBottom: '16px', fontWeight: 'bold' }}>
               Site blocked iframe
             </div>
