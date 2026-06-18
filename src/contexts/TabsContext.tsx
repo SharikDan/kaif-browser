@@ -32,15 +32,19 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
 
   const createWebview = async (id: string, url: string, title: string): Promise<WebviewWindow | undefined> => {
     try {
+      console.log('Creating webview for:', url);
+      
       const scaleFactor = await appWindow.scaleFactor();
       const outerSize = await appWindow.outerSize();
       
       const width = Math.round(outerSize.width / scaleFactor);
       const height = Math.round((outerSize.height / scaleFactor) - 76);
       
+      console.log('Window size:', { width, height, scaleFactor });
+      
       const label = `webview-${id}-${Date.now()}`;
       
-      // В Tauri 2.x parent работает! Дочернее окно = часть главного
+      // Убираем parent — создаём обычное окно, но синхронизируем через события
       const webview = new WebviewWindow(label, {
         url: url,
         title: title,
@@ -53,8 +57,14 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
         transparent: false,
         visible: true,
         focus: false,
+        alwaysOnTop: true,
         skipTaskbar: true,
-        parent: "main",  // ДОЧЕРНЕЕ окно — работает в Tauri 2.x!
+      });
+
+      console.log('Webview created:', label);
+
+      webview.once('tauri://created', () => {
+        console.log('Webview created successfully:', label);
       });
 
       webview.once('tauri://error', (e) => {
@@ -68,8 +78,7 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // В Tauri 2.x дочерние окна автоматически следуют за родительским!
-  // Но на всякий случай обновляем размер при resize
+  // Синхронизируем размер при resize
   useEffect(() => {
     const updateWebviews = async () => {
       const scaleFactor = await appWindow.scaleFactor();
@@ -81,7 +90,9 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
         if (tab.webview) {
           try {
             await tab.webview.setSize(new PhysicalSize(outerSize.width, Math.round(height * scaleFactor)));
-          } catch (e) {}
+          } catch (e) {
+            console.error('Failed to resize webview:', e);
+          }
         }
       }
     };
