@@ -1,12 +1,10 @@
-import { createContext, useContext, useState, useEffect, useRef } from 'react';
-import { WebviewWindow } from '@tauri-apps/api/webviewWindow';
-import { getCurrentWindow, PhysicalSize } from '@tauri-apps/api/window';
+import { createContext, useContext, useState, useRef, useEffect } from 'react';
 
 export type Tab = {
   id: string;
   title: string;
   url: string;
-  webview?: WebviewWindow;
+  webview?: Electron.WebviewTag;
 };
 
 interface TabsContextType {
@@ -16,162 +14,69 @@ interface TabsContextType {
   closeTab: (id: string) => void;
   setActiveTab: (id: string) => void;
   updateTabUrl: (id: string, url: string, title?: string) => void;
+  registerWebview: (id: string, webview: Electron.WebviewTag) => void;
 }
 
 const TabsContext = createContext<TabsContextType | undefined>(undefined);
 
 export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
-  const [tabs, setTabs] = useState<Tab[]>([]);
-  const [activeTabId, setActiveTabId] = useState<string | null>(null);
-  const tabRef = useRef<Tab[]>([]);
-  const appWindow = getCurrentWindow();
+  const [tabs, setTabs] = useState<Tab[]>([{ id: '1', title: 'New Tab', url: '' }]);
+  const [activeTabId, setActiveTabId] = useState<string | null>('1');
+  const webviewsRef = useRef<Map<string, Electron.WebviewTag>>(new Map());
 
-  useEffect(() => {
-    tabRef.current = tabs;
-  }, [tabs]);
-
-  const createWebview = async (id: string, url: string, title: string): Promise<WebviewWindow | undefined> => {
-    try {
-      console.log('Creating webview for:', url);
-      
-      const scaleFactor = await appWindow.scaleFactor();
-      const outerSize = await appWindow.outerSize();
-      
-      const width = Math.round(outerSize.width / scaleFactor);
-      const height = Math.round((outerSize.height / scaleFactor) - 76);
-      
-      console.log('Window size:', { width, height, scaleFactor });
-      
-      const label = `webview-${id}-${Date.now()}`;
-      
-      // Убираем parent — создаём обычное окно, но синхронизируем через события
-      const webview = new WebviewWindow(label, {
-        url: url,
-        title: title,
-        width: width,
-        height: height,
-        x: 0,
-        y: 76,
-        resizable: false,
-        decorations: false,
-        transparent: false,
-        visible: true,
-        focus: false,
-        alwaysOnTop: true,
-        skipTaskbar: true,
-      });
-
-      console.log('Webview created:', label);
-
-      webview.once('tauri://created', () => {
-        console.log('Webview created successfully:', label);
-      });
-
-      webview.once('tauri://error', (e) => {
-        console.error('Webview error:', e);
-      });
-
-      return webview;
-    } catch (e) {
-      console.error('Failed to create webview:', e);
-      return undefined;
-    }
+  const registerWebview = (id: string, webview: Electron.WebviewTag) => {
+    webviewsRef.current.set(id, webview);
+    setTabs(prev => prev.map(tab => 
+      tab.id === id ? { ...tab, webview } : tab
+    ));
   };
 
-  // Синхронизируем размер при resize
-  useEffect(() => {
-    const updateWebviews = async () => {
-      const scaleFactor = await appWindow.scaleFactor();
-      const outerSize = await appWindow.outerSize();
-      
-      const height = Math.round((outerSize.height / scaleFactor) - 76);
-      
-      for (const tab of tabRef.current) {
-        if (tab.webview) {
-          try {
-            await tab.webview.setSize(new PhysicalSize(outerSize.width, Math.round(height * scaleFactor)));
-          } catch (e) {
-            console.error('Failed to resize webview:', e);
-          }
-        }
-      }
-    };
-
-    const interval = setInterval(updateWebviews, 100);
-    return () => clearInterval(interval);
-  }, []);
-
-  const addTab = async (url = '', title = 'New Tab') => {
+  const addTab = (url = '', title = 'New Tab') => {
     const id = Date.now().toString();
     const newTab: Tab = { id, title, url };
-    
-    if (url) {
-      const webview = await createWebview(id, url, title);
-      newTab.webview = webview;
-      
-      if (activeTabId) {
-        const currentActive = tabRef.current.find(t => t.id === activeTabId);
-        if (currentActive?.webview) {
-          try { await currentActive.webview.hide(); } catch {}
-        }
-      }
-    }
-    
     setTabs(prev => [...prev, newTab]);
     setActiveTabId(id);
   };
 
-  const closeTab = async (id: string) => {
-    const tab = tabs.find(t => t.id === id);
-    if (tab?.webview) {
-      try { await tab.webview.close(); } catch {}
+  const closeTab = (id: string) => {
+    const webview = webviewsRef.current.get(id);
+    if (webview) {
+      webview.remove();
+      webviewsRef.current.delete(id);
     }
     
     const newTabs = tabs.filter(t => t.id !== id);
     setTabs(newTabs);
     
     if (activeTabId === id) {
-      const newActive = newTabs[newTabs.length - 1];
-      setActiveTabId(newActive?.id || null);
-      if (newActive?.webview) {
-        try { await newActive.webview.show(); await newActive.webview.setFocus(); } catch {}
-      }
+      setActiveTabId(newTabs[0]?.id || null);
     }
   };
 
-  const setActiveTab = async (id: string) => {
-    const currentActive = tabs.find(t => t.id === activeTabId);
-    if (currentActive?.webview) {
-      try { await currentActive.webview.hide(); } catch {}
-    }
+  const setActiveTab = (id: string) => {
+    // Скрываем все webview
+    webviewsRef.current.forEach(wv => {
+      wv.style.display = 'none';
+    });
     
-    const newActive = tabs.find(t => t.id === id);
-    if (newActive?.webview) {
-      try { 
-        await newActive.webview.show(); 
-        await newActive.webview.setFocus();
-      } catch {}
+    // Показываем активный
+    const activeWebview = webviewsRef.current.get(id);
+    if (activeWebview) {
+      activeWebview.style.display = 'block';
     }
     
     setActiveTabId(id);
   };
 
-  const updateTabUrl = async (id: string, url: string, title?: string) => {
-    setTabs(prev => prev.map(tab => {
-      if (tab.id === id) {
-        if (tab.webview) {
-          try { tab.webview.close(); } catch {}
-        }
-        return { ...tab, url, title: title || tab.title, webview: undefined };
-      }
-      return tab;
-    }));
-    
-    const tab = tabRef.current.find(t => t.id === id);
-    if (tab) {
-      const webview = await createWebview(id, url, title || tab.title);
-      setTabs(prev => prev.map(t => t.id === id ? { ...t, webview } : t));
+  const updateTabUrl = (id: string, url: string, title?: string) => {
+    const webview = webviewsRef.current.get(id);
+    if (webview) {
+      webview.src = url;
     }
+    
+    setTabs(prev => prev.map(tab => 
+      tab.id === id ? { ...tab, url, title: title || tab.title } : tab
+    ));
   };
 
   return (
@@ -181,7 +86,8 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
       addTab,
       closeTab,
       setActiveTab,
-      updateTabUrl
+      updateTabUrl,
+      registerWebview
     }}>
       {children}
     </TabsContext.Provider>
