@@ -91,9 +91,7 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
       console.log('Navigation intercepted:', url);
       
       // Открываем ссылку в новой вкладке
-      const id = Date.now().toString();
       const title = url.substring(0, 50);
-      
       addTab(url, title);
     });
 
