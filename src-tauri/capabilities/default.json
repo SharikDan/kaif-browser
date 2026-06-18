@@ -17,8 +17,6 @@
     "core:window:allow-show",
     "core:window:allow-set-focus",
     "core:webview:default",
-    "core:webview:allow-set-size",
-    "core:webview:allow-set-position",
     "shell:allow-open"
   ]
 }
