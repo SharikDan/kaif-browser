@@ -1,10 +1,10 @@
-import { createContext, useContext, useState, useRef, useEffect } from 'react';
+import { createContext, useContext, useState, useRef } from 'react';
 
 export type Tab = {
   id: string;
   title: string;
   url: string;
-  webview?: Electron.WebviewTag;
+  webview?: any;
 };
 
 interface TabsContextType {
@@ -14,7 +14,7 @@ interface TabsContextType {
   closeTab: (id: string) => void;
   setActiveTab: (id: string) => void;
   updateTabUrl: (id: string, url: string, title?: string) => void;
-  registerWebview: (id: string, webview: Electron.WebviewTag) => void;
+  registerWebview: (id: string, webview: any) => void;
 }
 
 const TabsContext = createContext<TabsContextType | undefined>(undefined);
@@ -22,9 +22,9 @@ const TabsContext = createContext<TabsContextType | undefined>(undefined);
 export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
   const [tabs, setTabs] = useState<Tab[]>([{ id: '1', title: 'New Tab', url: '' }]);
   const [activeTabId, setActiveTabId] = useState<string | null>('1');
-  const webviewsRef = useRef<Map<string, Electron.WebviewTag>>(new Map());
+  const webviewsRef = useRef<Map<string, any>>(new Map());
 
-  const registerWebview = (id: string, webview: Electron.WebviewTag) => {
+  const registerWebview = (id: string, webview: any) => {
     webviewsRef.current.set(id, webview);
     setTabs(prev => prev.map(tab => 
       tab.id === id ? { ...tab, webview } : tab

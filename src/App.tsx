@@ -6,12 +6,12 @@ import HomePage from './components/HomePage';
 import { useEffect, useRef } from 'react';
 
 const WebViewComponent = ({ tab }: { tab: any }) => {
-  const webviewRef = useRef<Electron.WebviewTag | null>(null);
+  const webviewRef = useRef<any>(null);
   const { updateTabUrl, registerWebview } = useTabs();
 
   useEffect(() => {
     if (webviewRef.current && tab.id) {
-      const wv = webviewRef.current as any;
+      const wv = webviewRef.current;
       
       // Регистрируем webview в контексте
       registerWebview(tab.id, wv);
@@ -48,10 +48,10 @@ const WebViewComponent = ({ tab }: { tab: any }) => {
         width: '100%',
         height: 'calc(100% - 76px)',
         border: 'none',
-        display: 'none', // Скрыт по умолчанию, показывается через setActiveTab
+        display: 'none',
         background: 'white'
       }}
-      allowpopups="true"
+      allowpopups={true}
       webpreferences="nodeIntegration=no,contextIsolation=yes"
     />
   );
@@ -61,7 +61,6 @@ const AppContent = () => {
   const { tabs, activeTabId, setActiveTab } = useTabs();
   const activeTab = tabs.find(tab => tab.id === activeTabId);
 
-  // Когда меняется активная вкладка — показываем её
   useEffect(() => {
     if (activeTabId) {
       setActiveTab(activeTabId);
@@ -81,7 +80,6 @@ const AppContent = () => {
       {!activeTab?.url && <Background />}
       <TabBar />
       
-      {/* Рендерим все webview, но показываем только активный */}
       {tabs.map(tab => (
         tab.url && <WebViewComponent key={tab.id} tab={tab} />
       ))}
