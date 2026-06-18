@@ -5,9 +5,14 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: write
     
     steps:
     - name: Checkout code
@@ -33,7 +38,6 @@ jobs:
         name: KaifBrowser-Windows
         path: |
           release/*.exe
-          release/*.msi
           release/*.zip
     
     - name: Create Release
@@ -42,7 +46,6 @@ jobs:
       with:
         files: |
           release/*.exe
-          release/*.msi
           release/*.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
