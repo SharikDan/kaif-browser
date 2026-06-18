@@ -7,19 +7,9 @@
               },
     "package":  {
                     "productName":  "kaif-browser",
-                    "version":  "4.6.0"
+                    "version":  "5.0.0"
                 },
     "tauri":  {
-                  "allowlist":  {
-                                    "all":  true,
-                                    "window":  {
-                                                   "all":  true
-                                               },
-                                    "shell":  {
-                                                  "all":  false,
-                                                  "open":  true
-                                              }
-                                },
                   "bundle":  {
                                  "identifier":  "com.danil.kaif-browser",
                                  "active":  true,
@@ -60,6 +50,15 @@
                               ],
                   "security":  {
                                    "csp":  "default-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 https: http: data: blob:;"
-                               }
+                               },
+                  "allowlist":  {
+                                    "window":  {
+                                                   "all":  true
+                                               },
+                                    "shell":  {
+                                                  "all":  false,
+                                                  "open":  true
+                                              }
+                                }
               }
 }

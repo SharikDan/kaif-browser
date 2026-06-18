@@ -8,7 +8,7 @@ import HomePage from './components/HomePage';
 import { WebView } from './components/WebView';
 
 const AppContent = () => {
-  const { tabs, activeTabId, updateTabUrl } = useTabs();
+  const { tabs, activeTabId } = useTabs();
   const activeTab = tabs.find(tab => tab.id === activeTabId);
 
   return (
@@ -17,18 +17,17 @@ const AppContent = () => {
         width: '100%',
         height: '100%',
         position: 'relative',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        background: '#0f0f0f'
       }}
     >
       {!activeTab?.url && <Background />}
       <TabBar />
       {activeTab?.url ? (
         <WebView 
-          url={activeTab.url} 
+          url={activeTab.url}
+          tabId={activeTab.id}
           title={activeTab.title}
-          onTitleChange={(title: string) => {
-            if (activeTabId) updateTabUrl(activeTabId, activeTab.url, title);
-          }} 
         />
       ) : (
         <HomePage />

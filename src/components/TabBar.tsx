@@ -30,7 +30,7 @@ export const TabBar = () => {
           left: 0,
           right: 0,
           height: '40px',
-          background: 'rgba(0,0,0,0.9)',
+          background: 'rgba(0,0,0,0.95)',
           backdropFilter: 'blur(20px)',
           borderBottom: '2px solid #ff0040',
           boxShadow: '0 2px 10px rgba(255,0,64,0.3)',
