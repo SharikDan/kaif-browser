@@ -40,6 +40,7 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
           onTitleChange?.(t);
         }
         
+        // Пытаемся модифицировать ссылки (работает только для same-origin)
         const doc = iframe.contentDocument;
         if (doc) {
           const links = doc.querySelectorAll('a');
@@ -48,28 +49,16 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
             link.setAttribute('rel', 'noopener noreferrer');
             
             link.addEventListener('click', (e) => {
-              e.preventDefault();
               const href = link.getAttribute('href');
-              if (href) {
-                let fullUrl = href;
-                if (href.startsWith('/')) {
-                  try {
-                    const base = new URL(url);
-                    fullUrl = `${base.protocol}//${base.host}${href}`;
-                  } catch { /* ignore */ }
-                } else if (!href.startsWith('http')) {
-                  try {
-                    fullUrl = new URL(href, url).href;
-                  } catch { /* ignore */ }
-                }
-                
-                addTab(fullUrl, link.textContent?.substring(0, 50) || 'New Tab');
+              if (href && href.startsWith('http')) {
+                e.preventDefault();
+                addTab(href, link.textContent?.substring(0, 50) || 'New Tab');
               }
             });
           });
         }
       } catch (e) {
-        // Cross-origin
+        console.log('Cross-origin iframe - cannot modify links');
       }
     };
 
@@ -218,11 +207,12 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
               Site blocked iframe
             </div>
             <div style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '30px', fontSize: '16px' }}>
-              This site doesn't allow embedding in iframes.
+              This site doesn't allow embedding in iframes.<br/>
+              Use system browser for full functionality.
             </div>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
               <button
-                onClick={openInNewTab}
+                onClick={openInSystemBrowser}
                 style={{
                   padding: '14px 28px',
                   borderRadius: '20px',
@@ -235,22 +225,7 @@ export const WebView = ({ url, title, onTitleChange }: WebViewProps) => {
                   boxShadow: '0 4px 20px rgba(255,0,64,0.5)'
                 }}
               >
-                 Open in New Tab
-              </button>
-              <button
-                onClick={openInSystemBrowser}
-                style={{
-                  padding: '14px 28px',
-                  borderRadius: '20px',
-                  background: 'rgba(255,255,255,0.1)',
-                  color: 'white',
-                  border: '1px solid rgba(255,255,255,0.3)',
-                  cursor: 'pointer',
-                  fontSize: '16px',
-                  fontWeight: 600
-                }}
-              >
-                🌐 System Browser
+                🌐 Open in System Browser
               </button>
             </div>
           </div>
