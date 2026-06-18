@@ -48,13 +48,13 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
         height: height,
         x: x,
         y: y,
-        resizable: false,
+        resizable: true,
         decorations: false,
         transparent: false,
         visible: true,
         focus: false,
-        alwaysOnTop: true,
-        skipTaskbar: true,
+        alwaysOnTop: false,
+        skipTaskbar: false,
       });
 
       webview.once('tauri://error', (e) => {
@@ -68,7 +68,7 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Слушаем resize/move главного окна
+  // Обновляем размеры всех webview при resize/move главного окна
   useEffect(() => {
     const updateWebviews = async () => {
       const scaleFactor = await appWindow.scaleFactor();
