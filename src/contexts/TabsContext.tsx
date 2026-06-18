@@ -33,28 +33,28 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const scaleFactor = await appWindow.scaleFactor();
       const outerSize = await appWindow.outerSize();
-      const outerPosition = await appWindow.outerPosition();
       
       const width = outerSize.width / scaleFactor;
       const height = (outerSize.height / scaleFactor) - 76;
-      const x = outerPosition.x / scaleFactor;
-      const y = (outerPosition.y / scaleFactor) + 76;
       
       const label = `webview-${id}-${Date.now()}`;
+      
+      // Создаём WebView как ДОЧЕРНЕЕ окно главного (parent: "main")
       const webview = new WebviewWindow(label, {
         url: url,
         title: title,
         width: width,
         height: height,
-        x: x,
-        y: y,
-        resizable: true,
+        x: 0,
+        y: 76, // Под таб-баром
+        resizable: false, // Не resizable отдельно
         decorations: false,
         transparent: false,
         visible: true,
         focus: false,
         alwaysOnTop: false,
-        skipTaskbar: false,
+        skipTaskbar: true, // Не видно в панели задач
+        parent: "main", // ДОЧЕРНЕЕ окно главного!
       });
 
       webview.once('tauri://error', (e) => {
@@ -68,33 +68,28 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Обновляем размеры всех webview при resize/move главного окна
+  // Обновляем размеры WebView при resize главного окна
   useEffect(() => {
     const updateWebviews = async () => {
       const scaleFactor = await appWindow.scaleFactor();
       const outerSize = await appWindow.outerSize();
-      const outerPosition = await appWindow.outerPosition();
       
       const height = (outerSize.height / scaleFactor) - 76;
-      const x = outerPosition.x / scaleFactor;
-      const y = (outerPosition.y / scaleFactor) + 76;
       
       for (const tab of tabRef.current) {
         if (tab.webview) {
           try {
+            // Обновляем только размер (позиция фиксирована относительно родителя)
             await tab.webview.setSize(new PhysicalSize(outerSize.width, Math.round(height * scaleFactor)));
-            await tab.webview.setPosition(new PhysicalPosition(Math.round(x * scaleFactor), Math.round(y * scaleFactor)));
           } catch (e) {}
         }
       }
     };
 
     const unlistenResize = listen('tauri://resize', updateWebviews);
-    const unlistenMove = listen('tauri://move', updateWebviews);
 
     return () => {
       unlistenResize.then(f => f());
-      unlistenMove.then(f => f());
     };
   }, []);
 

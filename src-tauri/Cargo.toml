@@ -1,6 +1,6 @@
 [package]
 name = "kaif-browser"
-version = "5.3.0"
+version = "5.4.0"
 description = "KaifBrowser - real WebView browser"
 authors = ["you"]
 edition = "2021"
@@ -9,7 +9,7 @@ edition = "2021"
 tauri-build = "=1.5.6"
 
 [dependencies]
-tauri = { version = "=1.8.3", features = ["api-all"] }
+tauri = { version = "5.4.0", features = ["api-all"] }
 serde = "1.0"
 serde_json = "1.0"
 
