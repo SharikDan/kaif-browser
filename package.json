@@ -1,50 +1,60 @@
 {
-  "name": "kaif-browser",
-  "version": "7.0.0",
-  "description": "KaifBrowser - real browser on Electron",
-  "main": "electron/main.js",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
-    "electron:build": "npm run build && electron-builder",
-    "electron:build:win": "npm run build && electron-builder --win"
-  },
-  "dependencies": {
-    "@tauri-apps/api": "^2.0.0",
-    "framer-motion": "^11.0.0",
-    "lucide-react": "^0.344.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "devDependencies": {
-    "@types/react": "^18.2.43",
-    "@types/react-dom": "^18.2.17",
-    "@vitejs/plugin-react": "^4.2.1",
-    "autoprefixer": "^10.4.16",
-    "concurrently": "^8.2.2",
-    "electron": "^29.0.0",
-    "electron-builder": "^24.9.1",
-    "postcss": "^8.4.32",
-    "tailwindcss": "^3.3.6",
-    "typescript": "^5.2.2",
-    "vite": "^5.0.8",
-    "wait-on": "^7.2.0"
-  },
-  "build": {
-    "appId": "com.danil.kaif-browser",
-    "productName": "KaifBrowser",
-    "directories": {
-      "output": "release"
-    },
-    "files": [
-      "dist/**/*",
-      "electron/**/*"
-    ],
-    "win": {
-      "target": "nsis",
-      "icon": "public/icon.ico"
-    }
-  }
+    "name":  "kaif-browser",
+    "version":  "7.0.0",
+    "description":  "KaifBrowser - real browser on Electron",
+    "main":  "electron/main.js",
+    "scripts":  {
+                    "dev":  "vite",
+                    "build":  "tsc \u0026\u0026 vite build",
+                    "preview":  "vite preview",
+                    "electron:dev":  "concurrently \"npm run dev\" \"wait-on http://localhost:5173 \u0026\u0026 electron .\"",
+                    "electron:build":  "npm run build \u0026\u0026 electron-builder",
+                    "electron:build:win":  "npm run build \u0026\u0026 electron-builder --win"
+                },
+    "dependencies":  {
+                         "@tauri-apps/api":  "^2.0.0",
+                         "framer-motion":  "^11.0.0",
+                         "lucide-react":  "^0.344.0",
+                         "react":  "^18.2.0",
+                         "react-dom":  "^18.2.0"
+                     },
+    "devDependencies":  {
+                            "@types/react":  "^18.2.43",
+                            "@types/react-dom":  "^18.2.17",
+                            "@vitejs/plugin-react":  "^4.2.1",
+                            "autoprefixer":  "^10.4.16",
+                            "concurrently":  "^8.2.2",
+                            "electron":  "^29.0.0",
+                            "electron-builder":  "^24.9.1",
+                            "postcss":  "^8.4.32",
+                            "tailwindcss":  "^3.3.6",
+                            "typescript":  "^5.2.2",
+                            "vite":  "^5.0.8",
+                            "wait-on":  "^7.2.0"
+                        },
+    "build":  {
+                  "directories":  {
+                                      "output":  "release"
+                                  },
+                  "files":  [
+                                "dist/**/*",
+                                "electron/**/*",
+                                "package.json"
+                            ],
+                  "productName":  "KaifBrowser",
+                  "win":  {
+                              "target":  [
+                                             "nsis",
+                                             "portable"
+                                         ],
+                              "icon":  "public/icon.ico"
+                          },
+                  "appId":  "com.danil.kaif-browser",
+                  "nsis":  {
+                               "oneClick":  false,
+                               "createDesktopShortcut":  true,
+                               "createStartMenuShortcut":  true,
+                               "allowToChangeInstallationDirectory":  true
+                           }
+              }
 }
