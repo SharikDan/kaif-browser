@@ -9,7 +9,6 @@ interface WebViewProps {
 }
 
 export const WebView = ({ url, tabId, title }: WebViewProps) => {
-  const [currentTitle, setCurrentTitle] = useState(title || url);
   const { isBookmarked, toggleBookmark } = useBookmarks();
   const { updateTabUrl } = useTabs();
   const [editUrl, setEditUrl] = useState(false);
@@ -49,7 +48,7 @@ export const WebView = ({ url, tabId, title }: WebViewProps) => {
       }}
     >
       <button
-        onClick={() => toggleBookmark(url, currentTitle)}
+        onClick={() => toggleBookmark(url, title || url)}
         title={bookmarked ? 'Remove bookmark' : 'Add bookmark'}
         style={{
           background: 'transparent',

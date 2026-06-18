@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import { WebviewWindow, appWindow, PhysicalSize } from '@tauri-apps/api/window';
+import { createContext, useContext, useState, useEffect, useRef } from 'react';
+import { WebviewWindow, appWindow, PhysicalSize, PhysicalPosition } from '@tauri-apps/api/window';
 import { listen } from '@tauri-apps/api/event';
 
 export type Tab = {
@@ -24,17 +24,20 @@ const TabsContext = createContext<TabsContextType | undefined>(undefined);
 export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
   const [tabs, setTabs] = useState<Tab[]>([]);
   const [activeTabId, setActiveTabId] = useState<string | null>(null);
+  const tabRef = useRef<Tab[]>([]);
 
-  // Создаём WebviewWindow для вкладки
+  useEffect(() => {
+    tabRef.current = tabs;
+  }, [tabs]);
+
   const createWebview = async (id: string, url: string, title: string): Promise<WebviewWindow | undefined> => {
     try {
-      // Получаем позицию и размер главного окна
       const scaleFactor = await appWindow.scaleFactor();
       const outerSize = await appWindow.outerSize();
       const outerPosition = await appWindow.outerPosition();
       
       const width = outerSize.width / scaleFactor;
-      const height = (outerSize.height / scaleFactor) - 76; // 40px tabbar + 36px address bar
+      const height = (outerSize.height / scaleFactor) - 76;
       const x = outerPosition.x / scaleFactor;
       const y = (outerPosition.y / scaleFactor) + 76;
       
@@ -66,23 +69,21 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Пересчитываем позиции всех webview при изменении размера главного окна
   useEffect(() => {
     const unlistenResize = listen('tauri://resize', async () => {
       const scaleFactor = await appWindow.scaleFactor();
       const outerSize = await appWindow.outerSize();
       const outerPosition = await appWindow.outerPosition();
       
-      const width = outerSize.width / scaleFactor;
       const height = (outerSize.height / scaleFactor) - 76;
       const x = outerPosition.x / scaleFactor;
       const y = (outerPosition.y / scaleFactor) + 76;
       
-      for (const tab of tabs) {
+      for (const tab of tabRef.current) {
         if (tab.webview) {
           try {
             await tab.webview.setSize(new PhysicalSize(outerSize.width, Math.round(height * scaleFactor)));
-            await tab.webview.setPosition(new PhysicalSize(Math.round(x * scaleFactor), Math.round((y) * scaleFactor)));
+            await tab.webview.setPosition(new PhysicalPosition(Math.round(x * scaleFactor), Math.round(y * scaleFactor)));
           } catch (e) {
             // ignore
           }
@@ -100,7 +101,7 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
       for (const tab of tabRef.current) {
         if (tab.webview) {
           try {
-            await tab.webview.setPosition(new PhysicalSize(Math.round(x * scaleFactor), Math.round(y * scaleFactor)));
+            await tab.webview.setPosition(new PhysicalPosition(Math.round(x * scaleFactor), Math.round(y * scaleFactor)));
           } catch (e) {}
         }
       }
@@ -112,11 +113,6 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
-  const tabRef = React.useRef<Tab[]>([]);
-  useEffect(() => {
-    tabRef.current = tabs;
-  }, [tabs]);
-
   const addTab = async (url = '', title = 'New Tab') => {
     const id = Date.now().toString();
     const newTab: Tab = { id, title, url };
@@ -125,7 +121,6 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
       const webview = await createWebview(id, url, title);
       newTab.webview = webview;
       
-      // Скрываем предыдущую активную вкладку
       if (activeTabId) {
         const currentActive = tabRef.current.find(t => t.id === activeTabId);
         if (currentActive?.webview) {
@@ -157,13 +152,11 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const setActiveTab = async (id: string) => {
-    // Скрываем текущую активную
     const currentActive = tabs.find(t => t.id === activeTabId);
     if (currentActive?.webview) {
       try { await currentActive.webview.hide(); } catch {}
     }
     
-    // Показываем новую активную
     const newActive = tabs.find(t => t.id === id);
     if (newActive?.webview) {
       try { 
@@ -178,7 +171,6 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
   const updateTabUrl = async (id: string, url: string, title?: string) => {
     setTabs(prev => prev.map(tab => {
       if (tab.id === id) {
-        // Закрываем старый webview
         if (tab.webview) {
           try { tab.webview.close(); } catch {}
         }
@@ -187,7 +179,6 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
       return tab;
     }));
     
-    // Создаём новый webview
     const tab = tabRef.current.find(t => t.id === id);
     if (tab) {
       const webview = await createWebview(id, url, title || tab.title);
