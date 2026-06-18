@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { WebviewWindow, appWindow, PhysicalSize, PhysicalPosition } from '@tauri-apps/api/window';
 import { listen } from '@tauri-apps/api/event';
-import { invoke } from '@tauri-apps/api/tauri';
 
 export type Tab = {
   id: string;
@@ -17,7 +16,6 @@ interface TabsContextType {
   closeTab: (id: string) => void;
   setActiveTab: (id: string) => void;
   updateTabUrl: (id: string, url: string, title?: string) => void;
-  updateTabTitle: (id: string, title: string) => void;
 }
 
 const TabsContext = createContext<TabsContextType | undefined>(undefined);
@@ -37,72 +35,42 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
       const outerSize = await appWindow.outerSize();
       const outerPosition = await appWindow.outerPosition();
       
+      const width = outerSize.width / scaleFactor;
       const height = (outerSize.height / scaleFactor) - 76;
       const x = outerPosition.x / scaleFactor;
       const y = (outerPosition.y / scaleFactor) + 76;
-      const width = outerSize.width / scaleFactor;
       
       const label = `webview-${id}-${Date.now()}`;
-      
-      // Создаём WebView через Rust (с перехватом навигации)
-      try {
-        await invoke('create_webview_with_navigation', {
-          label,
-          url,
-          title,
-          width,
-          height,
-          x,
-          y
-        });
-      } catch (e) {
-        console.error('Rust create failed, using JS fallback:', e);
-        // Fallback: создаём через JS API
-        const webview = new WebviewWindow(label, {
-          url,
-          title,
-          width,
-          height,
-          x,
-          y,
-          resizable: false,
-          decorations: false,
-          transparent: false,
-          visible: true,
-          focus: false,
-          alwaysOnTop: true,
-          skipTaskbar: true,
-        });
-        return webview;
-      }
-      
-      // Возвращаем reference к созданному окну
-      return WebviewWindow.getByLabel(label) || undefined;
+      const webview = new WebviewWindow(label, {
+        url: url,
+        title: title,
+        width: width,
+        height: height,
+        x: x,
+        y: y,
+        resizable: false,
+        decorations: false,
+        transparent: false,
+        visible: true,
+        focus: false,
+        alwaysOnTop: true,
+        skipTaskbar: true,
+      });
+
+      webview.once('tauri://error', (e) => {
+        console.error('Webview error:', e);
+      });
+
+      return webview;
     } catch (e) {
       console.error('Failed to create webview:', e);
       return undefined;
     }
   };
 
-  // Слушаем события навигации от Rust — открываем новые вкладки!
+  // Слушаем resize/move главного окна
   useEffect(() => {
-    const unlisten = listen<{ url: string; source_label: string }>('webview-navigation', (event) => {
-      const { url } = event.payload;
-      console.log('Navigation intercepted:', url);
-      
-      // Открываем ссылку в новой вкладке
-      const title = url.substring(0, 50);
-      addTab(url, title);
-    });
-
-    return () => {
-      unlisten.then(f => f());
-    };
-  }, []);
-
-  // Слушаем resize главного окна — подстраиваем все webview
-  useEffect(() => {
-    const unlistenResize = listen('tauri://resize', async () => {
+    const updateWebviews = async () => {
       const scaleFactor = await appWindow.scaleFactor();
       const outerSize = await appWindow.outerSize();
       const outerPosition = await appWindow.outerPosition();
@@ -119,23 +87,10 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
           } catch (e) {}
         }
       }
-    });
+    };
 
-    const unlistenMove = listen('tauri://move', async () => {
-      const scaleFactor = await appWindow.scaleFactor();
-      const outerPosition = await appWindow.outerPosition();
-      
-      const x = outerPosition.x / scaleFactor;
-      const y = (outerPosition.y / scaleFactor) + 76;
-      
-      for (const tab of tabRef.current) {
-        if (tab.webview) {
-          try {
-            await tab.webview.setPosition(new PhysicalPosition(Math.round(x * scaleFactor), Math.round(y * scaleFactor)));
-          } catch (e) {}
-        }
-      }
-    });
+    const unlistenResize = listen('tauri://resize', updateWebviews);
+    const unlistenMove = listen('tauri://move', updateWebviews);
 
     return () => {
       unlistenResize.then(f => f());
@@ -216,10 +171,6 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const updateTabTitle = (id: string, title: string) => {
-    setTabs(prev => prev.map(t => t.id === id ? { ...t, title } : t));
-  };
-
   return (
     <TabsContext.Provider value={{
       tabs,
@@ -227,8 +178,7 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
       addTab,
       closeTab,
       setActiveTab,
-      updateTabUrl,
-      updateTabTitle
+      updateTabUrl
     }}>
       {children}
     </TabsContext.Provider>
