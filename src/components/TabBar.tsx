@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useTabs } from '../contexts/TabsContext';
 import { useProfile } from '../contexts/ProfileContext';
-import { appWindow } from '@tauri-apps/api/window';
+import { getCurrentWindow } from '@tauri-apps/api/window';
 import { LoginModal } from './LoginModal';
 import { PasswordManager } from './PasswordManager';
+
+const appWindow = getCurrentWindow();
 
 export const TabBar = () => {
   const { tabs, activeTabId, addTab, closeTab, setActiveTab } = useTabs();
@@ -87,7 +89,7 @@ export const TabBar = () => {
                   fontSize: '16px'
                 }}
               >
-                ×
+                x
               </button>
             </div>
           ))}
@@ -125,7 +127,7 @@ export const TabBar = () => {
               fontSize: '16px'
             }}
           >
-            🔐
+            P
           </button>
           <button
             onClick={() => setShowLogin(true)}
@@ -145,7 +147,7 @@ export const TabBar = () => {
               justifyContent: 'center'
             }}
           >
-            {profile ? profile.avatar : '👤'}
+            {profile ? profile.avatar : 'U'}
           </button>
         </div>
 
@@ -166,7 +168,7 @@ export const TabBar = () => {
               fontSize: '16px'
             }}
           >
-            −
+            -
           </button>
           <button
             onClick={handleToggleMaximize}
@@ -184,7 +186,7 @@ export const TabBar = () => {
               fontSize: '12px'
             }}
           >
-            □
+            []
           </button>
           <button
             onClick={() => appWindow.close()}
@@ -202,7 +204,7 @@ export const TabBar = () => {
               fontSize: '16px'
             }}
           >
-            ×
+            x
           </button>
         </div>
       </div>

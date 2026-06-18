@@ -1,64 +1,40 @@
 {
-    "build":  {
-                  "beforeDevCommand":  "npm run dev",
-                  "beforeBuildCommand":  "npm run build",
-                  "devPath":  "http://localhost:5173",
-                  "distDir":  "../dist"
-              },
-    "package":  {
-                    "productName":  "kaif-browser",
-                    "version":  "5.4.1"
-                },
-    "tauri":  {
-                  "bundle":  {
-                                 "identifier":  "com.danil.kaif-browser",
-                                 "active":  true,
-                                 "icon":  [
-                                              "icons/32x32.png",
-                                              "icons/128x128.png",
-                                              "icons/128x128@2x.png",
-                                              "icons/icon.icns",
-                                              "icons/icon.ico"
-                                          ],
-                                 "resources":  [
-
-                                               ],
-                                 "copyright":  "",
-                                 "category":  "DeveloperTool",
-                                 "shortDescription":  "KaifBrowser with neon red theme",
-                                 "longDescription":  "Minimalistic browser with glassmorphism and neon red glow",
-                                 "windows":  {
-                                                 "wix":  null,
-                                                 "nsis":  {
-
-                                                          }
-                                             }
-                             },
-                  "windows":  [
-                                  {
-                                      "label":  "main",
-                                      "title":  "KaifBrowser",
-                                      "fullscreen":  false,
-                                      "resizable":  true,
-                                      "width":  1280,
-                                      "height":  800,
-                                      "decorations":  false,
-                                      "transparent":  false,
-                                      "alwaysOnTop":  false,
-                                      "visible":  true
-                                  }
-                              ],
-                  "security":  {
-                                   "csp":  "default-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 https: http: data: blob:;"
-                               },
-                  "allowlist":  {
-                                    "window":  {
-                                                   "all":  true
-                                               },
-                                    "shell":  {
-                                                  "all":  false,
-                                                  "open":  true
-                                              }
-                                }
-              }
+  "productName": "KaifBrowser",
+  "version": "6.0.0",
+  "identifier": "com.danil.kaif-browser",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:5173",
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "KaifBrowser",
+        "width": 1280,
+        "height": 800,
+        "minWidth": 600,
+        "minHeight": 400,
+        "resizable": true,
+        "decorations": false,
+        "transparent": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: http: data: blob:"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
 }

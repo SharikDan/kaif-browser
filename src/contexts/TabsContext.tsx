@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useRef } from 'react';
-import { WebviewWindow, appWindow, PhysicalSize, PhysicalPosition } from '@tauri-apps/api/window';
-import { listen } from '@tauri-apps/api/event';
+import { WebviewWindow } from '@tauri-apps/api/webviewWindow';
+import { getCurrentWindow, PhysicalSize, PhysicalPosition } from '@tauri-apps/api/window';
 
 export type Tab = {
   id: string;
@@ -24,6 +24,7 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
   const [tabs, setTabs] = useState<Tab[]>([]);
   const [activeTabId, setActiveTabId] = useState<string | null>(null);
   const tabRef = useRef<Tab[]>([]);
+  const appWindow = getCurrentWindow();
 
   useEffect(() => {
     tabRef.current = tabs;
@@ -33,28 +34,27 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const scaleFactor = await appWindow.scaleFactor();
       const outerSize = await appWindow.outerSize();
-      const outerPosition = await appWindow.outerPosition();
       
-      const width = outerSize.width / scaleFactor;
-      const height = (outerSize.height / scaleFactor) - 76;
-      const x = outerPosition.x / scaleFactor;
-      const y = (outerPosition.y / scaleFactor) + 76;
+      const width = Math.round(outerSize.width / scaleFactor);
+      const height = Math.round((outerSize.height / scaleFactor) - 76);
       
       const label = `webview-${id}-${Date.now()}`;
+      
+      // В Tauri 2.x parent работает! Дочернее окно = часть главного
       const webview = new WebviewWindow(label, {
         url: url,
         title: title,
         width: width,
         height: height,
-        x: x,
-        y: y,
+        x: 0,
+        y: 76,
         resizable: false,
         decorations: false,
         transparent: false,
         visible: true,
         focus: false,
-        alwaysOnTop: true,
         skipTaskbar: true,
+        parent: "main",  // ДОЧЕРНЕЕ окно — работает в Tauri 2.x!
       });
 
       webview.once('tauri://error', (e) => {
@@ -68,36 +68,26 @@ export const TabsProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Синхронизируем все WebView с главным окном
+  // В Tauri 2.x дочерние окна автоматически следуют за родительским!
+  // Но на всякий случай обновляем размер при resize
   useEffect(() => {
-    const syncWebviews = async () => {
+    const updateWebviews = async () => {
       const scaleFactor = await appWindow.scaleFactor();
       const outerSize = await appWindow.outerSize();
-      const outerPosition = await appWindow.outerPosition();
       
-      const height = (outerSize.height / scaleFactor) - 76;
-      const x = outerPosition.x / scaleFactor;
-      const y = (outerPosition.y / scaleFactor) + 76;
+      const height = Math.round((outerSize.height / scaleFactor) - 76);
       
       for (const tab of tabRef.current) {
         if (tab.webview) {
           try {
             await tab.webview.setSize(new PhysicalSize(outerSize.width, Math.round(height * scaleFactor)));
-            await tab.webview.setPosition(new PhysicalPosition(Math.round(x * scaleFactor), Math.round(y * scaleFactor)));
           } catch (e) {}
         }
       }
     };
 
-    const unlistenResize = listen('tauri://resize', syncWebviews);
-    const unlistenMove = listen('tauri://move', syncWebviews);
-    const unlistenFocus = listen('tauri://focus', syncWebviews);
-
-    return () => {
-      unlistenResize.then(f => f());
-      unlistenMove.then(f => f());
-      unlistenFocus.then(f => f());
-    };
+    const interval = setInterval(updateWebviews, 100);
+    return () => clearInterval(interval);
   }, []);
 
   const addTab = async (url = '', title = 'New Tab') => {
