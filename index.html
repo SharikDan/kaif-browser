@@ -392,6 +392,44 @@
             }
         });
         
+        // --- Контекстное меню ---
+        webview.addEventListener('context-menu', (e) => {
+            e.preventDefault();
+            const x = e.x;
+            const y = e.y;
+            webview.executeJavaScript(
+                '(function() {' +
+                '  var el = document.elementFromPoint(' + x + ', ' + y + ');' +
+                '  if (el) {' +
+                '    var link = el.href || el.getAttribute("href") || "";' +
+                '    if (!link && el.closest) {' +
+                '      var parent = el.closest("a");' +
+                '      if (parent) link = parent.href || "";' +
+                '    }' +
+                '    return JSON.stringify(link);' +
+                '  }' +
+                '  return JSON.stringify("");' +
+                '})();'
+            ).then(function(result) {
+                var link = JSON.parse(result);
+                window.electronAPI.showContextMenu(link);
+            }).catch(function() {
+                window.electronAPI.showContextMenu('');
+            });
+        });
+
+        // --- Обработчики из IPC ---
+        window.electronAPI.onOpenNewTab(function(link) {
+            if (link) {
+                navigateTo(link, true);
+            }
+        });
+
+        window.electronAPI.onRefresh(function() {
+            refresh();
+        });
+        
+        // --- События webview ---
         webview.addEventListener('did-start-loading', () => {
             loadingIndicator.classList.add('active');
         });
