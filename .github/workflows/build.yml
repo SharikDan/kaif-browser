@@ -32,7 +32,6 @@ jobs:
         files: |
           dist/*.exe
           dist/*.msi
-          dist/*.zip
         tag_name: ${{ github.ref_name }}
         name: KaifBrowser ${{ github.ref_name }}
         draft: false

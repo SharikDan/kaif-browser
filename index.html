@@ -2,14 +2,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KaifBrowser</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             background: linear-gradient(135deg, #0f0f0f 0%, #1a0a0a 50%, #0f0f0f 100%);
@@ -23,73 +18,77 @@
         
         /* Title Bar */
         .titlebar {
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.95);
             border-bottom: 2px solid #ff0040;
-            padding: 8px 12px;
+            padding: 10px 15px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             -webkit-app-region: drag;
         }
         
-        .titlebar-buttons {
-            display: flex;
-            gap: 8px;
+        .logo {
+            color: #ff0040;
+            font-weight: bold;
+            font-size: 18px;
+            text-shadow: 0 0 10px rgba(255,0,64,0.7);
         }
         
-        .titlebar-button {
+        .window-controls button {
             -webkit-app-region: no-drag;
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border: none;
             border-radius: 6px;
             background: transparent;
             color: rgba(255,255,255,0.8);
             cursor: pointer;
             font-size: 16px;
+            margin-left: 8px;
             transition: all 0.2s;
         }
         
-        .titlebar-button:hover {
+        .window-controls button:hover {
             background: rgba(255,0,64,0.3);
             color: white;
         }
         
-        .titlebar-button.close:hover {
+        .window-controls button.close:hover {
             background: #ff0040;
         }
         
         /* Tab Bar */
         .tabbar {
-            background: rgba(0,0,0,0.7);
-            padding: 8px 12px 0;
+            background: rgba(0,0,0,0.8);
+            padding: 10px 15px 0;
             display: flex;
             align-items: flex-end;
-            gap: 4px;
+            gap: 5px;
             border-bottom: 1px solid rgba(255,0,64,0.3);
         }
         
         .tab {
-            background: rgba(255,0,64,0.1);
-            border: 1px solid rgba(255,0,64,0.3);
+            background: rgba(255,0,64,0.15);
+            border: 1px solid rgba(255,0,64,0.4);
             border-bottom: none;
-            border-radius: 8px 8px 0 0;
-            padding: 8px 16px;
+            border-radius: 10px 10px 0 0;
+            padding: 10px 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
-            max-width: 200px;
-            transition: all 0.2s;
+            gap: 10px;
+            max-width: 220px;
+            transition: all 0.3s;
         }
         
         .tab:hover {
-            background: rgba(255,0,64,0.2);
+            background: rgba(255,0,64,0.25);
         }
         
         .tab.active {
-            background: rgba(255,0,64,0.3);
+            background: rgba(255,0,64,0.4);
             border-color: #ff0040;
+            box-shadow: 0 -2px 10px rgba(255,0,64,0.4);
         }
         
         .tab-title {
@@ -101,83 +100,80 @@
         }
         
         .tab-close {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             border: none;
             border-radius: 50%;
             background: transparent;
             color: rgba(255,255,255,0.6);
             cursor: pointer;
             font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             transition: all 0.2s;
         }
         
         .tab-close:hover {
-            background: rgba(255,0,64,0.5);
+            background: rgba(255,0,64,0.6);
             color: white;
         }
         
-        .new-tab-btn {
-            width: 32px;
-            height: 32px;
+        .new-tab {
+            width: 35px;
+            height: 35px;
             border: none;
-            border-radius: 8px 8px 0 0;
+            border-radius: 10px 10px 0 0;
             background: rgba(255,0,64,0.2);
             color: white;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 20px;
             transition: all 0.2s;
         }
         
-        .new-tab-btn:hover {
+        .new-tab:hover {
             background: rgba(255,0,64,0.4);
+            transform: translateY(-2px);
         }
         
         /* Navigation Bar */
         .navbar {
-            background: rgba(0,0,0,0.8);
-            padding: 10px;
+            background: rgba(0,0,0,0.85);
+            padding: 12px 15px;
             display: flex;
-            gap: 8px;
+            gap: 10px;
             align-items: center;
         }
         
-        .nav-button {
-            width: 36px;
-            height: 36px;
+        .nav-btn {
+            width: 38px;
+            height: 38px;
             border: none;
-            border-radius: 8px;
-            background: rgba(255,0,64,0.2);
+            border-radius: 10px;
+            background: rgba(255,0,64,0.25);
             color: #ff0040;
             cursor: pointer;
             font-size: 18px;
             transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
-        .nav-button:hover {
+        .nav-btn:hover {
             background: #ff0040;
             color: white;
-            transform: scale(1.05);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255,0,64,0.5);
         }
         
-        .nav-button:disabled {
+        .nav-btn:disabled {
             opacity: 0.3;
             cursor: not-allowed;
+            transform: none;
         }
         
         .url-bar {
             flex: 1;
-            height: 36px;
+            height: 38px;
             background: rgba(255,255,255,0.1);
-            border: 2px solid rgba(255,0,64,0.3);
-            border-radius: 8px;
-            padding: 0 12px;
+            border: 2px solid rgba(255,0,64,0.4);
+            border-radius: 10px;
+            padding: 0 15px;
             color: white;
             font-size: 14px;
             outline: none;
@@ -187,72 +183,65 @@
         .url-bar:focus {
             border-color: #ff0040;
             background: rgba(255,255,255,0.15);
-            box-shadow: 0 0 10px rgba(255,0,64,0.3);
+            box-shadow: 0 0 15px rgba(255,0,64,0.3);
         }
         
-        /* Search Engine Selector */
-        .search-engine-selector {
+        .search-select {
             position: relative;
         }
         
-        .search-engine-btn {
-            width: 36px;
-            height: 36px;
+        .search-btn {
+            width: 38px;
+            height: 38px;
             border: none;
-            border-radius: 8px;
-            background: rgba(255,0,64,0.2);
+            border-radius: 10px;
+            background: rgba(255,0,64,0.25);
             color: #ff0040;
             cursor: pointer;
             font-size: 18px;
             transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
-        .search-engine-btn:hover {
+        .search-btn:hover {
             background: #ff0040;
             color: white;
         }
         
-        .search-engine-menu {
+        .search-menu {
             position: absolute;
             top: 100%;
             right: 0;
-            margin-top: 8px;
+            margin-top: 10px;
             background: rgba(0,0,0,0.95);
             border: 2px solid #ff0040;
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 8px;
             display: none;
             z-index: 1000;
             min-width: 180px;
+            box-shadow: 0 5px 20px rgba(255,0,64,0.4);
         }
         
-        .search-engine-menu.show {
+        .search-menu.show {
             display: block;
         }
         
-        .search-engine-option {
-            padding: 10px;
+        .search-option {
+            padding: 12px;
             cursor: pointer;
-            border-radius: 6px;
+            border-radius: 8px;
             transition: all 0.2s;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         
-        .search-engine-option:hover {
+        .search-option:hover {
             background: rgba(255,0,64,0.3);
         }
         
-        .search-engine-option.active {
+        .search-option.active {
             background: rgba(255,0,64,0.4);
-        }
-        
-        .search-engine-icon {
-            font-size: 20px;
         }
         
         /* Welcome Screen */
@@ -271,52 +260,60 @@
             background: rgba(0,0,0,0.4);
             border: 2px solid #ff0040;
             border-radius: 20px;
-            box-shadow: 0 0 40px rgba(255,0,64,0.3);
+            box-shadow: 0 0 50px rgba(255,0,64,0.4);
         }
         
         .welcome h1 {
-            font-size: 64px;
+            font-size: 72px;
             color: #ff0040;
-            text-shadow: 0 0 30px rgba(255,0,64,0.7);
+            text-shadow: 0 0 40px rgba(255,0,64,0.8);
             margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 40px rgba(255,0,64,0.8); }
+            50% { text-shadow: 0 0 60px rgba(255,0,64,1); }
         }
         
         .welcome p {
             font-size: 20px;
             color: rgba(255,255,255,0.7);
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
         
         .search-box {
             display: flex;
-            gap: 10px;
-            max-width: 600px;
+            gap: 12px;
+            max-width: 650px;
             margin: 20px auto;
         }
         
         .search-input {
             flex: 1;
-            height: 50px;
+            height: 55px;
             background: rgba(255,255,255,0.1);
-            border: 2px solid rgba(255,0,64,0.3);
-            border-radius: 10px;
-            padding: 0 20px;
+            border: 2px solid rgba(255,0,64,0.4);
+            border-radius: 12px;
+            padding: 0 25px;
             color: white;
             font-size: 16px;
             outline: none;
+            transition: all 0.2s;
         }
         
         .search-input:focus {
             border-color: #ff0040;
             background: rgba(255,255,255,0.15);
+            box-shadow: 0 0 20px rgba(255,0,64,0.4);
         }
         
-        .search-button {
-            height: 50px;
-            padding: 0 30px;
+        .search-btn-main {
+            height: 55px;
+            padding: 0 35px;
             background: linear-gradient(135deg, #ff0040, #ff0066);
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             color: white;
             font-size: 16px;
             font-weight: bold;
@@ -324,24 +321,24 @@
             transition: all 0.2s;
         }
         
-        .search-button:hover {
+        .search-btn-main:hover {
             transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(255,0,64,0.5);
+            box-shadow: 0 5px 25px rgba(255,0,64,0.6);
         }
         
         .quick-links {
             display: flex;
             gap: 15px;
-            margin-top: 40px;
+            margin-top: 50px;
             flex-wrap: wrap;
             justify-content: center;
         }
         
         .quick-link {
-            padding: 12px 24px;
+            padding: 14px 28px;
             background: rgba(255,0,64,0.2);
             border: 2px solid rgba(255,0,64,0.4);
-            border-radius: 10px;
+            border-radius: 12px;
             color: white;
             text-decoration: none;
             font-size: 14px;
@@ -351,10 +348,11 @@
         .quick-link:hover {
             background: rgba(255,0,64,0.4);
             border-color: #ff0040;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255,0,64,0.4);
         }
         
-        /* WebView Container */
+        /* WebView */
         .webview-container {
             flex: 1;
             display: none;
@@ -371,371 +369,214 @@
 <body>
     <!-- Title Bar -->
     <div class="titlebar">
-        <div style="color: #ff0040; font-weight: bold; font-size: 16px;">🔥 KaifBrowser</div>
-        <div class="titlebar-buttons">
-            <button class="titlebar-button" onclick="minimizeWindow()" title="Minimize">−</button>
-            <button class="titlebar-button" onclick="maximizeWindow()" title="Maximize">□</button>
-            <button class="titlebar-button close" onclick="closeWindow()" title="Close">×</button>
+        <div class="logo">🔥 KaifBrowser</div>
+        <div class="window-controls">
+            <button onclick="minimizeWindow()">−</button>
+            <button onclick="maximizeWindow()">□</button>
+            <button class="close" onclick="closeWindow()">×</button>
         </div>
     </div>
     
     <!-- Tab Bar -->
     <div class="tabbar" id="tabbar">
-        <!-- Tabs will be added here dynamically -->
-        <button class="new-tab-btn" onclick="newTab()" title="New Tab">+</button>
+        <button class="new-tab" onclick="newTab()">+</button>
     </div>
     
     <!-- Navigation Bar -->
     <div class="navbar">
-        <button class="nav-button" id="backBtn" onclick="goBack()" disabled>←</button>
-        <button class="nav-button" id="forwardBtn" onclick="goForward()" disabled>→</button>
-        <button class="nav-button" onclick="refresh()" title="Refresh">↻</button>
-        <button class="nav-button" onclick="goHome()" title="Home">🏠</button>
-        <input type="text" class="url-bar" id="urlBar" placeholder="Enter URL or search..." onkeypress="handleUrlKeyPress(event)">
-        <button class="nav-button" onclick="navigate()" title="Go">➜</button>
+        <button class="nav-btn" id="backBtn" onclick="goBack()" disabled>←</button>
+        <button class="nav-btn" id="forwardBtn" onclick="goForward()" disabled>→</button>
+        <button class="nav-btn" onclick="refresh()">↻</button>
+        <button class="nav-btn" onclick="goHome()">🏠</button>
+        <input type="text" class="url-bar" id="urlBar" placeholder="Enter URL or search..." onkeypress="if(event.key==='Enter')navigate()">
+        <button class="nav-btn" onclick="navigate()">➜</button>
         
-        <!-- Search Engine Selector -->
-        <div class="search-engine-selector">
-            <button class="search-engine-btn" onclick="toggleSearchEngineMenu()" title="Search Engine"></button>
-            <div class="search-engine-menu" id="searchEngineMenu">
-                <div class="search-engine-option active" data-engine="google" onclick="selectSearchEngine('google')">
-                    <span class="search-engine-icon">🔍</span>
-                    <span>Google</span>
+        <div class="search-select">
+            <button class="search-btn" onclick="toggleSearchMenu()">🔍</button>
+            <div class="search-menu" id="searchMenu">
+                <div class="search-option active" data-engine="google" onclick="selectEngine('google')">
+                    <span>🔍</span><span>Google</span>
                 </div>
-                <div class="search-engine-option" data-engine="yandex" onclick="selectSearchEngine('yandex')">
-                    <span class="search-engine-icon">Я</span>
-                    <span>Yandex</span>
+                <div class="search-option" data-engine="yandex" onclick="selectEngine('yandex')">
+                    <span>Я</span><span>Yandex</span>
                 </div>
-                <div class="search-engine-option" data-engine="duckduckgo" onclick="selectSearchEngine('duckduckgo')">
-                    <span class="search-engine-icon">🦆</span>
-                    <span>DuckDuckGo</span>
+                <div class="search-option" data-engine="duckduckgo" onclick="selectEngine('duckduckgo')">
+                    <span>🦆</span><span>DuckDuckGo</span>
                 </div>
-                <div class="search-engine-option" data-engine="bing" onclick="selectSearchEngine('bing')">
-                    <span class="search-engine-icon">️</span>
-                    <span>Bing</span>
+                <div class="search-option" data-engine="bing" onclick="selectEngine('bing')">
+                    <span>🅱️</span><span>Bing</span>
                 </div>
             </div>
         </div>
     </div>
     
     <!-- Welcome Screen -->
-    <div class="welcome" id="welcomeScreen">
+    <div class="welcome" id="welcome">
         <div class="welcome-box">
             <h1>KaifBrowser</h1>
             <p>Your modern browser with style</p>
-            
             <div class="search-box">
-                <input type="text" class="search-input" id="searchInput" placeholder="Search..." onkeypress="handleSearchKeyPress(event)">
-                <button class="search-button" onclick="search()">Search</button>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search..." onkeypress="if(event.key==='Enter')search()">
+                <button class="search-btn-main" onclick="search()">Search</button>
             </div>
-            
             <div class="quick-links">
-                <a href="#" class="quick-link" onclick="navigateTo('https://google.com'); return false;">Google</a>
-                <a href="#" class="quick-link" onclick="navigateTo('https://youtube.com'); return false;">YouTube</a>
-                <a href="#" class="quick-link" onclick="navigateTo('https://github.com'); return false;">GitHub</a>
-                <a href="#" class="quick-link" onclick="navigateTo('https://reddit.com'); return false;">Reddit</a>
+                <a href="#" class="quick-link" onclick="navigateTo('https://google.com');return false">Google</a>
+                <a href="#" class="quick-link" onclick="navigateTo('https://youtube.com');return false">YouTube</a>
+                <a href="#" class="quick-link" onclick="navigateTo('https://github.com');return false">GitHub</a>
+                <a href="#" class="quick-link" onclick="navigateTo('https://reddit.com');return false">Reddit</a>
             </div>
         </div>
     </div>
     
-    <!-- WebView Container -->
+    <!-- WebView -->
     <div class="webview-container" id="webviewContainer">
         <webview id="webview" partition="persist:kaifbrowser"></webview>
     </div>
     
     <script>
-        // Search engines configuration
-        const searchEngines = {
-            google: {
-                name: 'Google',
-                icon: '🔍',
-                url: 'https://www.google.com/search?q='
-            },
-            yandex: {
-                name: 'Yandex',
-                icon: 'Я',
-                url: 'https://yandex.ru/search/?text='
-            },
-            duckduckgo: {
-                name: 'DuckDuckGo',
-                icon: '🦆',
-                url: 'https://duckduckgo.com/?q='
-            },
-            bing: {
-                name: 'Bing',
-                icon: '🅱️',
-                url: 'https://www.bing.com/search?q='
-            }
+        const engines = {
+            google: { name: 'Google', icon: '🔍', url: 'https://www.google.com/search?q=' },
+            yandex: { name: 'Yandex', icon: 'Я', url: 'https://yandex.ru/search/?text=' },
+            duckduckgo: { name: 'DuckDuckGo', icon: '🦆', url: 'https://duckduckgo.com/?q=' },
+            bing: { name: 'Bing', icon: '🅱️', url: 'https://www.bing.com/search?q=' }
         };
         
-        let currentSearchEngine = 'google';
-        
-        // Tabs system
+        let currentEngine = 'google';
         let tabs = [];
-        let activeTabId = null;
-        let tabCounter = 0;
+        let activeTab = null;
+        let tabId = 0;
         
         const webview = document.getElementById('webview');
-        const welcomeScreen = document.getElementById('welcomeScreen');
+        const welcome = document.getElementById('welcome');
         const webviewContainer = document.getElementById('webviewContainer');
         const urlBar = document.getElementById('urlBar');
-        const backBtn = document.getElementById('backBtn');
-        const forwardBtn = document.getElementById('forwardBtn');
         const tabbar = document.getElementById('tabbar');
         
-        // Create new tab
         function newTab(url = '', title = 'New Tab') {
-            tabCounter++;
-            const tabId = 'tab-' + tabCounter;
-            
-            const tab = {
-                id: tabId,
-                url: url,
-                title: title,
-                webview: null
-            };
-            
-            tabs.push(tab);
+            tabId++;
+            const id = 'tab-' + tabId;
+            tabs.push({ id, url, title });
             renderTabs();
-            switchToTab(tabId);
-            
-            if (url) {
-                navigateTo(url);
-            }
-            
-            return tabId;
+            switchTab(id);
+            if (url) navigateTo(url);
+            return id;
         }
         
-        // Close tab
-        function closeTab(tabId, event) {
-            if (event) {
-                event.stopPropagation();
-            }
-            
-            const tabIndex = tabs.findIndex(t => t.id === tabId);
-            if (tabIndex === -1) return;
-            
-            tabs.splice(tabIndex, 1);
-            
+        function closeTab(id, e) {
+            if (e) e.stopPropagation();
+            const idx = tabs.findIndex(t => t.id === id);
+            if (idx === -1) return;
+            tabs.splice(idx, 1);
             if (tabs.length === 0) {
                 newTab();
-            } else if (activeTabId === tabId) {
-                const newActiveTab = tabs[Math.min(tabIndex, tabs.length - 1)];
-                switchToTab(newActiveTab.id);
+            } else if (activeTab === id) {
+                switchTab(tabs[Math.min(idx, tabs.length-1)].id);
             }
-            
             renderTabs();
         }
         
-        // Switch to tab
-        function switchToTab(tabId) {
-            activeTabId = tabId;
-            const tab = tabs.find(t => t.id === tabId);
-            
+        function switchTab(id) {
+            activeTab = id;
+            const tab = tabs.find(t => t.id === id);
             if (tab) {
                 urlBar.value = tab.url;
-                renderTabs();
+                if (tab.url) {
+                    welcome.style.display = 'none';
+                    webviewContainer.style.display = 'block';
+                    webview.src = tab.url;
+                } else {
+                    welcome.style.display = 'flex';
+                    webviewContainer.style.display = 'none';
+                }
             }
+            renderTabs();
         }
         
-        // Render tabs
         function renderTabs() {
-            // Remove all tabs except new tab button
-            const tabElements = tabbar.querySelectorAll('.tab');
-            tabElements.forEach(el => el.remove());
-            
-            // Add tabs before new tab button
+            tabbar.querySelectorAll('.tab').forEach(el => el.remove());
             tabs.forEach(tab => {
-                const tabEl = document.createElement('div');
-                tabEl.className = 'tab' + (tab.id === activeTabId ? ' active' : '');
-                tabEl.onclick = () => switchToTab(tab.id);
-                
-                const titleEl = document.createElement('span');
-                titleEl.className = 'tab-title';
-                titleEl.textContent = tab.title;
-                
-                const closeBtn = document.createElement('button');
-                closeBtn.className = 'tab-close';
-                closeBtn.textContent = '×';
-                closeBtn.onclick = (e) => closeTab(tab.id, e);
-                
-                tabEl.appendChild(titleEl);
-                tabEl.appendChild(closeBtn);
-                
-                tabbar.insertBefore(tabEl, tabbar.lastElementChild);
+                const div = document.createElement('div');
+                div.className = 'tab' + (tab.id === activeTab ? ' active' : '');
+                div.onclick = () => switchTab(tab.id);
+                div.innerHTML = '<span class="tab-title">' + tab.title + '</span><button class="tab-close" onclick="closeTab(\'' + tab.id + '\',event)">×</button>';
+                tabbar.insertBefore(div, tabbar.lastElementChild);
             });
         }
         
-        // Navigation functions
         function navigateTo(url) {
-            if (!url.startsWith('http')) {
-                url = 'https://' + url;
-            }
-            
-            welcomeScreen.style.display = 'none';
+            if (!url.startsWith('http')) url = 'https://' + url;
+            welcome.style.display = 'none';
             webviewContainer.style.display = 'block';
             webview.src = url;
             urlBar.value = url;
-            
-            // Update current tab
-            const currentTab = tabs.find(t => t.id === activeTabId);
-            if (currentTab) {
-                currentTab.url = url;
-                currentTab.title = url;
-                renderTabs();
-            }
+            const tab = tabs.find(t => t.id === activeTab);
+            if (tab) { tab.url = url; tab.title = url; }
+            renderTabs();
         }
         
         function navigate() {
             const url = urlBar.value.trim();
-            if (url) {
-                if (url.includes('.') && !url.includes(' ')) {
-                    navigateTo(url);
-                } else {
-                    search(url);
-                }
+            if (!url) return;
+            if (url.includes('.') && !url.includes(' ')) {
+                navigateTo(url);
+            } else {
+                search(url);
             }
         }
         
         function goHome() {
-            welcomeScreen.style.display = 'flex';
+            welcome.style.display = 'flex';
             webviewContainer.style.display = 'none';
             webview.src = '';
             urlBar.value = '';
-            
-            const currentTab = tabs.find(t => t.id === activeTabId);
-            if (currentTab) {
-                currentTab.url = '';
-                currentTab.title = 'New Tab';
-                renderTabs();
-            }
+            const tab = tabs.find(t => t.id === activeTab);
+            if (tab) { tab.url = ''; tab.title = 'New Tab'; }
+            renderTabs();
         }
         
-        function goBack() {
-            if (webview.canGoBack()) {
-                webview.goBack();
-            }
-        }
-        
-        function goForward() {
-            if (webview.canGoForward()) {
-                webview.goForward();
-            }
-        }
-        
-        function refresh() {
-            webview.reload();
-        }
+        function goBack() { if (webview.canGoBack()) webview.goBack(); }
+        function goForward() { if (webview.canGoForward()) webview.goForward(); }
+        function refresh() { webview.reload(); }
         
         function search(query) {
-            if (!query) {
-                query = document.getElementById('searchInput').value.trim();
-            }
-            
-            if (query) {
-                const engine = searchEngines[currentSearchEngine];
-                const searchUrl = engine.url + encodeURIComponent(query);
-                navigateTo(searchUrl);
-            }
+            if (!query) query = document.getElementById('searchInput').value.trim();
+            if (!query) return;
+            navigateTo(engines[currentEngine].url + encodeURIComponent(query));
         }
         
-        // Search engine selector
-        function toggleSearchEngineMenu() {
-            const menu = document.getElementById('searchEngineMenu');
-            menu.classList.toggle('show');
+        function toggleSearchMenu() {
+            document.getElementById('searchMenu').classList.toggle('show');
         }
         
-        function selectSearchEngine(engine) {
-            currentSearchEngine = engine;
-            
-            // Update UI
-            document.querySelectorAll('.search-engine-option').forEach(el => {
-                el.classList.remove('active');
-            });
-            document.querySelector(`[data-engine="${engine}"]`).classList.add('active');
-            
-            // Close menu
-            document.getElementById('searchEngineMenu').classList.remove('show');
-            
-            // Update search placeholder
-            const searchInput = document.getElementById('searchInput');
-            searchInput.placeholder = `Search with ${searchEngines[engine].name}...`;
+        function selectEngine(engine) {
+            currentEngine = engine;
+            document.querySelectorAll('.search-option').forEach(el => el.classList.remove('active'));
+            document.querySelector('[data-engine="' + engine + '"]').classList.add('active');
+            document.getElementById('searchMenu').classList.remove('show');
+            document.getElementById('searchInput').placeholder = 'Search with ' + engines[engine].name + '...';
         }
         
-        // Event handlers
-        function handleUrlKeyPress(event) {
-            if (event.key === 'Enter') {
-                navigate();
-            }
-        }
+        function minimizeWindow() { require('electron').remote.getCurrentWindow().minimize(); }
+        function maximizeWindow() { const w = require('electron').remote.getCurrentWindow(); w.isMaximized() ? w.unmaximize() : w.maximize(); }
+        function closeWindow() { require('electron').remote.getCurrentWindow().close(); }
         
-        function handleSearchKeyPress(event) {
-            if (event.key === 'Enter') {
-                search();
-            }
-        }
-        
-        // Window controls
-        function minimizeWindow() {
-            const { remote } = require('electron');
-            remote.getCurrentWindow().minimize();
-        }
-        
-        function maximizeWindow() {
-            const { remote } = require('electron');
-            const win = remote.getCurrentWindow();
-            if (win.isMaximized()) {
-                win.unmaximize();
-            } else {
-                win.maximize();
-            }
-        }
-        
-        function closeWindow() {
-            const { remote } = require('electron');
-            remote.getCurrentWindow().close();
-        }
-        
-        // Update navigation buttons state
-        webview.addEventListener('did-navigate', (e) => {
+        webview.addEventListener('did-navigate', e => {
             urlBar.value = e.url;
-            backBtn.disabled = !webview.canGoBack();
-            forwardBtn.disabled = !webview.canGoForward();
-            
-            // Update tab title
-            const currentTab = tabs.find(t => t.id === activeTabId);
-            if (currentTab) {
-                currentTab.url = e.url;
-                currentTab.title = e.url;
-                renderTabs();
-            }
+            const tab = tabs.find(t => t.id === activeTab);
+            if (tab) { tab.url = e.url; tab.title = e.url; renderTabs(); }
         });
         
-        webview.addEventListener('did-navigate-in-page', (e) => {
-            urlBar.value = e.url;
-            backBtn.disabled = !webview.canGoBack();
-            forwardBtn.disabled = !webview.canGoForward();
+        webview.addEventListener('page-title-updated', e => {
+            const tab = tabs.find(t => t.id === activeTab);
+            if (tab && e.title) { tab.title = e.title; renderTabs(); }
         });
         
-        webview.addEventListener('page-title-updated', (e) => {
-            const currentTab = tabs.find(t => t.id === activeTabId);
-            if (currentTab && e.title) {
-                currentTab.title = e.title;
-                renderTabs();
-            }
+        document.addEventListener('click', e => {
+            if (!e.target.closest('.search-select')) document.getElementById('searchMenu').classList.remove('show');
         });
         
-        // Close search engine menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.search-engine-selector')) {
-                document.getElementById('searchEngineMenu').classList.remove('show');
-            }
-        });
-        
-        // Initialize
+        // Init
         newTab();
-        backBtn.disabled = true;
-        forwardBtn.disabled = true;
     </script>
 </body>
 </html>

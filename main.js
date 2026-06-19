@@ -1,5 +1,4 @@
 const { app, BrowserWindow } = require('electron');
-const path = require('path');
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -17,9 +16,6 @@ function createWindow() {
   });
 
   win.loadFile('index.html');
-  
-  // Открываем DevTools в режиме разработки
-  // win.webContents.openDevTools();
 }
 
 app.whenReady().then(createWindow);

@@ -1,7 +1,7 @@
 {
   "name": "kaif-browser",
-  "version": "1.0.0",
-  "description": "KaifBrowser",
+  "version": "9.0.0",
+  "description": "KaifBrowser - Modern Browser",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -40,8 +40,7 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
-      "createStartMenuShortcut": true,
-      "shortcutName": "KaifBrowser"
+      "createStartMenuShortcut": true
     }
   }
 }
