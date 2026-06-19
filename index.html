@@ -16,7 +16,6 @@
             overflow: hidden;
         }
         
-        /* Title Bar */
         .titlebar {
             background: rgba(0,0,0,0.95);
             border-bottom: 2px solid #ff0040;
@@ -57,7 +56,6 @@
             background: #ff0040;
         }
         
-        /* Tab Bar */
         .tabbar {
             background: rgba(0,0,0,0.8);
             padding: 10px 15px 0;
@@ -81,9 +79,7 @@
             transition: all 0.3s;
         }
         
-        .tab:hover {
-            background: rgba(255,0,64,0.25);
-        }
+        .tab:hover { background: rgba(255,0,64,0.25); }
         
         .tab.active {
             background: rgba(255,0,64,0.4);
@@ -133,7 +129,6 @@
             transform: translateY(-2px);
         }
         
-        /* Navigation Bar */
         .navbar {
             background: rgba(0,0,0,0.85);
             padding: 12px 15px;
@@ -186,9 +181,7 @@
             box-shadow: 0 0 15px rgba(255,0,64,0.3);
         }
         
-        .search-select {
-            position: relative;
-        }
+        .search-select { position: relative; }
         
         .search-btn {
             width: 38px;
@@ -222,9 +215,7 @@
             box-shadow: 0 5px 20px rgba(255,0,64,0.4);
         }
         
-        .search-menu.show {
-            display: block;
-        }
+        .search-menu.show { display: block; }
         
         .search-option {
             padding: 12px;
@@ -236,15 +227,9 @@
             gap: 12px;
         }
         
-        .search-option:hover {
-            background: rgba(255,0,64,0.3);
-        }
+        .search-option:hover { background: rgba(255,0,64,0.3); }
+        .search-option.active { background: rgba(255,0,64,0.4); }
         
-        .search-option.active {
-            background: rgba(255,0,64,0.4);
-        }
-        
-        /* Welcome Screen */
         .welcome {
             flex: 1;
             display: flex;
@@ -254,63 +239,45 @@
             background: linear-gradient(135deg, #0f0f0f 0%, #1a0a0a 50%, #0f0f0f 100%);
         }
         
-        .welcome-box {
+        .welcome-content {
             text-align: center;
-            padding: 60px;
-            background: rgba(0,0,0,0.4);
-            border: 2px solid #ff0040;
-            border-radius: 20px;
-            box-shadow: 0 0 50px rgba(255,0,64,0.4);
+            width: 100%;
+            max-width: 700px;
+            padding: 40px;
         }
         
-        .welcome h1 {
-            font-size: 72px;
+        .clock-container {
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        
+        .time {
+            font-size: 120px;
+            font-weight: 300;
             color: #ff0040;
-            text-shadow: 0 0 40px rgba(255,0,64,0.8);
-            margin-bottom: 20px;
-            animation: glow 2s ease-in-out infinite;
+            text-shadow: 0 0 50px rgba(255,0,64,0.8);
+            letter-spacing: 4px;
+            line-height: 1;
+            animation: glow 3s ease-in-out infinite;
+        }
+        
+        .date {
+            font-size: 22px;
+            color: rgba(255,255,255,0.7);
+            margin-top: 15px;
+            letter-spacing: 1px;
         }
         
         @keyframes glow {
-            0%, 100% { text-shadow: 0 0 40px rgba(255,0,64,0.8); }
-            50% { text-shadow: 0 0 60px rgba(255,0,64,1); }
+            0%, 100% { text-shadow: 0 0 50px rgba(255,0,64,0.8); }
+            50% { text-shadow: 0 0 80px rgba(255,0,64,1), 0 0 100px rgba(255,0,64,0.6); }
         }
-        
-        .welcome p {
-    font-size: 20px;
-    color: rgba(255,255,255,0.7);
-    margin-bottom: 40px;
-}
-
-.clock-container {
-    margin-bottom: 40px;
-    text-align: center;
-}
-
-.time {
-    font-size: 96px;
-    font-weight: bold;
-    color: #ff0040;
-    text-shadow: 0 0 40px rgba(255,0,64,0.8);
-    margin-bottom: 10px;
-    animation: glow 2s ease-in-out infinite;
-}
-
-.date {
-    font-size: 24px;
-    color: rgba(255,255,255,0.8);
-}
-
-@keyframes glow {
-    0%, 100% { text-shadow: 0 0 40px rgba(255,0,64,0.8); }
-    50% { text-shadow: 0 0 60px rgba(255,0,64,1); }
-}
         
         .search-box {
             display: flex;
             gap: 12px;
             max-width: 650px;
-            margin: 20px auto;
+            margin: 0 auto;
         }
         
         .search-input {
@@ -350,33 +317,6 @@
             box-shadow: 0 5px 25px rgba(255,0,64,0.6);
         }
         
-        .quick-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 50px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .quick-link {
-            padding: 14px 28px;
-            background: rgba(255,0,64,0.2);
-            border: 2px solid rgba(255,0,64,0.4);
-            border-radius: 12px;
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-        
-        .quick-link:hover {
-            background: rgba(255,0,64,0.4);
-            border-color: #ff0040;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 20px rgba(255,0,64,0.4);
-        }
-        
-        /* WebView */
         .webview-container {
             flex: 1;
             display: none;
@@ -391,53 +331,48 @@
     </style>
 </head>
 <body>
-    <!-- Title Bar -->
     <div class="titlebar">
-        <div class="logo">ðŸ”¥ KaifBrowser</div>
+        <div class="logo">🔥 KaifBrowser</div>
         <div class="window-controls">
-            <button onclick="minimizeWindow()">âˆ’</button>
-            <button onclick="maximizeWindow()">â–¡</button>
-            <button class="close" onclick="closeWindow()">Ã—</button>
+            <button onclick="minimizeWindow()">−</button>
+            <button onclick="maximizeWindow()">□</button>
+            <button class="close" onclick="closeWindow()">×</button>
         </div>
     </div>
     
-    <!-- Tab Bar -->
     <div class="tabbar" id="tabbar">
         <button class="new-tab" onclick="newTab()">+</button>
     </div>
     
-    <!-- Navigation Bar -->
     <div class="navbar">
-        <button class="nav-btn" id="backBtn" onclick="goBack()" disabled>â†</button>
-        <button class="nav-btn" id="forwardBtn" onclick="goForward()" disabled>â†’</button>
-        <button class="nav-btn" onclick="refresh()">â†»</button>
-        <button class="nav-btn" onclick="goHome()">ðŸ </button>
+        <button class="nav-btn" id="backBtn" onclick="goBack()" disabled>←</button>
+        <button class="nav-btn" id="forwardBtn" onclick="goForward()" disabled>→</button>
+        <button class="nav-btn" onclick="refresh()">↻</button>
+        <button class="nav-btn" onclick="goHome()">🏠</button>
         <input type="text" class="url-bar" id="urlBar" placeholder="Enter URL or search..." onkeypress="if(event.key==='Enter')navigate()">
-        <button class="nav-btn" onclick="navigate()">âžœ</button>
+        <button class="nav-btn" onclick="navigate()">➜</button>
         
         <div class="search-select">
-            <button class="search-btn" onclick="toggleSearchMenu()">ðŸ”</button>
+            <button class="search-btn" onclick="toggleSearchMenu()">🔍</button>
             <div class="search-menu" id="searchMenu">
                 <div class="search-option active" data-engine="google" onclick="selectEngine('google')">
-                    <span>ðŸ”</span><span>Google</span>
+                    <span>🔍</span><span>Google</span>
                 </div>
                 <div class="search-option" data-engine="yandex" onclick="selectEngine('yandex')">
-                    <span>Ð¯</span><span>Yandex</span>
+                    <span>Я</span><span>Yandex</span>
                 </div>
                 <div class="search-option" data-engine="duckduckgo" onclick="selectEngine('duckduckgo')">
-                    <span>ðŸ¦†</span><span>DuckDuckGo</span>
+                    <span>🦆</span><span>DuckDuckGo</span>
                 </div>
                 <div class="search-option" data-engine="bing" onclick="selectEngine('bing')">
-                    <span>ðŸ…±ï¸</span><span>Bing</span>
+                    <span>🅱️</span><span>Bing</span>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- Welcome Screen -->
-        <!-- Welcome Screen -->
     <div class="welcome" id="welcome">
-        <div class="welcome-box">
+        <div class="welcome-content">
             <div class="clock-container">
                 <div class="time" id="clockTime">00:00:00</div>
                 <div class="date" id="clockDate">Loading...</div>
@@ -448,19 +383,17 @@
             </div>
         </div>
     </div>
-    </div>
     
-    <!-- WebView -->
     <div class="webview-container" id="webviewContainer">
         <webview id="webview" partition="persist:kaifbrowser"></webview>
     </div>
     
     <script>
         const engines = {
-            google: { name: 'Google', icon: 'ðŸ”', url: 'https://www.google.com/search?q=' },
-            yandex: { name: 'Yandex', icon: 'Ð¯', url: 'https://yandex.ru/search/?text=' },
-            duckduckgo: { name: 'DuckDuckGo', icon: 'ðŸ¦†', url: 'https://duckduckgo.com/?q=' },
-            bing: { name: 'Bing', icon: 'ðŸ…±ï¸', url: 'https://www.bing.com/search?q=' }
+            google: { name: 'Google', url: 'https://www.google.com/search?q=' },
+            yandex: { name: 'Yandex', url: 'https://yandex.ru/search/?text=' },
+            duckduckgo: { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=' },
+            bing: { name: 'Bing', url: 'https://www.bing.com/search?q=' }
         };
         
         let currentEngine = 'google';
@@ -473,6 +406,21 @@
         const webviewContainer = document.getElementById('webviewContainer');
         const urlBar = document.getElementById('urlBar');
         const tabbar = document.getElementById('tabbar');
+        
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clockTime').textContent = hours + ':' + minutes + ':' + seconds;
+            
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = now.toLocaleDateString('en-US', options);
+            document.getElementById('clockDate').textContent = dateStr;
+        }
+        
+        updateClock();
+        setInterval(updateClock, 1000);
         
         function newTab(url = '', title = 'New Tab') {
             tabId++;
@@ -520,7 +468,7 @@
                 const div = document.createElement('div');
                 div.className = 'tab' + (tab.id === activeTab ? ' active' : '');
                 div.onclick = () => switchTab(tab.id);
-                div.innerHTML = '<span class="tab-title">' + tab.title + '</span><button class="tab-close" onclick="closeTab(\'' + tab.id + '\',event)">Ã—</button>';
+                div.innerHTML = '<span class="tab-title">' + tab.title + '</span><button class="tab-close" onclick="closeTab(\'' + tab.id + '\',event)">×</button>';
                 tabbar.insertBefore(div, tabbar.lastElementChild);
             });
         }
@@ -597,23 +545,6 @@
             if (!e.target.closest('.search-select')) document.getElementById('searchMenu').classList.remove('show');
         });
         
-                
-        // Clock
-        function updateClock() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('en-US', { hour12: false });
-            const dateStr = now.toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            });
-            document.getElementById('clockTime').textContent = timeStr;
-            document.getElementById('clockDate').textContent = dateStr;
-        }
-        updateClock();
-        setInterval(updateClock, 1000);
-        // Init
         newTab();
     </script>
 </body>
