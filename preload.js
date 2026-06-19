@@ -8,8 +8,16 @@ contextBridge.exposeInMainWorld('electronAPI', {
   
   // Контекстное меню
   showContextMenu: (link) => ipcRenderer.send('context-menu', link),
-  
-  // Слушатели событий из главного процесса
   onOpenNewTab: (callback) => ipcRenderer.on('open-new-tab', (event, link) => callback(link)),
-  onRefresh: (callback) => ipcRenderer.on('refresh-page', () => callback())
+  onRefresh: (callback) => ipcRenderer.on('refresh-page', () => callback()),
+  
+  // Скачивание
+  onDownloadProgress: (callback) => ipcRenderer.on('download-progress', (event, data) => callback(data)),
+  onDownloadDone: (callback) => ipcRenderer.on('download-done', (event, data) => callback(data)),
+  
+  // Пароли
+  getPasswords: () => ipcRenderer.invoke('get-passwords'),
+  savePassword: (domain, username, password) => ipcRenderer.invoke('save-password', { domain, username, password }),
+  getPasswordsForDomain: (domain) => ipcRenderer.invoke('get-passwords-for-domain', domain),
+  deletePassword: (domain, username) => ipcRenderer.invoke('delete-password', { domain, username })
 });

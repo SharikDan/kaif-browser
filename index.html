@@ -49,8 +49,127 @@
         .loading-indicator { position: fixed; top: 76px; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, #ff0040, transparent); display: none; z-index: 10000; }
         .loading-indicator.active { display: block; animation: loading 1.5s ease-in-out infinite; }
         @keyframes loading { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-        .webview-container { flex: 1; display: none; background: white; }
+        .webview-container { flex: 1; display: none; background: white; position: relative; }
         webview { width: 100%; height: 100%; border: none; }
+        
+        /* Download indicator */
+        .download-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.9);
+            border: 2px solid #ff0040;
+            border-radius: 10px;
+            padding: 15px 20px;
+            min-width: 280px;
+            z-index: 10001;
+            display: none;
+            box-shadow: 0 5px 25px rgba(255,0,64,0.4);
+        }
+        .download-indicator.show { display: block; }
+        .download-filename {
+            color: white;
+            font-size: 13px;
+            margin-bottom: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .download-progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .download-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff0040, #ff0066);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .download-percent {
+            color: rgba(255,255,255,0.7);
+            font-size: 12px;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        /* Password manager modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10002;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal {
+            background: #1a1a1a;
+            border: 2px solid #ff0040;
+            border-radius: 15px;
+            padding: 30px;
+            min-width: 500px;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(255,0,64,0.4);
+        }
+        .modal h2 {
+            color: #ff0040;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .password-item {
+            background: rgba(255,0,64,0.1);
+            border: 1px solid rgba(255,0,64,0.3);
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .password-domain {
+            color: #ff0040;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .password-username {
+            color: rgba(255,255,255,0.8);
+            font-size: 13px;
+            margin-top: 3px;
+        }
+        .password-delete {
+            background: rgba(255,0,64,0.3);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .password-delete:hover { background: #ff0040; }
+        .modal-close {
+            background: linear-gradient(135deg, #ff0040, #ff0066);
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .modal-close:hover { transform: scale(1.05); }
+        .empty-passwords {
+            color: rgba(255,255,255,0.5);
+            text-align: center;
+            padding: 30px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -100,6 +219,10 @@
             <svg style="width:20px;height:20px" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
         </button>
         
+        <button class="nav-btn" onclick="showPasswordManager()" title="Менеджер паролей">
+            <svg style="width:20px;height:20px" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+        </button>
+        
         <div class="search-select">
             <button class="search-btn" onclick="toggleSearchMenu()" title="Поисковая система">
                 <svg style="width:20px;height:20px" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
@@ -139,7 +262,25 @@
     </div>
     
     <div class="webview-container" id="webviewContainer">
-        <webview id="webview" partition="persist:kaifbrowser"></webview>
+        <webview id="webview" partition="persist:kaifbrowser" webpreferences="nodeIntegrationInSubFrames=yes"></webview>
+    </div>
+    
+    <!-- Индикатор скачивания -->
+    <div class="download-indicator" id="downloadIndicator">
+        <div class="download-filename" id="downloadFilename">Загрузка...</div>
+        <div class="download-progress-bar">
+            <div class="download-progress-fill" id="downloadProgressFill"></div>
+        </div>
+        <div class="download-percent" id="downloadPercent">0%</div>
+    </div>
+    
+    <!-- Модальное окно менеджера паролей -->
+    <div class="modal-overlay" id="passwordModal">
+        <div class="modal">
+            <h2>🔐 Менеджер паролей</h2>
+            <div id="passwordList"></div>
+            <button class="modal-close" onclick="closePasswordManager()">Закрыть</button>
+        </div>
     </div>
     
     <script>
@@ -165,6 +306,7 @@
         const forwardBtn = document.getElementById('forwardBtn');
         const searchInput = document.getElementById('searchInput');
         
+        // --- Часы ---
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -178,6 +320,7 @@
         updateClock();
         setInterval(updateClock, 1000);
         
+        // --- Сохранение / загрузка вкладок ---
         function saveTabs() {
             const tabsData = tabs.map(tab => ({ id: tab.id, url: tab.url, title: tab.title }));
             localStorage.setItem('kaifbrowser_tabs', JSON.stringify(tabsData));
@@ -212,9 +355,7 @@
             tabs.push({ id, url, title });
             renderTabs();
             switchTab(id);
-            if (url) {
-                navigateTo(url, false);
-            }
+            if (url) navigateTo(url, false);
             saveTabs();
             return id;
         }
@@ -224,9 +365,8 @@
             const idx = tabs.findIndex(t => t.id === id);
             if (idx === -1) return;
             tabs.splice(idx, 1);
-            if (tabs.length === 0) {
-                newTab();
-            } else if (activeTab === id) {
+            if (tabs.length === 0) newTab();
+            else if (activeTab === id) {
                 const newIdx = Math.min(idx, tabs.length - 1);
                 switchTab(tabs[newIdx].id);
             }
@@ -243,11 +383,7 @@
                 welcome.style.display = 'none';
                 webviewContainer.style.display = 'block';
                 setTimeout(() => {
-                    try {
-                        webview.src = tab.url;
-                    } catch (e) {
-                        console.warn('Ошибка загрузки webview:', e);
-                    }
+                    try { webview.src = tab.url; } catch (e) { console.warn('Ошибка загрузки:', e); }
                 }, 50);
             } else {
                 welcome.style.display = 'flex';
@@ -273,25 +409,16 @@
         
         function navigateTo(url, openInNewTab = false) {
             if (!url) return;
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                url = 'https://' + url;
-            }
+            if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
             if (openInNewTab) {
                 newTab(url, 'Загрузка...');
             } else {
                 const tab = tabs.find(t => t.id === activeTab);
-                if (tab) {
-                    tab.url = url;
-                    tab.title = url;
-                }
+                if (tab) { tab.url = url; tab.title = url; }
                 welcome.style.display = 'none';
                 webviewContainer.style.display = 'block';
                 setTimeout(() => {
-                    try {
-                        webview.src = url;
-                    } catch (e) {
-                        console.warn('Ошибка навигации:', e);
-                    }
+                    try { webview.src = url; } catch (e) { console.warn('Ошибка навигации:', e); }
                 }, 50);
                 urlBar.value = url;
                 renderTabs();
@@ -313,10 +440,7 @@
         
         function goHome() {
             const tab = tabs.find(t => t.id === activeTab);
-            if (tab) {
-                tab.url = '';
-                tab.title = 'Новая вкладка';
-            }
+            if (tab) { tab.url = ''; tab.title = 'Новая вкладка'; }
             welcome.style.display = 'flex';
             webviewContainer.style.display = 'none';
             webview.src = '';
@@ -329,24 +453,16 @@
         
         function goBack() {
             try {
-                if (webview.canGoBack()) {
-                    webview.goBack();
-                    setTimeout(updateNavButtons, 300);
-                }
-            } catch (e) {
-                console.warn('Ошибка назад:', e);
-            }
+                if (webview.canGoBack()) { webview.goBack(); setTimeout(updateNavButtons, 300); }
+            } catch (e) { console.warn('Ошибка назад:', e); }
         }
+        
         function goForward() {
             try {
-                if (webview.canGoForward()) {
-                    webview.goForward();
-                    setTimeout(updateNavButtons, 300);
-                }
-            } catch (e) {
-                console.warn('Ошибка вперёд:', e);
-            }
+                if (webview.canGoForward()) { webview.goForward(); setTimeout(updateNavButtons, 300); }
+            } catch (e) { console.warn('Ошибка вперёд:', e); }
         }
+        
         function refresh() {
             try {
                 loadingIndicator.classList.add('active');
@@ -418,16 +534,120 @@
             });
         });
 
-        // --- Обработчики из IPC ---
         window.electronAPI.onOpenNewTab(function(link) {
-            if (link) {
-                navigateTo(link, true);
-            }
+            if (link) navigateTo(link, true);
         });
 
         window.electronAPI.onRefresh(function() {
             refresh();
         });
+        
+        // --- Скачивание ---
+        const downloadIndicator = document.getElementById('downloadIndicator');
+        const downloadFilename = document.getElementById('downloadFilename');
+        const downloadProgressFill = document.getElementById('downloadProgressFill');
+        const downloadPercent = document.getElementById('downloadPercent');
+        
+        window.electronAPI.onDownloadProgress((data) => {
+            const percent = Math.round(data.progress * 100);
+            downloadFilename.textContent = data.filename;
+            downloadProgressFill.style.width = percent + '%';
+            downloadPercent.textContent = percent + '%';
+            downloadIndicator.classList.add('show');
+        });
+        
+        window.electronAPI.onDownloadDone((data) => {
+            console.log('Загрузка ' + data.filename + ' завершена: ' + data.state);
+            setTimeout(() => {
+                downloadIndicator.classList.remove('show');
+            }, 2000);
+        });
+        
+        // --- Менеджер паролей ---
+        async function showPasswordManager() {
+            const passwords = await window.electronAPI.getPasswords();
+            const list = document.getElementById('passwordList');
+            list.innerHTML = '';
+            
+            const domains = Object.keys(passwords);
+            if (domains.length === 0) {
+                list.innerHTML = '<div class="empty-passwords">Нет сохранённых паролей</div>';
+            } else {
+                domains.forEach(domain => {
+                    const users = passwords[domain];
+                    Object.keys(users).forEach(username => {
+                        const item = document.createElement('div');
+                        item.className = 'password-item';
+                        item.innerHTML = '<div><div class="password-domain">' + domain + '</div>' +
+                            '<div class="password-username">' + username + '</div></div>' +
+                            '<button class="password-delete" onclick="deletePassword(\'' + domain + '\',\'' + username + '\')">Удалить</button>';
+                        list.appendChild(item);
+                    });
+                });
+            }
+            
+            document.getElementById('passwordModal').classList.add('show');
+        }
+        
+        function closePasswordManager() {
+            document.getElementById('passwordModal').classList.remove('show');
+        }
+        
+        async function deletePassword(domain, username) {
+            await window.electronAPI.deletePassword(domain, username);
+            showPasswordManager();
+        }
+        
+        // --- Автозаполнение паролей ---
+        async function autoFillForms(url) {
+            try {
+                const domain = new URL(url).hostname;
+                const passwords = await window.electronAPI.getPasswordsForDomain(domain);
+                if (Object.keys(passwords).length === 0) return;
+                
+                const script = '(function() {' +
+                    '  var data = ' + JSON.stringify(passwords) + ';' +
+                    '  var inputs = document.querySelectorAll("input[type=\\"password\\"]");' +
+                    '  if (inputs.length === 0) return;' +
+                    '  var usernameInput = document.querySelector("input[type=\\"text\\"], input[name=\\"username\\"], input[name=\\"email\\"]");' +
+                    '  if (usernameInput) {' +
+                    '    var firstKey = Object.keys(data)[0];' +
+                    '    usernameInput.value = firstKey;' +
+                    '    usernameInput.dispatchEvent(new Event("input", { bubbles: true }));' +
+                    '  }' +
+                    '  var passInput = inputs[0];' +
+                    '  var firstPass = data[Object.keys(data)[0]];' +
+                    '  if (passInput) {' +
+                    '    passInput.value = firstPass;' +
+                    '    passInput.dispatchEvent(new Event("input", { bubbles: true }));' +
+                    '  }' +
+                    '})();';
+                webview.executeJavaScript(script);
+                console.log('Автозаполнение для:', domain);
+            } catch (e) {
+                console.warn('Ошибка автозаполнения:', e);
+            }
+        }
+        
+        // --- Захват паролей при submit формы ---
+        function injectPasswordCapture() {
+            const script = '(function() {' +
+                '  document.querySelectorAll("form").forEach(function(form) {' +
+                '    form.addEventListener("submit", function(e) {' +
+                '      var username = this.querySelector("input[type=\\"text\\"], input[name=\\"username\\"], input[name=\\"email\\"]");' +
+                '      var password = this.querySelector("input[type=\\"password\\"]");' +
+                '      if (username && password && username.value && password.value) {' +
+                '        var domain = window.location.hostname;' +
+                '        try {' +
+                '          var ipcRenderer = require("electron").ipcRenderer;' +
+                '          ipcRenderer.sendToHost("save-password-from-webview", { domain: domain, username: username.value, password: password.value });' +
+                '        } catch(err) { console.warn("Не удалось сохранить пароль:", err); }' +
+                '      }' +
+                '    });' +
+                '  });' +
+                '})();';
+            webview.executeJavaScript(script);
+        }
         
         // --- События webview ---
         webview.addEventListener('did-start-loading', () => {
@@ -441,30 +661,28 @@
             const url = e.url;
             urlBar.value = url;
             const tab = tabs.find(t => t.id === activeTab);
-            if (tab) {
-                tab.url = url;
-                tab.title = url;
-                renderTabs();
-                saveTabs();
-            }
+            if (tab) { tab.url = url; tab.title = url; renderTabs(); saveTabs(); }
             updateNavButtons();
+            setTimeout(() => {
+                autoFillForms(url);
+                setTimeout(injectPasswordCapture, 300);
+            }, 500);
         });
         webview.addEventListener('page-title-updated', (e) => {
             const tab = tabs.find(t => t.id === activeTab);
-            if (tab && e.title) {
-                tab.title = e.title;
-                renderTabs();
-                saveTabs();
-            }
+            if (tab && e.title) { tab.title = e.title; renderTabs(); saveTabs(); }
         });
         webview.addEventListener('new-window', (e) => {
             e.preventDefault();
-            if (e.url) {
-                navigateTo(e.url, true);
-            }
+            if (e.url) navigateTo(e.url, true);
         });
         webview.addEventListener('dom-ready', () => {
             updateNavButtons();
+            const url = webview.getURL();
+            if (url) {
+                autoFillForms(url);
+                setTimeout(injectPasswordCapture, 300);
+            }
         });
         webview.addEventListener('did-fail-load', (e) => {
             loadingIndicator.classList.remove('active');
