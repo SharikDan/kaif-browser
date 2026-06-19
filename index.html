@@ -317,6 +317,27 @@
             box-shadow: 0 5px 25px rgba(255,0,64,0.6);
         }
         
+        .loading-indicator {
+            position: fixed;
+            top: 76px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff0040, transparent);
+            display: none;
+            z-index: 10000;
+        }
+        
+        .loading-indicator.active {
+            display: block;
+            animation: loading 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes loading {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
         .webview-container {
             flex: 1;
             display: none;
@@ -328,44 +349,111 @@
             height: 100%;
             border: none;
         }
+        
+        /* Custom Icons */
+        .icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            fill: currentColor;
+        }
     </style>
 </head>
 <body>
+    <div class="loading-indicator" id="loadingIndicator"></div>
+    
     <div class="titlebar">
-        <div class="logo">🔥 KaifBrowser</div>
+        <div class="logo">
+            <svg class="icon" style="width:20px;height:20px;vertical-align:middle;margin-right:8px" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            KaifBrowser
+        </div>
         <div class="window-controls">
-            <button onclick="minimizeWindow()">−</button>
-            <button onclick="maximizeWindow()">□</button>
-            <button class="close" onclick="closeWindow()">×</button>
+            <button onclick="minimizeWindow()" title="Свернуть">
+                <svg class="icon" style="width:16px;height:16px" viewBox="0 0 24 24">
+                    <path d="M19 13H5v-2h14v2z"/>
+                </svg>
+            </button>
+            <button onclick="maximizeWindow()" title="Развернуть">
+                <svg class="icon" style="width:16px;height:16px" viewBox="0 0 24 24">
+                    <path d="M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H6V6h12v12z"/>
+                </svg>
+            </button>
+            <button class="close" onclick="closeWindow()" title="Закрыть">
+                <svg class="icon" style="width:16px;height:16px" viewBox="0 0 24 24">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
         </div>
     </div>
     
     <div class="tabbar" id="tabbar">
-        <button class="new-tab" onclick="newTab()">+</button>
+        <button class="new-tab" onclick="newTab()" title="Новая вкладка">
+            <svg class="icon" style="width:18px;height:18px" viewBox="0 0 24 24">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+            </svg>
+        </button>
     </div>
     
     <div class="navbar">
-        <button class="nav-btn" id="backBtn" onclick="goBack()" disabled>←</button>
-        <button class="nav-btn" id="forwardBtn" onclick="goForward()" disabled>→</button>
-        <button class="nav-btn" onclick="refresh()">↻</button>
-        <button class="nav-btn" onclick="goHome()">🏠</button>
-        <input type="text" class="url-bar" id="urlBar" placeholder="Enter URL or search..." onkeypress="if(event.key==='Enter')navigate()">
-        <button class="nav-btn" onclick="navigate()">➜</button>
+        <button class="nav-btn" id="backBtn" onclick="goBack()" disabled title="Назад">
+            <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+        </button>
+        <button class="nav-btn" id="forwardBtn" onclick="goForward()" disabled title="Вперед">
+            <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+                <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+            </svg>
+        </button>
+        <button class="nav-btn" onclick="refresh()" title="Обновить">
+            <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+                <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+            </svg>
+        </button>
+        <button class="nav-btn" onclick="goHome()" title="Домой">
+            <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+        </button>
+        <input type="text" class="url-bar" id="urlBar" placeholder="Введите URL или поиск..." onkeypress="if(event.key==='Enter')navigate()">
+        <button class="nav-btn" onclick="navigate()" title="Перейти">
+            <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+                <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+            </svg>
+        </button>
         
         <div class="search-select">
-            <button class="search-btn" onclick="toggleSearchMenu()">🔍</button>
+            <button class="search-btn" onclick="toggleSearchMenu()" title="Поисковая система">
+                <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+            </button>
             <div class="search-menu" id="searchMenu">
                 <div class="search-option active" data-engine="google" onclick="selectEngine('google')">
-                    <span>🔍</span><span>Google</span>
+                    <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                    <span>Google</span>
                 </div>
                 <div class="search-option" data-engine="yandex" onclick="selectEngine('yandex')">
-                    <span>Я</span><span>Yandex</span>
+                    <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                    </svg>
+                    <span>Yandex</span>
                 </div>
                 <div class="search-option" data-engine="duckduckgo" onclick="selectEngine('duckduckgo')">
-                    <span>🦆</span><span>DuckDuckGo</span>
+                    <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    </svg>
+                    <span>DuckDuckGo</span>
                 </div>
                 <div class="search-option" data-engine="bing" onclick="selectEngine('bing')">
-                    <span>🅱️</span><span>Bing</span>
+                    <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <span>Bing</span>
                 </div>
             </div>
         </div>
@@ -375,11 +463,11 @@
         <div class="welcome-content">
             <div class="clock-container">
                 <div class="time" id="clockTime">00:00:00</div>
-                <div class="date" id="clockDate">Loading...</div>
+                <div class="date" id="clockDate">Загрузка...</div>
             </div>
             <div class="search-box">
-                <input type="text" class="search-input" id="searchInput" placeholder="Search..." onkeypress="if(event.key==='Enter')search()">
-                <button class="search-btn-main" onclick="search()">Search</button>
+                <input type="text" class="search-input" id="searchInput" placeholder="Поиск..." onkeypress="if(event.key==='Enter')search(true)">
+                <button class="search-btn-main" onclick="search(true)">Поиск</button>
             </div>
         </div>
     </div>
@@ -406,7 +494,9 @@
         const webviewContainer = document.getElementById('webviewContainer');
         const urlBar = document.getElementById('urlBar');
         const tabbar = document.getElementById('tabbar');
+        const loadingIndicator = document.getElementById('loadingIndicator');
         
+        // Clock
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -414,21 +504,87 @@
             const seconds = String(now.getSeconds()).padStart(2, '0');
             document.getElementById('clockTime').textContent = hours + ':' + minutes + ':' + seconds;
             
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const dateStr = now.toLocaleDateString('en-US', options);
-            document.getElementById('clockDate').textContent = dateStr;
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            const dateStr = now.toLocaleDateString('ru-RU', options);
+            document.getElementById('clockDate').textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
         }
         
         updateClock();
         setInterval(updateClock, 1000);
         
-        function newTab(url = '', title = 'New Tab') {
+        // Save/Load tabs
+        function saveTabs() {
+            const tabsData = tabs.map(tab => ({
+                id: tab.id,
+                url: tab.url,
+                title: tab.title
+            }));
+            localStorage.setItem('kaifbrowser_tabs', JSON.stringify(tabsData));
+            localStorage.setItem('kaifbrowser_activeTab', activeTab);
+        }
+        
+        function loadTabs() {
+            const savedTabs = localStorage.getItem('kaifbrowser_tabs');
+            const savedActiveTab = localStorage.getItem('kaifbrowser_activeTab');
+            
+            if (savedTabs) {
+                const parsedTabs = JSON.parse(savedTabs);
+                parsedTabs.forEach(tabData => {
+                    tabId++;
+                    tabs.push({
+                        id: 'tab-' + tabId,
+                        url: tabData.url,
+                        title: tabData.title
+                    });
+                });
+                renderTabs();
+                
+                if (savedActiveTab && tabs.find(t => t.id === savedActiveTab)) {
+                    switchTab(savedActiveTab);
+                } else if (tabs.length > 0) {
+                    switchTab(tabs[0].id);
+                }
+            } else {
+                newTab();
+            }
+        }
+        
+        // Window controls
+        function minimizeWindow() {
+            const { remote } = require('electron');
+            remote.getCurrentWindow().minimize();
+        }
+        
+        function maximizeWindow() {
+            const { remote } = require('electron');
+            const win = remote.getCurrentWindow();
+            if (win.isMaximized()) {
+                win.unmaximize();
+            } else {
+                win.maximize();
+            }
+        }
+        
+        function closeWindow() {
+            saveTabs();
+            const { remote } = require('electron');
+            remote.getCurrentWindow().close();
+        }
+        
+        function newTab(url = '', title = 'Новая вкладка') {
             tabId++;
             const id = 'tab-' + tabId;
             tabs.push({ id, url, title });
             renderTabs();
             switchTab(id);
-            if (url) navigateTo(url);
+            if (url) {
+                navigateTo(url, false);
+            }
             return id;
         }
         
@@ -443,6 +599,7 @@
                 switchTab(tabs[Math.min(idx, tabs.length-1)].id);
             }
             renderTabs();
+            saveTabs();
         }
         
         function switchTab(id) {
@@ -468,29 +625,34 @@
                 const div = document.createElement('div');
                 div.className = 'tab' + (tab.id === activeTab ? ' active' : '');
                 div.onclick = () => switchTab(tab.id);
-                div.innerHTML = '<span class="tab-title">' + tab.title + '</span><button class="tab-close" onclick="closeTab(\'' + tab.id + '\',event)">×</button>';
+                div.innerHTML = '<span class="tab-title">' + tab.title + '</span><button class="tab-close" onclick="closeTab(\'' + tab.id + '\',event)">✕</button>';
                 tabbar.insertBefore(div, tabbar.lastElementChild);
             });
         }
         
-        function navigateTo(url) {
+        function navigateTo(url, openInNewTab = false) {
             if (!url.startsWith('http')) url = 'https://' + url;
-            welcome.style.display = 'none';
-            webviewContainer.style.display = 'block';
-            webview.src = url;
-            urlBar.value = url;
-            const tab = tabs.find(t => t.id === activeTab);
-            if (tab) { tab.url = url; tab.title = url; }
-            renderTabs();
+            
+            if (openInNewTab) {
+                newTab(url, 'Загрузка...');
+            } else {
+                welcome.style.display = 'none';
+                webviewContainer.style.display = 'block';
+                webview.src = url;
+                urlBar.value = url;
+                const tab = tabs.find(t => t.id === activeTab);
+                if (tab) { tab.url = url; tab.title = url; }
+                renderTabs();
+            }
         }
         
         function navigate() {
             const url = urlBar.value.trim();
             if (!url) return;
             if (url.includes('.') && !url.includes(' ')) {
-                navigateTo(url);
+                navigateTo(url, false);
             } else {
-                search(url);
+                search(false);
             }
         }
         
@@ -500,18 +662,25 @@
             webview.src = '';
             urlBar.value = '';
             const tab = tabs.find(t => t.id === activeTab);
-            if (tab) { tab.url = ''; tab.title = 'New Tab'; }
+            if (tab) { tab.url = ''; tab.title = 'Новая вкладка'; }
             renderTabs();
         }
         
         function goBack() { if (webview.canGoBack()) webview.goBack(); }
         function goForward() { if (webview.canGoForward()) webview.goForward(); }
-        function refresh() { webview.reload(); }
         
-        function search(query) {
-            if (!query) query = document.getElementById('searchInput').value.trim();
+        function refresh() {
+            loadingIndicator.classList.add('active');
+            webview.reload();
+        }
+        
+        function search(openInNewTab = false) {
+            let query = document.getElementById('searchInput').value.trim();
+            if (!query) query = urlBar.value.trim();
             if (!query) return;
-            navigateTo(engines[currentEngine].url + encodeURIComponent(query));
+            
+            const searchUrl = engines[currentEngine].url + encodeURIComponent(query);
+            navigateTo(searchUrl, openInNewTab);
         }
         
         function toggleSearchMenu() {
@@ -523,29 +692,50 @@
             document.querySelectorAll('.search-option').forEach(el => el.classList.remove('active'));
             document.querySelector('[data-engine="' + engine + '"]').classList.add('active');
             document.getElementById('searchMenu').classList.remove('show');
-            document.getElementById('searchInput').placeholder = 'Search with ' + engines[engine].name + '...';
+            document.getElementById('searchInput').placeholder = 'Поиск в ' + engines[engine].name + '...';
         }
         
-        function minimizeWindow() { require('electron').remote.getCurrentWindow().minimize(); }
-        function maximizeWindow() { const w = require('electron').remote.getCurrentWindow(); w.isMaximized() ? w.unmaximize() : w.maximize(); }
-        function closeWindow() { require('electron').remote.getCurrentWindow().close(); }
+        // Event listeners
+        webview.addEventListener('did-start-loading', () => {
+            loadingIndicator.classList.add('active');
+        });
+        
+        webview.addEventListener('did-stop-loading', () => {
+            loadingIndicator.classList.remove('active');
+        });
         
         webview.addEventListener('did-navigate', e => {
             urlBar.value = e.url;
             const tab = tabs.find(t => t.id === activeTab);
-            if (tab) { tab.url = e.url; tab.title = e.url; renderTabs(); }
+            if (tab) { 
+                tab.url = e.url; 
+                tab.title = e.url; 
+                renderTabs();
+                saveTabs();
+            }
         });
         
         webview.addEventListener('page-title-updated', e => {
             const tab = tabs.find(t => t.id === activeTab);
-            if (tab && e.title) { tab.title = e.title; renderTabs(); }
+            if (tab && e.title) { 
+                tab.title = e.title; 
+                renderTabs();
+                saveTabs();
+            }
+        });
+        
+        window.addEventListener('beforeunload', () => {
+            saveTabs();
         });
         
         document.addEventListener('click', e => {
-            if (!e.target.closest('.search-select')) document.getElementById('searchMenu').classList.remove('show');
+            if (!e.target.closest('.search-select')) {
+                document.getElementById('searchMenu').classList.remove('show');
+            }
         });
         
-        newTab();
+        // Initialize
+        loadTabs();
     </script>
 </body>
 </html>
