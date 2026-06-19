@@ -277,10 +277,34 @@
         }
         
         .welcome p {
-            font-size: 20px;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 40px;
-        }
+    font-size: 20px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 40px;
+}
+
+.clock-container {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.time {
+    font-size: 96px;
+    font-weight: bold;
+    color: #ff0040;
+    text-shadow: 0 0 40px rgba(255,0,64,0.8);
+    margin-bottom: 10px;
+    animation: glow 2s ease-in-out infinite;
+}
+
+.date {
+    font-size: 24px;
+    color: rgba(255,255,255,0.8);
+}
+
+@keyframes glow {
+    0%, 100% { text-shadow: 0 0 40px rgba(255,0,64,0.8); }
+    50% { text-shadow: 0 0 60px rgba(255,0,64,1); }
+}
         
         .search-box {
             display: flex;
@@ -369,11 +393,11 @@
 <body>
     <!-- Title Bar -->
     <div class="titlebar">
-        <div class="logo">🔥 KaifBrowser</div>
+        <div class="logo">ðŸ”¥ KaifBrowser</div>
         <div class="window-controls">
-            <button onclick="minimizeWindow()">−</button>
-            <button onclick="maximizeWindow()">□</button>
-            <button class="close" onclick="closeWindow()">×</button>
+            <button onclick="minimizeWindow()">âˆ’</button>
+            <button onclick="maximizeWindow()">â–¡</button>
+            <button class="close" onclick="closeWindow()">Ã—</button>
         </div>
     </div>
     
@@ -384,48 +408,46 @@
     
     <!-- Navigation Bar -->
     <div class="navbar">
-        <button class="nav-btn" id="backBtn" onclick="goBack()" disabled>←</button>
-        <button class="nav-btn" id="forwardBtn" onclick="goForward()" disabled>→</button>
-        <button class="nav-btn" onclick="refresh()">↻</button>
-        <button class="nav-btn" onclick="goHome()">🏠</button>
+        <button class="nav-btn" id="backBtn" onclick="goBack()" disabled>â†</button>
+        <button class="nav-btn" id="forwardBtn" onclick="goForward()" disabled>â†’</button>
+        <button class="nav-btn" onclick="refresh()">â†»</button>
+        <button class="nav-btn" onclick="goHome()">ðŸ </button>
         <input type="text" class="url-bar" id="urlBar" placeholder="Enter URL or search..." onkeypress="if(event.key==='Enter')navigate()">
-        <button class="nav-btn" onclick="navigate()">➜</button>
+        <button class="nav-btn" onclick="navigate()">âžœ</button>
         
         <div class="search-select">
-            <button class="search-btn" onclick="toggleSearchMenu()">🔍</button>
+            <button class="search-btn" onclick="toggleSearchMenu()">ðŸ”</button>
             <div class="search-menu" id="searchMenu">
                 <div class="search-option active" data-engine="google" onclick="selectEngine('google')">
-                    <span>🔍</span><span>Google</span>
+                    <span>ðŸ”</span><span>Google</span>
                 </div>
                 <div class="search-option" data-engine="yandex" onclick="selectEngine('yandex')">
-                    <span>Я</span><span>Yandex</span>
+                    <span>Ð¯</span><span>Yandex</span>
                 </div>
                 <div class="search-option" data-engine="duckduckgo" onclick="selectEngine('duckduckgo')">
-                    <span>🦆</span><span>DuckDuckGo</span>
+                    <span>ðŸ¦†</span><span>DuckDuckGo</span>
                 </div>
                 <div class="search-option" data-engine="bing" onclick="selectEngine('bing')">
-                    <span>🅱️</span><span>Bing</span>
+                    <span>ðŸ…±ï¸</span><span>Bing</span>
                 </div>
             </div>
         </div>
     </div>
     
     <!-- Welcome Screen -->
+        <!-- Welcome Screen -->
     <div class="welcome" id="welcome">
         <div class="welcome-box">
-            <h1>KaifBrowser</h1>
-            <p>Your modern browser with style</p>
+            <div class="clock-container">
+                <div class="time" id="clockTime">00:00:00</div>
+                <div class="date" id="clockDate">Loading...</div>
+            </div>
             <div class="search-box">
                 <input type="text" class="search-input" id="searchInput" placeholder="Search..." onkeypress="if(event.key==='Enter')search()">
                 <button class="search-btn-main" onclick="search()">Search</button>
             </div>
-            <div class="quick-links">
-                <a href="#" class="quick-link" onclick="navigateTo('https://google.com');return false">Google</a>
-                <a href="#" class="quick-link" onclick="navigateTo('https://youtube.com');return false">YouTube</a>
-                <a href="#" class="quick-link" onclick="navigateTo('https://github.com');return false">GitHub</a>
-                <a href="#" class="quick-link" onclick="navigateTo('https://reddit.com');return false">Reddit</a>
-            </div>
         </div>
+    </div>
     </div>
     
     <!-- WebView -->
@@ -435,10 +457,10 @@
     
     <script>
         const engines = {
-            google: { name: 'Google', icon: '🔍', url: 'https://www.google.com/search?q=' },
-            yandex: { name: 'Yandex', icon: 'Я', url: 'https://yandex.ru/search/?text=' },
-            duckduckgo: { name: 'DuckDuckGo', icon: '🦆', url: 'https://duckduckgo.com/?q=' },
-            bing: { name: 'Bing', icon: '🅱️', url: 'https://www.bing.com/search?q=' }
+            google: { name: 'Google', icon: 'ðŸ”', url: 'https://www.google.com/search?q=' },
+            yandex: { name: 'Yandex', icon: 'Ð¯', url: 'https://yandex.ru/search/?text=' },
+            duckduckgo: { name: 'DuckDuckGo', icon: 'ðŸ¦†', url: 'https://duckduckgo.com/?q=' },
+            bing: { name: 'Bing', icon: 'ðŸ…±ï¸', url: 'https://www.bing.com/search?q=' }
         };
         
         let currentEngine = 'google';
@@ -498,7 +520,7 @@
                 const div = document.createElement('div');
                 div.className = 'tab' + (tab.id === activeTab ? ' active' : '');
                 div.onclick = () => switchTab(tab.id);
-                div.innerHTML = '<span class="tab-title">' + tab.title + '</span><button class="tab-close" onclick="closeTab(\'' + tab.id + '\',event)">×</button>';
+                div.innerHTML = '<span class="tab-title">' + tab.title + '</span><button class="tab-close" onclick="closeTab(\'' + tab.id + '\',event)">Ã—</button>';
                 tabbar.insertBefore(div, tabbar.lastElementChild);
             });
         }
@@ -575,6 +597,22 @@
             if (!e.target.closest('.search-select')) document.getElementById('searchMenu').classList.remove('show');
         });
         
+                
+        // Clock
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour12: false });
+            const dateStr = now.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            document.getElementById('clockTime').textContent = timeStr;
+            document.getElementById('clockDate').textContent = dateStr;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
         // Init
         newTab();
     </script>
