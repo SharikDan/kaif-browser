@@ -29,7 +29,10 @@ jobs:
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
-        files: dist/*.exe
+        files: |
+          dist/*.exe
+          dist/*.msi
+          dist/*.zip
         tag_name: ${{ github.ref_name }}
         name: KaifBrowser ${{ github.ref_name }}
         draft: false

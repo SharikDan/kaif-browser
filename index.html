@@ -2,36 +2,383 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KaifBrowser</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             background: linear-gradient(135deg, #0f0f0f 0%, #1a0a0a 50%, #0f0f0f 100%);
             color: white;
             font-family: 'Segoe UI', Arial, sans-serif;
             height: 100vh;
             display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* Title Bar */
+        .titlebar {
+            background: rgba(0,0,0,0.9);
+            border-bottom: 2px solid #ff0040;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            -webkit-app-region: drag;
+        }
+        
+        .titlebar-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .titlebar-button {
+            -webkit-app-region: no-drag;
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+            color: rgba(255,255,255,0.8);
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        
+        .titlebar-button:hover {
+            background: rgba(255,0,64,0.3);
+            color: white;
+        }
+        
+        .titlebar-button.close:hover {
+            background: #ff0040;
+        }
+        
+        /* Navigation Bar */
+        .navbar {
+            background: rgba(0,0,0,0.8);
+            padding: 10px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .nav-button {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255,0,64,0.2);
+            color: #ff0040;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s;
+            display: flex;
             align-items: center;
             justify-content: center;
         }
-        h1 {
+        
+        .nav-button:hover {
+            background: #ff0040;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .nav-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .url-bar {
+            flex: 1;
+            height: 36px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,0,64,0.3);
+            border-radius: 8px;
+            padding: 0 12px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+        }
+        
+        .url-bar:focus {
+            border-color: #ff0040;
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 0 10px rgba(255,0,64,0.3);
+        }
+        
+        /* Welcome Screen */
+        .welcome {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a0a0a 50%, #0f0f0f 100%);
+        }
+        
+        .welcome-box {
+            text-align: center;
+            padding: 60px;
+            background: rgba(0,0,0,0.4);
+            border: 2px solid #ff0040;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(255,0,64,0.3);
+        }
+        
+        .welcome h1 {
             font-size: 64px;
             color: #ff0040;
             text-shadow: 0 0 30px rgba(255,0,64,0.7);
+            margin-bottom: 20px;
         }
-        .container {
-            text-align: center;
-            padding: 40px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 20px;
-            border: 2px solid #ff0040;
+        
+        .welcome p {
+            font-size: 20px;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 30px;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        
+        .search-input {
+            flex: 1;
+            height: 50px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,0,64,0.3);
+            border-radius: 10px;
+            padding: 0 20px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .search-input:focus {
+            border-color: #ff0040;
+            background: rgba(255,255,255,0.15);
+        }
+        
+        .search-button {
+            height: 50px;
+            padding: 0 30px;
+            background: linear-gradient(135deg, #ff0040, #ff0066);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .search-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255,0,64,0.5);
+        }
+        
+        .quick-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .quick-link {
+            padding: 12px 24px;
+            background: rgba(255,0,64,0.2);
+            border: 2px solid rgba(255,0,64,0.4);
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .quick-link:hover {
+            background: rgba(255,0,64,0.4);
+            border-color: #ff0040;
+            transform: translateY(-2px);
+        }
+        
+        /* WebView Container */
+        .webview-container {
+            flex: 1;
+            display: none;
+            background: white;
+        }
+        
+        webview {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>KaifBrowser Works!</h1>
-        <p>Electron is running</p>
+    <!-- Title Bar -->
+    <div class="titlebar">
+        <div style="color: #ff0040; font-weight: bold; font-size: 16px;">🔥 KaifBrowser</div>
+        <div class="titlebar-buttons">
+            <button class="titlebar-button" onclick="minimizeWindow()" title="Minimize">−</button>
+            <button class="titlebar-button" onclick="maximizeWindow()" title="Maximize">□</button>
+            <button class="titlebar-button close" onclick="closeWindow()" title="Close">×</button>
+        </div>
     </div>
+    
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <button class="nav-button" id="backBtn" onclick="goBack()" disabled>←</button>
+        <button class="nav-button" id="forwardBtn" onclick="goForward()" disabled>→</button>
+        <button class="nav-button" onclick="refresh()" title="Refresh">↻</button>
+        <button class="nav-button" onclick="goHome()" title="Home">🏠</button>
+        <input type="text" class="url-bar" id="urlBar" placeholder="Enter URL or search..." onkeypress="handleUrlKeyPress(event)">
+        <button class="nav-button" onclick="navigate()" title="Go">➜</button>
+    </div>
+    
+    <!-- Welcome Screen -->
+    <div class="welcome" id="welcomeScreen">
+        <div class="welcome-box">
+            <h1>KaifBrowser</h1>
+            <p>Your modern browser with style</p>
+            
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search with Google..." onkeypress="handleSearchKeyPress(event)">
+                <button class="search-button" onclick="search()">Search</button>
+            </div>
+            
+            <div class="quick-links">
+                <a href="#" class="quick-link" onclick="navigateTo('https://google.com'); return false;">Google</a>
+                <a href="#" class="quick-link" onclick="navigateTo('https://youtube.com'); return false;">YouTube</a>
+                <a href="#" class="quick-link" onclick="navigateTo('https://github.com'); return false;">GitHub</a>
+                <a href="#" class="quick-link" onclick="navigateTo('https://reddit.com'); return false;">Reddit</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- WebView Container -->
+    <div class="webview-container" id="webviewContainer">
+        <webview id="webview" partition="persist:kaifbrowser"></webview>
+    </div>
+    
+    <script>
+        const webview = document.getElementById('webview');
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const webviewContainer = document.getElementById('webviewContainer');
+        const urlBar = document.getElementById('urlBar');
+        const backBtn = document.getElementById('backBtn');
+        const forwardBtn = document.getElementById('forwardBtn');
+        
+        // Navigation functions
+        function navigateTo(url) {
+            if (!url.startsWith('http')) {
+                url = 'https://' + url;
+            }
+            
+            welcomeScreen.style.display = 'none';
+            webviewContainer.style.display = 'block';
+            webview.src = url;
+            urlBar.value = url;
+        }
+        
+        function navigate() {
+            const url = urlBar.value.trim();
+            if (url) {
+                navigateTo(url);
+            }
+        }
+        
+        function goHome() {
+            welcomeScreen.style.display = 'flex';
+            webviewContainer.style.display = 'none';
+            webview.src = '';
+            urlBar.value = '';
+        }
+        
+        function goBack() {
+            if (webview.canGoBack()) {
+                webview.goBack();
+            }
+        }
+        
+        function goForward() {
+            if (webview.canGoForward()) {
+                webview.goForward();
+            }
+        }
+        
+        function refresh() {
+            webview.reload();
+        }
+        
+        function search() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (query) {
+                navigateTo('https://www.google.com/search?q=' + encodeURIComponent(query));
+            }
+        }
+        
+        // Event handlers
+        function handleUrlKeyPress(event) {
+            if (event.key === 'Enter') {
+                navigate();
+            }
+        }
+        
+        function handleSearchKeyPress(event) {
+            if (event.key === 'Enter') {
+                search();
+            }
+        }
+        
+        // Window controls
+        function minimizeWindow() {
+            const { remote } = require('electron');
+            remote.getCurrentWindow().minimize();
+        }
+        
+        function maximizeWindow() {
+            const { remote } = require('electron');
+            const win = remote.getCurrentWindow();
+            if (win.isMaximized()) {
+                win.unmaximize();
+            } else {
+                win.maximize();
+            }
+        }
+        
+        function closeWindow() {
+            const { remote } = require('electron');
+            remote.getCurrentWindow().close();
+        }
+        
+        // Update navigation buttons state
+        webview.addEventListener('did-navigate', (e) => {
+            urlBar.value = e.url;
+            backBtn.disabled = !webview.canGoBack();
+            forwardBtn.disabled = !webview.canGoForward();
+        });
+        
+        webview.addEventListener('did-navigate-in-page', (e) => {
+            urlBar.value = e.url;
+            backBtn.disabled = !webview.canGoBack();
+            forwardBtn.disabled = !webview.canGoForward();
+        });
+        
+        // Initialize button states
+        backBtn.disabled = true;
+        forwardBtn.disabled = true;
+    </script>
 </body>
 </html>
