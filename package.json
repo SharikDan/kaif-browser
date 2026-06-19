@@ -11,7 +11,8 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "29.0.0",
-    "electron-builder": "24.0.0"
+    "electron-builder": "24.13.3",
+    "@electron/rebuild": "3.6.0"
   },
   "build": {
     "appId": "com.danil.kaifbrowser",
