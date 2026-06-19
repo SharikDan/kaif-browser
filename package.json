@@ -1,6 +1,6 @@
 {
   "name": "kaif-browser",
-  "version": "9.0.0",
+  "version": "9.3.0",
   "description": "KaifBrowser - Modern Browser",
   "main": "main.js",
   "scripts": {
@@ -21,6 +21,7 @@
     },
     "files": [
       "main.js",
+      "preload.js",
       "index.html",
       "package.json"
     ],
