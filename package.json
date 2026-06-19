@@ -1,0 +1,31 @@
+﻿{
+  "name": "kaif-browser",
+  "version": "1.0.0",
+  "description": "KaifBrowser",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win --publish=never"
+  },
+  "author": "Danil",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "29.0.0",
+    "electron-builder": "24.0.0"
+  },
+  "build": {
+    "appId": "com.danil.kaifbrowser",
+    "productName": "KaifBrowser",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "index.html",
+      "package.json"
+    ],
+    "win": {
+      "target": "portable"
+    }
+  }
+}
