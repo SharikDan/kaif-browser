@@ -59,6 +59,83 @@
             background: #ff0040;
         }
         
+        /* Tab Bar */
+        .tabbar {
+            background: rgba(0,0,0,0.7);
+            padding: 8px 12px 0;
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            border-bottom: 1px solid rgba(255,0,64,0.3);
+        }
+        
+        .tab {
+            background: rgba(255,0,64,0.1);
+            border: 1px solid rgba(255,0,64,0.3);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            max-width: 200px;
+            transition: all 0.2s;
+        }
+        
+        .tab:hover {
+            background: rgba(255,0,64,0.2);
+        }
+        
+        .tab.active {
+            background: rgba(255,0,64,0.3);
+            border-color: #ff0040;
+        }
+        
+        .tab-title {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 13px;
+        }
+        
+        .tab-close {
+            width: 18px;
+            height: 18px;
+            border: none;
+            border-radius: 50%;
+            background: transparent;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .tab-close:hover {
+            background: rgba(255,0,64,0.5);
+            color: white;
+        }
+        
+        .new-tab-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            background: rgba(255,0,64,0.2);
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s;
+        }
+        
+        .new-tab-btn:hover {
+            background: rgba(255,0,64,0.4);
+        }
+        
         /* Navigation Bar */
         .navbar {
             background: rgba(0,0,0,0.8);
@@ -111,6 +188,71 @@
             border-color: #ff0040;
             background: rgba(255,255,255,0.15);
             box-shadow: 0 0 10px rgba(255,0,64,0.3);
+        }
+        
+        /* Search Engine Selector */
+        .search-engine-selector {
+            position: relative;
+        }
+        
+        .search-engine-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255,0,64,0.2);
+            color: #ff0040;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .search-engine-btn:hover {
+            background: #ff0040;
+            color: white;
+        }
+        
+        .search-engine-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: rgba(0,0,0,0.95);
+            border: 2px solid #ff0040;
+            border-radius: 8px;
+            padding: 8px;
+            display: none;
+            z-index: 1000;
+            min-width: 180px;
+        }
+        
+        .search-engine-menu.show {
+            display: block;
+        }
+        
+        .search-engine-option {
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .search-engine-option:hover {
+            background: rgba(255,0,64,0.3);
+        }
+        
+        .search-engine-option.active {
+            background: rgba(255,0,64,0.4);
+        }
+        
+        .search-engine-icon {
+            font-size: 20px;
         }
         
         /* Welcome Screen */
@@ -237,6 +379,12 @@
         </div>
     </div>
     
+    <!-- Tab Bar -->
+    <div class="tabbar" id="tabbar">
+        <!-- Tabs will be added here dynamically -->
+        <button class="new-tab-btn" onclick="newTab()" title="New Tab">+</button>
+    </div>
+    
     <!-- Navigation Bar -->
     <div class="navbar">
         <button class="nav-button" id="backBtn" onclick="goBack()" disabled>←</button>
@@ -245,6 +393,29 @@
         <button class="nav-button" onclick="goHome()" title="Home">🏠</button>
         <input type="text" class="url-bar" id="urlBar" placeholder="Enter URL or search..." onkeypress="handleUrlKeyPress(event)">
         <button class="nav-button" onclick="navigate()" title="Go">➜</button>
+        
+        <!-- Search Engine Selector -->
+        <div class="search-engine-selector">
+            <button class="search-engine-btn" onclick="toggleSearchEngineMenu()" title="Search Engine"></button>
+            <div class="search-engine-menu" id="searchEngineMenu">
+                <div class="search-engine-option active" data-engine="google" onclick="selectSearchEngine('google')">
+                    <span class="search-engine-icon">🔍</span>
+                    <span>Google</span>
+                </div>
+                <div class="search-engine-option" data-engine="yandex" onclick="selectSearchEngine('yandex')">
+                    <span class="search-engine-icon">Я</span>
+                    <span>Yandex</span>
+                </div>
+                <div class="search-engine-option" data-engine="duckduckgo" onclick="selectSearchEngine('duckduckgo')">
+                    <span class="search-engine-icon">🦆</span>
+                    <span>DuckDuckGo</span>
+                </div>
+                <div class="search-engine-option" data-engine="bing" onclick="selectSearchEngine('bing')">
+                    <span class="search-engine-icon">️</span>
+                    <span>Bing</span>
+                </div>
+            </div>
+        </div>
     </div>
     
     <!-- Welcome Screen -->
@@ -254,7 +425,7 @@
             <p>Your modern browser with style</p>
             
             <div class="search-box">
-                <input type="text" class="search-input" id="searchInput" placeholder="Search with Google..." onkeypress="handleSearchKeyPress(event)">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search..." onkeypress="handleSearchKeyPress(event)">
                 <button class="search-button" onclick="search()">Search</button>
             </div>
             
@@ -273,12 +444,127 @@
     </div>
     
     <script>
+        // Search engines configuration
+        const searchEngines = {
+            google: {
+                name: 'Google',
+                icon: '🔍',
+                url: 'https://www.google.com/search?q='
+            },
+            yandex: {
+                name: 'Yandex',
+                icon: 'Я',
+                url: 'https://yandex.ru/search/?text='
+            },
+            duckduckgo: {
+                name: 'DuckDuckGo',
+                icon: '🦆',
+                url: 'https://duckduckgo.com/?q='
+            },
+            bing: {
+                name: 'Bing',
+                icon: '🅱️',
+                url: 'https://www.bing.com/search?q='
+            }
+        };
+        
+        let currentSearchEngine = 'google';
+        
+        // Tabs system
+        let tabs = [];
+        let activeTabId = null;
+        let tabCounter = 0;
+        
         const webview = document.getElementById('webview');
         const welcomeScreen = document.getElementById('welcomeScreen');
         const webviewContainer = document.getElementById('webviewContainer');
         const urlBar = document.getElementById('urlBar');
         const backBtn = document.getElementById('backBtn');
         const forwardBtn = document.getElementById('forwardBtn');
+        const tabbar = document.getElementById('tabbar');
+        
+        // Create new tab
+        function newTab(url = '', title = 'New Tab') {
+            tabCounter++;
+            const tabId = 'tab-' + tabCounter;
+            
+            const tab = {
+                id: tabId,
+                url: url,
+                title: title,
+                webview: null
+            };
+            
+            tabs.push(tab);
+            renderTabs();
+            switchToTab(tabId);
+            
+            if (url) {
+                navigateTo(url);
+            }
+            
+            return tabId;
+        }
+        
+        // Close tab
+        function closeTab(tabId, event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            
+            const tabIndex = tabs.findIndex(t => t.id === tabId);
+            if (tabIndex === -1) return;
+            
+            tabs.splice(tabIndex, 1);
+            
+            if (tabs.length === 0) {
+                newTab();
+            } else if (activeTabId === tabId) {
+                const newActiveTab = tabs[Math.min(tabIndex, tabs.length - 1)];
+                switchToTab(newActiveTab.id);
+            }
+            
+            renderTabs();
+        }
+        
+        // Switch to tab
+        function switchToTab(tabId) {
+            activeTabId = tabId;
+            const tab = tabs.find(t => t.id === tabId);
+            
+            if (tab) {
+                urlBar.value = tab.url;
+                renderTabs();
+            }
+        }
+        
+        // Render tabs
+        function renderTabs() {
+            // Remove all tabs except new tab button
+            const tabElements = tabbar.querySelectorAll('.tab');
+            tabElements.forEach(el => el.remove());
+            
+            // Add tabs before new tab button
+            tabs.forEach(tab => {
+                const tabEl = document.createElement('div');
+                tabEl.className = 'tab' + (tab.id === activeTabId ? ' active' : '');
+                tabEl.onclick = () => switchToTab(tab.id);
+                
+                const titleEl = document.createElement('span');
+                titleEl.className = 'tab-title';
+                titleEl.textContent = tab.title;
+                
+                const closeBtn = document.createElement('button');
+                closeBtn.className = 'tab-close';
+                closeBtn.textContent = '×';
+                closeBtn.onclick = (e) => closeTab(tab.id, e);
+                
+                tabEl.appendChild(titleEl);
+                tabEl.appendChild(closeBtn);
+                
+                tabbar.insertBefore(tabEl, tabbar.lastElementChild);
+            });
+        }
         
         // Navigation functions
         function navigateTo(url) {
@@ -290,12 +576,24 @@
             webviewContainer.style.display = 'block';
             webview.src = url;
             urlBar.value = url;
+            
+            // Update current tab
+            const currentTab = tabs.find(t => t.id === activeTabId);
+            if (currentTab) {
+                currentTab.url = url;
+                currentTab.title = url;
+                renderTabs();
+            }
         }
         
         function navigate() {
             const url = urlBar.value.trim();
             if (url) {
-                navigateTo(url);
+                if (url.includes('.') && !url.includes(' ')) {
+                    navigateTo(url);
+                } else {
+                    search(url);
+                }
             }
         }
         
@@ -304,6 +602,13 @@
             webviewContainer.style.display = 'none';
             webview.src = '';
             urlBar.value = '';
+            
+            const currentTab = tabs.find(t => t.id === activeTabId);
+            if (currentTab) {
+                currentTab.url = '';
+                currentTab.title = 'New Tab';
+                renderTabs();
+            }
         }
         
         function goBack() {
@@ -322,11 +627,39 @@
             webview.reload();
         }
         
-        function search() {
-            const query = document.getElementById('searchInput').value.trim();
-            if (query) {
-                navigateTo('https://www.google.com/search?q=' + encodeURIComponent(query));
+        function search(query) {
+            if (!query) {
+                query = document.getElementById('searchInput').value.trim();
             }
+            
+            if (query) {
+                const engine = searchEngines[currentSearchEngine];
+                const searchUrl = engine.url + encodeURIComponent(query);
+                navigateTo(searchUrl);
+            }
+        }
+        
+        // Search engine selector
+        function toggleSearchEngineMenu() {
+            const menu = document.getElementById('searchEngineMenu');
+            menu.classList.toggle('show');
+        }
+        
+        function selectSearchEngine(engine) {
+            currentSearchEngine = engine;
+            
+            // Update UI
+            document.querySelectorAll('.search-engine-option').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.querySelector(`[data-engine="${engine}"]`).classList.add('active');
+            
+            // Close menu
+            document.getElementById('searchEngineMenu').classList.remove('show');
+            
+            // Update search placeholder
+            const searchInput = document.getElementById('searchInput');
+            searchInput.placeholder = `Search with ${searchEngines[engine].name}...`;
         }
         
         // Event handlers
@@ -368,6 +701,14 @@
             urlBar.value = e.url;
             backBtn.disabled = !webview.canGoBack();
             forwardBtn.disabled = !webview.canGoForward();
+            
+            // Update tab title
+            const currentTab = tabs.find(t => t.id === activeTabId);
+            if (currentTab) {
+                currentTab.url = e.url;
+                currentTab.title = e.url;
+                renderTabs();
+            }
         });
         
         webview.addEventListener('did-navigate-in-page', (e) => {
@@ -376,7 +717,23 @@
             forwardBtn.disabled = !webview.canGoForward();
         });
         
-        // Initialize button states
+        webview.addEventListener('page-title-updated', (e) => {
+            const currentTab = tabs.find(t => t.id === activeTabId);
+            if (currentTab && e.title) {
+                currentTab.title = e.title;
+                renderTabs();
+            }
+        });
+        
+        // Close search engine menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-engine-selector')) {
+                document.getElementById('searchEngineMenu').classList.remove('show');
+            }
+        });
+        
+        // Initialize
+        newTab();
         backBtn.disabled = true;
         forwardBtn.disabled = true;
     </script>
