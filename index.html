@@ -247,6 +247,7 @@
                 welcome.style.display = 'flex';
                 webviewContainer.style.display = 'none';
                 webview.src = '';
+                searchInput.value = '';
             }
             renderTabs();
             saveTabs();
@@ -307,6 +308,7 @@
             webviewContainer.style.display = 'none';
             webview.src = '';
             urlBar.value = '';
+            searchInput.value = '';
             renderTabs();
             saveTabs();
             updateNavButtons();
