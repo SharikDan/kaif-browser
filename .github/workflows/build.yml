@@ -1,9 +1,12 @@
-﻿name: Build Electron App
+name: Build Electron App
 
 on:
   push:
-    branches: [ main ]
-    tags: [ 'v*' ]
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -23,8 +26,13 @@ jobs:
     - name: Build
       run: npm run build
     
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
       with:
-        name: KaifBrowser
-        path: dist/*.exe
+        files: dist/*.exe
+        tag_name: ${{ github.ref_name }}
+        name: KaifBrowser ${{ github.ref_name }}
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
