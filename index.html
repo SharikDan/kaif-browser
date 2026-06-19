@@ -147,6 +147,9 @@
             cursor: pointer;
             font-size: 18px;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .nav-btn:hover {
@@ -193,6 +196,9 @@
             cursor: pointer;
             font-size: 18px;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .search-btn:hover {
@@ -211,7 +217,7 @@
             padding: 8px;
             display: none;
             z-index: 1000;
-            min-width: 180px;
+            min-width: 200px;
             box-shadow: 0 5px 20px rgba(255,0,64,0.4);
         }
         
@@ -229,6 +235,11 @@
         
         .search-option:hover { background: rgba(255,0,64,0.3); }
         .search-option.active { background: rgba(255,0,64,0.4); }
+        
+        .search-logo {
+            width: 24px;
+            height: 24px;
+        }
         
         .welcome {
             flex: 1;
@@ -349,14 +360,6 @@
             height: 100%;
             border: none;
         }
-        
-        /* Custom Icons */
-        .icon {
-            display: inline-block;
-            width: 1em;
-            height: 1em;
-            fill: currentColor;
-        }
     </style>
 </head>
 <body>
@@ -364,24 +367,24 @@
     
     <div class="titlebar">
         <div class="logo">
-            <svg class="icon" style="width:20px;height:20px;vertical-align:middle;margin-right:8px" viewBox="0 0 24 24">
+            <svg style="width:20px;height:20px;vertical-align:middle;margin-right:8px" viewBox="0 0 24 24" fill="#ff0040">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
             </svg>
             KaifBrowser
         </div>
         <div class="window-controls">
             <button onclick="minimizeWindow()" title="Свернуть">
-                <svg class="icon" style="width:16px;height:16px" viewBox="0 0 24 24">
+                <svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19 13H5v-2h14v2z"/>
                 </svg>
             </button>
             <button onclick="maximizeWindow()" title="Развернуть">
-                <svg class="icon" style="width:16px;height:16px" viewBox="0 0 24 24">
+                <svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H6V6h12v12z"/>
                 </svg>
             </button>
             <button class="close" onclick="closeWindow()" title="Закрыть">
-                <svg class="icon" style="width:16px;height:16px" viewBox="0 0 24 24">
+                <svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                 </svg>
             </button>
@@ -390,7 +393,7 @@
     
     <div class="tabbar" id="tabbar">
         <button class="new-tab" onclick="newTab()" title="Новая вкладка">
-            <svg class="icon" style="width:18px;height:18px" viewBox="0 0 24 24">
+            <svg style="width:18px;height:18px" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
             </svg>
         </button>
@@ -398,60 +401,65 @@
     
     <div class="navbar">
         <button class="nav-btn" id="backBtn" onclick="goBack()" disabled title="Назад">
-            <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+            <svg style="width:20px;height:20px" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
             </svg>
         </button>
         <button class="nav-btn" id="forwardBtn" onclick="goForward()" disabled title="Вперед">
-            <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+            <svg style="width:20px;height:20px" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
             </svg>
         </button>
         <button class="nav-btn" onclick="refresh()" title="Обновить">
-            <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+            <svg style="width:20px;height:20px" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
             </svg>
         </button>
         <button class="nav-btn" onclick="goHome()" title="Домой">
-            <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+            <svg style="width:20px;height:20px" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
             </svg>
         </button>
         <input type="text" class="url-bar" id="urlBar" placeholder="Введите URL или поиск..." onkeypress="if(event.key==='Enter')navigate()">
         <button class="nav-btn" onclick="navigate()" title="Перейти">
-            <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+            <svg style="width:20px;height:20px" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
             </svg>
         </button>
         
         <div class="search-select">
             <button class="search-btn" onclick="toggleSearchMenu()" title="Поисковая система">
-                <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+                <svg style="width:20px;height:20px" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
                 </svg>
             </button>
             <div class="search-menu" id="searchMenu">
                 <div class="search-option active" data-engine="google" onclick="selectEngine('google')">
-                    <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
-                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    <svg class="search-logo" viewBox="0 0 48 48">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                     </svg>
                     <span>Google</span>
                 </div>
                 <div class="search-option" data-engine="yandex" onclick="selectEngine('yandex')">
-                    <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                    <svg class="search-logo" viewBox="0 0 48 48">
+                        <path fill="#FC3F1D" d="M24 0C10.745 0 0 10.745 0 24s10.745 24 24 24 24-10.745 24-24S37.255 0 24 0zm3.123 34.5c-.834 2.001-1.834 3.501-3.001 4.501-1.167 1-2.5 1.5-4.001 1.5-1.834 0-3.334-.667-4.501-2-1.167-1.334-1.75-3.167-1.75-5.501 0-2.167.5-4.167 1.5-6 .834-1.5 2-2.834 3.5-4l3.5-2.667c.5-.334.834-.667 1.167-1 .334-.334.667-.834.834-1.334.167-.5.334-1 .334-1.667 0-.834-.167-1.5-.5-2-.334-.5-.834-.834-1.5-1-.334-.167-.834-.167-1.334-.167-1 0-1.834.334-2.5 1-.667.667-1 1.5-1 2.5h-3.5c0-1.834.667-3.334 2-4.5 1.334-1.167 3-1.75 5-1.75 2.334 0 4.167.667 5.5 2 1.334 1.334 2 3.167 2 5.5 0 1.167-.167 2.167-.5 3-.334.834-.834 1.667-1.5 2.334-.667.667-1.5 1.334-2.5 2l-2.5 1.834c-.834.667-1.5 1.334-2 2-.5.667-.834 1.334-1 2-.167.667-.334 1.334-.334 2.167 0 1.167.167 2 .5 2.667.334.667.834 1 1.5 1 .5 0 .834-.167 1.167-.5.334-.334.667-.834 1-1.5l3.167 1.5z"/>
                     </svg>
                     <span>Yandex</span>
                 </div>
                 <div class="search-option" data-engine="duckduckgo" onclick="selectEngine('duckduckgo')">
-                    <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    <svg class="search-logo" viewBox="0 0 48 48">
+                        <path fill="#DE5833" d="M24 0C10.745 0 0 10.745 0 24s10.745 24 24 24 24-10.745 24-24S37.255 0 24 0zm-6 16c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zm12 16c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4z"/>
+                        <path fill="#81868D" d="M24 8c-8.837 0-16 7.163-16 16s7.163 16 16 16 16-7.163 16-16S32.837 8 24 8zm0 28c-6.627 0-12-5.373-12-12s5.373-12 12-12 12 5.373 12 12-5.373 12-12 12z"/>
                     </svg>
                     <span>DuckDuckGo</span>
                 </div>
                 <div class="search-option" data-engine="bing" onclick="selectEngine('bing')">
-                    <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    <svg class="search-logo" viewBox="0 0 48 48">
+                        <path fill="#008373" d="M6 4l16 8v24l-16-8V4zm16 8l16-8v24l-16 8V12z"/>
+                        <path fill="#00A4EF" d="M22 12l16-8v24l-16 8V12z"/>
                     </svg>
                     <span>Bing</span>
                 </div>
@@ -473,7 +481,7 @@
     </div>
     
     <div class="webview-container" id="webviewContainer">
-        <webview id="webview" partition="persist:kaifbrowser"></webview>
+        <webview id="webview" partition="persist:kaifbrowser" newwindow="new-window-handler"></webview>
     </div>
     
     <script>
@@ -694,6 +702,15 @@
             document.getElementById('searchMenu').classList.remove('show');
             document.getElementById('searchInput').placeholder = 'Поиск в ' + engines[engine].name + '...';
         }
+        
+        // Handle new window requests - open in new tab
+        webview.addEventListener('new-window', (e) => {
+            e.preventDefault();
+            const url = e.url;
+            if (url) {
+                navigateTo(url, true); // Open in new tab
+            }
+        });
         
         // Event listeners
         webview.addEventListener('did-start-loading', () => {
