@@ -242,7 +242,13 @@
             if (tab.url) {
                 welcome.style.display = 'none';
                 webviewContainer.style.display = 'block';
-                webview.src = tab.url;
+                setTimeout(() => {
+                    try {
+                        webview.src = tab.url;
+                    } catch (e) {
+                        console.warn('Ошибка загрузки webview:', e);
+                    }
+                }, 50);
             } else {
                 welcome.style.display = 'flex';
                 webviewContainer.style.display = 'none';
@@ -251,7 +257,7 @@
             }
             renderTabs();
             saveTabs();
-            updateNavButtons();
+            setTimeout(updateNavButtons, 100);
         }
         
         function renderTabs() {
@@ -280,10 +286,17 @@
                 }
                 welcome.style.display = 'none';
                 webviewContainer.style.display = 'block';
-                webview.src = url;
+                setTimeout(() => {
+                    try {
+                        webview.src = url;
+                    } catch (e) {
+                        console.warn('Ошибка навигации:', e);
+                    }
+                }, 50);
                 urlBar.value = url;
                 renderTabs();
                 saveTabs();
+                setTimeout(updateNavButtons, 100);
             }
         }
         
@@ -315,25 +328,43 @@
         }
         
         function goBack() {
-            if (webview.canGoBack()) {
-                webview.goBack();
-                setTimeout(updateNavButtons, 300);
+            try {
+                if (webview.canGoBack()) {
+                    webview.goBack();
+                    setTimeout(updateNavButtons, 300);
+                }
+            } catch (e) {
+                console.warn('Ошибка назад:', e);
             }
         }
         function goForward() {
-            if (webview.canGoForward()) {
-                webview.goForward();
-                setTimeout(updateNavButtons, 300);
+            try {
+                if (webview.canGoForward()) {
+                    webview.goForward();
+                    setTimeout(updateNavButtons, 300);
+                }
+            } catch (e) {
+                console.warn('Ошибка вперёд:', e);
             }
         }
         function refresh() {
-            loadingIndicator.classList.add('active');
-            webview.reload();
+            try {
+                loadingIndicator.classList.add('active');
+                webview.reload();
+            } catch (e) {
+                console.warn('Ошибка обновления:', e);
+                loadingIndicator.classList.remove('active');
+            }
         }
         
         function updateNavButtons() {
-            backBtn.disabled = !webview.canGoBack();
-            forwardBtn.disabled = !webview.canGoForward();
+            try {
+                backBtn.disabled = !webview.canGoBack();
+                forwardBtn.disabled = !webview.canGoForward();
+            } catch (e) {
+                backBtn.disabled = true;
+                forwardBtn.disabled = true;
+            }
         }
         
         function search(openInNewTab = false) {
@@ -396,6 +427,10 @@
         });
         webview.addEventListener('dom-ready', () => {
             updateNavButtons();
+        });
+        webview.addEventListener('did-fail-load', (e) => {
+            loadingIndicator.classList.remove('active');
+            console.warn('Ошибка загрузки страницы:', e);
         });
         
         window.addEventListener('beforeunload', () => {

@@ -20,6 +20,14 @@ function createWindow() {
   });
 
   mainWindow.loadFile('index.html');
+
+  // Обработка ошибок рендерера
+  mainWindow.webContents.on('crashed', () => {
+    console.error('Рендерер упал, перезагружаем...');
+    mainWindow.reload();
+  });
+
+  // mainWindow.webContents.openDevTools(); // при необходимости
 }
 
 app.whenReady().then(() => {
@@ -34,11 +42,10 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-// IPC обработчики для управления окном
+// IPC для управления окном
 ipcMain.on('window-minimize', () => {
   if (mainWindow) mainWindow.minimize();
 });
-
 ipcMain.on('window-maximize', () => {
   if (mainWindow) {
     if (mainWindow.isMaximized()) {
@@ -48,7 +55,6 @@ ipcMain.on('window-maximize', () => {
     }
   }
 });
-
 ipcMain.on('window-close', () => {
   if (mainWindow) mainWindow.close();
 });
