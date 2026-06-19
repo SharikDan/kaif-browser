@@ -1,8 +1,9 @@
-name: Build Electron App
+﻿name: Build Electron App
 
 on:
   push:
     branches: [ main ]
+    tags: [ 'v*' ]
 
 jobs:
   build:
@@ -15,10 +16,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-    
-    - name: List files
-      run: Get-ChildItem -Recurse | Select-Object FullName
-      shell: pwsh
     
     - name: Install dependencies
       run: npm install
