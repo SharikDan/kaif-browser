@@ -22,30 +22,46 @@ function createWindow() {
 
   mainWindow.loadFile('index.html');
 
-  // --- Скачивание: привязываем к сессии webview ---
+  // --- УНИВЕРСАЛЬНЫЙ ПЕРЕХВАТ СКАЧИВАНИЙ ---
+  // 1. Для сессии по умолчанию
+  session.defaultSession.on('will-download', (event, item, webContents) => {
+    handleDownload(event, item, webContents);
+  });
+
+  // 2. Для сессии webview (persist:kaifbrowser)
   const webviewSession = session.fromPartition('persist:kaifbrowser');
   webviewSession.on('will-download', (event, item, webContents) => {
-    const filename = item.getFilename();
-    const savePath = dialog.showSaveDialogSync(mainWindow, {
-      defaultPath: path.join(app.getPath('downloads'), filename),
-      title: 'Сохранить файл'
-    });
-
-    if (savePath) {
-      item.setSavePath(savePath);
-      item.on('updated', (event, state) => {
-        if (state === 'progressing') {
-          const progress = item.getReceivedBytes() / item.getTotalBytes();
-          mainWindow.webContents.send('download-progress', { id: item.id, filename, progress });
-        }
-      });
-      item.once('done', (event, state) => {
-        mainWindow.webContents.send('download-done', { filename, state });
-      });
-    } else {
-      event.preventDefault();
-    }
+    handleDownload(event, item, webContents);
   });
+
+  // 3. Для сессии основного окна
+  mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
+    handleDownload(event, item, webContents);
+  });
+}
+
+// Функция обработки скачивания
+function handleDownload(event, item, webContents) {
+  const filename = item.getFilename();
+  const savePath = dialog.showSaveDialogSync(mainWindow, {
+    defaultPath: path.join(app.getPath('downloads'), filename),
+    title: 'Сохранить файл'
+  });
+
+  if (savePath) {
+    item.setSavePath(savePath);
+    item.on('updated', (event, state) => {
+      if (state === 'progressing') {
+        const progress = item.getReceivedBytes() / item.getTotalBytes();
+        mainWindow.webContents.send('download-progress', { id: item.id, filename, progress });
+      }
+    });
+    item.once('done', (event, state) => {
+      mainWindow.webContents.send('download-done', { filename, state });
+    });
+  } else {
+    event.preventDefault();
+  }
 }
 
 app.whenReady().then(() => {

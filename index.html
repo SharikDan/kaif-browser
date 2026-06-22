@@ -112,6 +112,62 @@
 
         .webview-container { flex: 1; display: none; background: white; }
         webview { width: 100%; height: 100%; border: none; }
+        /* Индикатор скачивания */
+        .download-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.9);
+            padding: 15px 25px;
+            border-radius: 12px;
+            border: 2px solid #ff0040;
+            color: white;
+            display: none;
+            z-index: 9999;
+            box-shadow: 0 5px 25px rgba(255,0,64,0.4);
+            min-width: 280px;
+        }
+        .download-indicator.show { display: block; animation: slideIn 0.3s ease; }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .download-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        .download-icon {
+            color: #ff0040;
+            font-size: 20px;
+        }
+        .download-filename {
+            flex: 1;
+            font-size: 13px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .download-percent {
+            font-weight: bold;
+            color: #ff0040;
+            font-size: 14px;
+        }
+        .download-progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .download-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff0040, #ff0066);
+            width: 0%;
+            transition: width 0.3s;
+            box-shadow: 0 0 10px rgba(255,0,64,0.6);
+        }
     </style>
 </head>
 <body>
@@ -364,8 +420,22 @@
         window.electronAPI.onOpenNewTab(function(link){ if (link) navigateTo(link, true); });
         window.electronAPI.onRefresh(function(){ refresh(); });
 
-        window.electronAPI.onDownloadProgress((data) => console.log('Загрузка ' + data.filename + ': ' + Math.round(data.progress*100) + '%'));
-        window.electronAPI.onDownloadDone((data) => console.log('Загрузка ' + data.filename + ' завершена (' + data.state + ')'));
+        window.electronAPI.onDownloadProgress((data) => {
+            const el = document.getElementById('downloadIndicator');
+            if (el) {
+                el.classList.add('show');
+                document.getElementById('downloadFilename').textContent = data.filename;
+                const percent = Math.round(data.progress * 100);
+                document.getElementById('downloadPercent').textContent = percent + '%';
+                document.getElementById('downloadProgressFill').style.width = percent + '%';
+            }
+        });
+        window.electronAPI.onDownloadDone((data) => {
+            setTimeout(() => {
+                const el = document.getElementById('downloadIndicator');
+                if (el) el.classList.remove('show');
+            }, 2000);
+        });
 
         async function autoFillForms(url) {
             try {
@@ -415,6 +485,16 @@
 
         loadTabs();
         setTimeout(updateScrollButtons, 100);
-    </script>
+    </script>    <!-- Индикатор скачивания -->
+    <div class="download-indicator" id="downloadIndicator">
+        <div class="download-info">
+            <span class="download-icon">⬇</span>
+            <span class="download-filename" id="downloadFilename">Файл</span>
+            <span class="download-percent" id="downloadPercent">0%</span>
+        </div>
+        <div class="download-progress-bar">
+            <div class="download-progress-fill" id="downloadProgressFill"></div>
+        </div>
+    </div>
 </body>
 </html>
