@@ -11,6 +11,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   onOpenNewTab: (callback) => ipcRenderer.on('open-new-tab', (event, link) => callback(link)),
   onRefresh: (callback) => ipcRenderer.on('refresh-page', () => callback()),
   
+  // Новые окна из main
+  onOpenUrl: (callback) => ipcRenderer.on('open-url', (event, url) => callback(url)),
+  onNewTab: (callback) => ipcRenderer.on('new-tab', (event, url) => callback(url)),
+  
   // Скачивание
   onDownloadProgress: (callback) => ipcRenderer.on('download-progress', (event, data) => callback(data)),
   onDownloadDone: (callback) => ipcRenderer.on('download-done', (event, data) => callback(data)),
@@ -18,6 +22,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Пароли
   getPasswords: () => ipcRenderer.invoke('get-passwords'),
   savePassword: (domain, username, password) => ipcRenderer.invoke('save-password', { domain, username, password }),
-  getPasswordsForDomain: (domain) => ipcRenderer.invoke('get-passwords-for-domain', domain),
-  deletePassword: (domain, username) => ipcRenderer.invoke('delete-password', { domain, username })
+  getPasswordsForDomain: (domain) => ipcRenderer.invoke('get-passwords-for-domain', domain)
 });

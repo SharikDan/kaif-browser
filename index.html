@@ -419,6 +419,8 @@
 
         window.electronAPI.onOpenNewTab(function(link){ if (link) navigateTo(link, true); });
         window.electronAPI.onRefresh(function(){ refresh(); });
+        window.electronAPI.onOpenUrl(function(url){ if (url) navigateTo(url, false); });
+        window.electronAPI.onNewTab(function(url){ if (url) navigateTo(url, true); });
 
         window.electronAPI.onDownloadProgress((data) => {
             const el = document.getElementById('downloadIndicator');
