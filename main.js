@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, Menu, dialog, session } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu, dialog, session, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -22,7 +22,7 @@ function createWindow() {
 
   mainWindow.loadFile('index.html');
 
-  // Перехват скачиваний через ВСЕ возможные сессии
+  // УНИВЕРСАЛЬНЫЙ ПЕРЕХВАТ СКАЧИВАНИЙ через все сессии
   const sessions = [
     session.defaultSession,
     session.fromPartition('persist:kaifbrowser'),
@@ -32,7 +32,7 @@ function createWindow() {
   sessions.forEach(sess => {
     sess.on('will-download', (event, item, webContents) => {
       const filename = item.getFilename();
-      console.log('Перехвачено скачивание:', filename);
+      console.log('[KaifBrowser] Перехвачено скачивание:', filename);
       const savePath = dialog.showSaveDialogSync(mainWindow, {
         defaultPath: path.join(app.getPath('downloads'), filename),
         title: 'Сохранить файл'
@@ -48,6 +48,9 @@ function createWindow() {
         });
         item.once('done', (event, state) => {
           mainWindow.webContents.send('download-done', { filename, state });
+          if (state === 'completed') {
+            try { shell.showItemInFolder(savePath); } catch(e) {}
+          }
         });
       } else {
         event.preventDefault();

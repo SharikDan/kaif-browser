@@ -11,89 +11,26 @@
         .window-controls button { -webkit-app-region: no-drag; width: 32px; height: 32px; border: none; border-radius: 6px; background: transparent; color: rgba(255,255,255,0.8); cursor: pointer; font-size: 16px; margin-left: 8px; transition: all 0.2s; }
         .window-controls button:hover { background: rgba(255,0,64,0.3); color: white; }
         .window-controls button.close:hover { background: #ff0040; }
-
-        .tabbar {
-            background: rgba(0,0,0,0.8);
-            padding: 10px 10px 0 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            border-bottom: 1px solid rgba(255,0,64,0.3);
-            position: relative;
-        }
-        .tabs-scroll-container {
-            flex: 1;
-            overflow-x: auto;
-            overflow-y: hidden;
-            display: flex;
-            gap: 4px;
-            padding-bottom: 4px;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-        }
+        .tabbar { background: rgba(0,0,0,0.8); padding: 10px 10px 0 10px; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid rgba(255,0,64,0.3); position: relative; }
+        .tabs-scroll-container { flex: 1; overflow-x: auto; overflow-y: hidden; display: flex; gap: 4px; padding-bottom: 4px; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
         .tabs-scroll-container::-webkit-scrollbar { height: 0; }
-        .tab {
-            flex-shrink: 0;
-            background: rgba(255,0,64,0.15);
-            border: 1px solid rgba(255,0,64,0.4);
-            border-bottom: none;
-            border-radius: 10px 10px 0 0;
-            padding: 8px 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            max-width: 180px;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
+        .tab { flex-shrink: 0; background: rgba(255,0,64,0.15); border: 1px solid rgba(255,0,64,0.4); border-bottom: none; border-radius: 10px 10px 0 0; padding: 8px 16px; cursor: pointer; display: flex; align-items: center; gap: 8px; max-width: 180px; transition: all 0.2s; white-space: nowrap; }
         .tab:hover { background: rgba(255,0,64,0.25); }
         .tab.active { background: rgba(255,0,64,0.4); border-color: #ff0040; box-shadow: 0 -2px 10px rgba(255,0,64,0.4); }
         .tab-title { flex: 1; overflow: hidden; text-overflow: ellipsis; font-size: 13px; }
-        .tab-close { width: 20px; height: 20px; border: none; border-radius: 50%; background: transparent; color: rgba(255,255,255,0.6); cursor: pointer; font-size: 14px; transition: all 0.2s; flex-shrink: 0; }
+        .tab-close { width: 20px; height: 20px; border: none; border-radius: 50%; background: transparent; color: rgba(255,255,255,0.6); cursor: pointer; font-size: 14px; flex-shrink: 0; }
         .tab-close:hover { background: rgba(255,0,64,0.6); color: white; }
-
-        .tab-nav-btn {
-            width: 28px;
-            height: 28px;
-            border: none;
-            border-radius: 50%;
-            background: rgba(255,0,64,0.3);
-            color: white;
-            cursor: pointer;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            flex-shrink: 0;
-            -webkit-app-region: no-drag;
-        }
+        .tab-nav-btn { width: 28px; height: 28px; border: none; border-radius: 50%; background: rgba(255,0,64,0.3); color: white; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; -webkit-app-region: no-drag; }
         .tab-nav-btn:hover { background: #ff0040; transform: scale(1.1); }
         .tab-nav-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
-
-        .new-tab {
-            width: 35px;
-            height: 35px;
-            border: none;
-            border-radius: 10px 10px 0 0;
-            background: rgba(255,0,64,0.2);
-            color: white;
-            cursor: pointer;
-            font-size: 20px;
-            transition: all 0.2s;
-            flex-shrink: 0;
-            -webkit-app-region: no-drag;
-        }
+        .new-tab { width: 35px; height: 35px; border: none; border-radius: 10px 10px 0 0; background: rgba(255,0,64,0.2); color: white; cursor: pointer; font-size: 20px; transition: all 0.2s; flex-shrink: 0; -webkit-app-region: no-drag; }
         .new-tab:hover { background: rgba(255,0,64,0.4); transform: translateY(-2px); }
-
         .navbar { background: rgba(0,0,0,0.85); padding: 12px 15px; display: flex; gap: 10px; align-items: center; }
         .nav-btn { width: 38px; height: 38px; border: none; border-radius: 10px; background: rgba(255,0,64,0.25); color: #ff0040; cursor: pointer; font-size: 18px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
         .nav-btn:hover { background: #ff0040; color: white; transform: scale(1.1); box-shadow: 0 0 15px rgba(255,0,64,0.5); }
         .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
         .url-bar { flex: 1; height: 38px; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,0,64,0.4); border-radius: 10px; padding: 0 15px; color: white; font-size: 14px; outline: none; transition: all 0.2s; }
         .url-bar:focus { border-color: #ff0040; background: rgba(255,255,255,0.15); box-shadow: 0 0 15px rgba(255,0,64,0.3); }
-
         .welcome { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #0f0f0f 0%, #1a0a0a 50%, #0f0f0f 100%); }
         .welcome-content { text-align: center; width: 100%; max-width: 700px; padding: 40px; }
         .clock-container { margin-bottom: 50px; text-align: center; }
@@ -105,73 +42,34 @@
         .search-input:focus { border-color: #ff0040; background: rgba(255,255,255,0.15); box-shadow: 0 0 20px rgba(255,0,64,0.4); }
         .search-btn-main { height: 55px; padding: 0 35px; background: linear-gradient(135deg, #ff0040, #ff0066); border: none; border-radius: 12px; color: white; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
         .search-btn-main:hover { transform: scale(1.05); box-shadow: 0 5px 25px rgba(255,0,64,0.6); }
-
         .loading-indicator { position: fixed; top: 76px; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, #ff0040, transparent); display: none; z-index: 10000; }
         .loading-indicator.active { display: block; animation: loading 1.5s ease-in-out infinite; }
         @keyframes loading { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-
         .webview-container { flex: 1; display: none; background: white; }
         webview { width: 100%; height: 100%; border: none; }
-        /* Индикатор скачивания */
-        .download-indicator {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.9);
-            padding: 15px 25px;
-            border-radius: 12px;
-            border: 2px solid #ff0040;
-            color: white;
-            display: none;
-            z-index: 9999;
-            box-shadow: 0 5px 25px rgba(255,0,64,0.4);
-            min-width: 280px;
-        }
+        .download-indicator { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.9); padding: 15px 25px; border-radius: 12px; border: 2px solid #ff0040; color: white; display: none; z-index: 9999; box-shadow: 0 5px 25px rgba(255,0,64,0.4); min-width: 280px; backdrop-filter: blur(4px); }
         .download-indicator.show { display: block; animation: slideIn 0.3s ease; }
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        .download-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
-        }
-        .download-icon {
-            color: #ff0040;
-            font-size: 20px;
-        }
-        .download-filename {
-            flex: 1;
-            font-size: 13px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .download-percent {
-            font-weight: bold;
-            color: #ff0040;
-            font-size: 14px;
-        }
-        .download-progress-bar {
-            width: 100%;
-            height: 6px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        .download-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #ff0040, #ff0066);
-            width: 0%;
-            transition: width 0.3s;
-            box-shadow: 0 0 10px rgba(255,0,64,0.6);
-        }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .download-info { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .download-icon { color: #ff0040; font-size: 20px; }
+        .download-filename { flex: 1; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .download-percent { font-weight: bold; color: #ff0040; font-size: 14px; }
+        .download-progress-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+        .download-progress-fill { height: 100%; background: linear-gradient(90deg, #ff0040, #ff0066); width: 0%; transition: width 0.3s; box-shadow: 0 0 10px rgba(255,0,64,0.6); }
     </style>
 </head>
 <body>
     <div class="loading-indicator" id="loadingIndicator"></div>
+    <div class="download-indicator" id="downloadIndicator">
+        <div class="download-info">
+            <span class="download-icon">⬇</span>
+            <span class="download-filename" id="downloadFilename">Файл</span>
+            <span class="download-percent" id="downloadPercent">0%</span>
+        </div>
+        <div class="download-progress-bar">
+            <div class="download-progress-fill" id="downloadProgressFill"></div>
+        </div>
+    </div>
 
     <div class="titlebar">
         <div class="logo">
@@ -409,6 +307,7 @@
             navigateTo(SEARCH_URL + encodeURIComponent(query), openInNewTab);
         }
 
+        // --- Контекстное меню ---
         webview.addEventListener('context-menu', (e) => {
             e.preventDefault();
             const x = e.x, y = e.y;
@@ -419,9 +318,8 @@
 
         window.electronAPI.onOpenNewTab(function(link){ if (link) navigateTo(link, true); });
         window.electronAPI.onRefresh(function(){ refresh(); });
-        window.electronAPI.onOpenUrl(function(url){ if (url) navigateTo(url, false); });
-        window.electronAPI.onNewTab(function(url){ if (url) navigateTo(url, true); });
 
+        // --- Скачивание: индикатор ---
         window.electronAPI.onDownloadProgress((data) => {
             const el = document.getElementById('downloadIndicator');
             if (el) {
@@ -439,6 +337,7 @@
             }, 2000);
         });
 
+        // --- Пароли ---
         async function autoFillForms(url) {
             try {
                 const domain = new URL(url).hostname;
@@ -461,29 +360,7 @@
             }
         });
 
-        webview.addEventListener('did-start-loading', () => loadingIndicator.classList.add('active'));
-        webview.addEventListener('did-stop-loading', () => { loadingIndicator.classList.remove('active'); updateNavButtons(); });
-        webview.addEventListener('did-navigate', (e) => {
-            const url = e.url;
-            urlBar.value = url;
-            const tab = tabs.find(t => t.id === activeTab);
-            if (tab) { tab.url = url; tab.title = url; renderTabs(); saveTabs(); }
-            updateNavButtons();
-            setTimeout(() => { autoFillForms(url); setTimeout(injectPasswordCapture, 300); }, 500);
-        });
-        webview.addEventListener('page-title-updated', (e) => {
-            const tab = tabs.find(t => t.id === activeTab);
-            if (tab && e.title) { tab.title = e.title; renderTabs(); saveTabs(); }
-        });
-        webview.addEventListener('new-window', (e) => { e.preventDefault(); if (e.url) navigateTo(e.url, true); });
-        webview.addEventListener('dom-ready', () => {
-            updateNavButtons();
-            const url = webview.getURL();
-            if (url) { autoFillForms(url); setTimeout(injectPasswordCapture, 300); }
-        });
-        webview.addEventListener('did-fail-load', (e) => { loadingIndicator.classList.remove('active'); console.warn('Ошибка загрузки:', e); });
-
-        window.addEventListener('beforeunload', () => saveTabs());        // === ПЕРЕХВАТ ССЫЛОК НА ФАЙЛЫ ===
+        // === ПЕРЕХВАТ ФАЙЛОВ ДЛЯ MOODLE ===
         function isFileLink(url) {
             if (!url) return false;
             const extensions = ['.pdf','.doc','.docx','.xls','.xlsx','.ppt','.pptx','.zip','.rar','.7z','.tar','.gz','.jpg','.jpeg','.png','.gif','.bmp','.svg','.webp','.mp3','.mp4','.avi','.mkv','.mov','.txt','.csv','.json','.xml','.exe','.msi','.dmg','.deb','.rpm'];
@@ -492,7 +369,7 @@
         }
 
         webview.addEventListener('dom-ready', () => {
-            const clickInterceptor = `
+            const interceptor = `
                 (function() {
                     function isFileLink(url) {
                         if (!url) return false;
@@ -514,45 +391,58 @@
                     }, true);
                 })();
             `;
-            webview.executeJavaScript(clickInterceptor);
-        });
-
-        window.addEventListener('message', (event) => {
-            const data = event.data;
-            if (data && data.type === 'file-link-clicked') {
-                let fullUrl = data.url;
-                if (fullUrl.startsWith('/')) {
-                    try {
-                        const base = new URL(webview.getURL());
-                        fullUrl = base.origin + fullUrl;
-                    } catch (e) {}
-                }
-                console.log('Обнаружена ссылка на файл:', fullUrl);
-                if (data.openInNewTab) navigateTo(fullUrl, true);
-                else navigateTo(fullUrl, false);
-            }
+            webview.executeJavaScript(interceptor);
         });
 
         webview.addEventListener('new-window', (e) => {
             if (isFileLink(e.url)) {
                 e.preventDefault();
+                console.log('🔗 Файл через new-window:', e.url);
                 navigateTo(e.url, true);
             }
         });
 
+        window.addEventListener('message', (event) => {
+            const data = event.data;
+            if (data && data.type === 'file-link-clicked') {
+                let url = data.url;
+                if (url.startsWith('/')) {
+                    try {
+                        const base = new URL(webview.getURL());
+                        url = base.origin + url;
+                    } catch (e) {}
+                }
+                console.log('🔗 Перехвачен файл:', url);
+                navigateTo(url, data.openInNewTab !== false);
+            }
+        });
+
+        // --- События webview ---
+        webview.addEventListener('did-start-loading', () => loadingIndicator.classList.add('active'));
+        webview.addEventListener('did-stop-loading', () => { loadingIndicator.classList.remove('active'); updateNavButtons(); });
+        webview.addEventListener('did-navigate', (e) => {
+            const url = e.url;
+            urlBar.value = url;
+            const tab = tabs.find(t => t.id === activeTab);
+            if (tab) { tab.url = url; tab.title = url; renderTabs(); saveTabs(); }
+            updateNavButtons();
+            setTimeout(() => { autoFillForms(url); setTimeout(injectPasswordCapture, 300); }, 500);
+        });
+        webview.addEventListener('page-title-updated', (e) => {
+            const tab = tabs.find(t => t.id === activeTab);
+            if (tab && e.title) { tab.title = e.title; renderTabs(); saveTabs(); }
+        });
+        webview.addEventListener('dom-ready', () => {
+            updateNavButtons();
+            const url = webview.getURL();
+            if (url) { autoFillForms(url); setTimeout(injectPasswordCapture, 300); }
+        });
+        webview.addEventListener('did-fail-load', (e) => { loadingIndicator.classList.remove('active'); console.warn('Ошибка загрузки:', e); });
+
+        window.addEventListener('beforeunload', () => saveTabs());
 
         loadTabs();
         setTimeout(updateScrollButtons, 100);
-    </script>    <!-- Индикатор скачивания -->
-    <div class="download-indicator" id="downloadIndicator">
-        <div class="download-info">
-            <span class="download-icon">⬇</span>
-            <span class="download-filename" id="downloadFilename">Файл</span>
-            <span class="download-percent" id="downloadPercent">0%</span>
-        </div>
-        <div class="download-progress-bar">
-            <div class="download-progress-fill" id="downloadProgressFill"></div>
-        </div>
-    </div>
+    </script>
 </body>
 </html>
