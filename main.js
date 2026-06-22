@@ -23,12 +23,13 @@ function createWindow() {
   mainWindow.loadFile('index.html');
 
   // Универсальный перехват скачиваний
-  const handleDownload = (event, item, webContents) => {
+  function handleDownload(event, item, webContents) {
     const filename = item.getFilename();
     const savePath = dialog.showSaveDialogSync(mainWindow, {
       defaultPath: path.join(app.getPath('downloads'), filename),
       title: 'Сохранить файл'
     });
+
     if (savePath) {
       item.setSavePath(savePath);
       item.on('updated', (event, state) => {
@@ -43,10 +44,11 @@ function createWindow() {
     } else {
       event.preventDefault();
     }
-  };
+  }
 
   session.defaultSession.on('will-download', handleDownload);
-  session.fromPartition('persist:kaifbrowser').on('will-download', handleDownload);
+  const webviewSession = session.fromPartition('persist:kaifbrowser');
+  webviewSession.on('will-download', handleDownload);
   mainWindow.webContents.session.on('will-download', handleDownload);
 }
 
@@ -98,15 +100,4 @@ ipcMain.handle('save-password', (event, { domain, username, password }) => {
 ipcMain.handle('get-passwords-for-domain', (event, domain) => {
   const data = readPasswords();
   return data[domain] || {};
-});
-
-// Получение списка обоев
-ipcMain.handle('get-wallpapers', () => {
-  const wallpapersDir = path.join(__dirname, 'wallpapers');
-  try {
-    const files = fs.readdirSync(wallpapersDir).filter(f => /\.(jpg|jpeg|png|gif|webp)$/i.test(f));
-    return files;
-  } catch {
-    return [];
-  }
 });
