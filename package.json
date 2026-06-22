@@ -1,6 +1,6 @@
 {
   "name": "kaif-browser",
-  "version": "12.1.0",
+  "version": "13.0.0",
   "description": "KaifBrowser - Modern Browser",
   "main": "main.js",
   "scripts": {
@@ -23,7 +23,7 @@
       "main.js",
       "preload.js",
       "index.html",
-      "package.json"
+      "package.json", "wallpapers/**/*"
     ],
     "win": {
       "target": [

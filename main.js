@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, Menu, dialog, session, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu, dialog, session } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -22,41 +22,32 @@ function createWindow() {
 
   mainWindow.loadFile('index.html');
 
-  // УНИВЕРСАЛЬНЫЙ ПЕРЕХВАТ СКАЧИВАНИЙ через все сессии
-  const sessions = [
-    session.defaultSession,
-    session.fromPartition('persist:kaifbrowser'),
-    mainWindow.webContents.session
-  ];
-
-  sessions.forEach(sess => {
-    sess.on('will-download', (event, item, webContents) => {
-      const filename = item.getFilename();
-      console.log('[KaifBrowser] Перехвачено скачивание:', filename);
-      const savePath = dialog.showSaveDialogSync(mainWindow, {
-        defaultPath: path.join(app.getPath('downloads'), filename),
-        title: 'Сохранить файл'
-      });
-
-      if (savePath) {
-        item.setSavePath(savePath);
-        item.on('updated', (event, state) => {
-          if (state === 'progressing') {
-            const progress = item.getReceivedBytes() / item.getTotalBytes();
-            mainWindow.webContents.send('download-progress', { id: item.id, filename, progress });
-          }
-        });
-        item.once('done', (event, state) => {
-          mainWindow.webContents.send('download-done', { filename, state });
-          if (state === 'completed') {
-            try { shell.showItemInFolder(savePath); } catch(e) {}
-          }
-        });
-      } else {
-        event.preventDefault();
-      }
+  // Универсальный перехват скачиваний
+  const handleDownload = (event, item, webContents) => {
+    const filename = item.getFilename();
+    const savePath = dialog.showSaveDialogSync(mainWindow, {
+      defaultPath: path.join(app.getPath('downloads'), filename),
+      title: 'Сохранить файл'
     });
-  });
+    if (savePath) {
+      item.setSavePath(savePath);
+      item.on('updated', (event, state) => {
+        if (state === 'progressing') {
+          const progress = item.getReceivedBytes() / item.getTotalBytes();
+          mainWindow.webContents.send('download-progress', { id: item.id, filename, progress });
+        }
+      });
+      item.once('done', (event, state) => {
+        mainWindow.webContents.send('download-done', { filename, state });
+      });
+    } else {
+      event.preventDefault();
+    }
+  };
+
+  session.defaultSession.on('will-download', handleDownload);
+  session.fromPartition('persist:kaifbrowser').on('will-download', handleDownload);
+  mainWindow.webContents.session.on('will-download', handleDownload);
 }
 
 app.whenReady().then(() => {
@@ -89,7 +80,6 @@ ipcMain.on('context-menu', (event, link) => {
 });
 
 const passwordsFile = path.join(app.getPath('userData'), 'passwords.json');
-
 function readPasswords() {
   try { return JSON.parse(fs.readFileSync(passwordsFile, 'utf8')); }
   catch { return {}; }
@@ -97,7 +87,6 @@ function readPasswords() {
 function writePasswords(data) {
   fs.writeFileSync(passwordsFile, JSON.stringify(data, null, 2));
 }
-
 ipcMain.handle('get-passwords', () => readPasswords());
 ipcMain.handle('save-password', (event, { domain, username, password }) => {
   const data = readPasswords();
@@ -109,4 +98,15 @@ ipcMain.handle('save-password', (event, { domain, username, password }) => {
 ipcMain.handle('get-passwords-for-domain', (event, domain) => {
   const data = readPasswords();
   return data[domain] || {};
+});
+
+// Получение списка обоев
+ipcMain.handle('get-wallpapers', () => {
+  const wallpapersDir = path.join(__dirname, 'wallpapers');
+  try {
+    const files = fs.readdirSync(wallpapersDir).filter(f => /\.(jpg|jpeg|png|gif|webp)$/i.test(f));
+    return files;
+  } catch {
+    return [];
+  }
 });

@@ -11,5 +11,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   onDownloadDone: (callback) => ipcRenderer.on('download-done', (event, data) => callback(data)),
   getPasswords: () => ipcRenderer.invoke('get-passwords'),
   savePassword: (domain, username, password) => ipcRenderer.invoke('save-password', { domain, username, password }),
-  getPasswordsForDomain: (domain) => ipcRenderer.invoke('get-passwords-for-domain', domain)
+  getPasswordsForDomain: (domain) => ipcRenderer.invoke('get-passwords-for-domain', domain),
+  getWallpapers: () => ipcRenderer.invoke('get-wallpapers')
 });
