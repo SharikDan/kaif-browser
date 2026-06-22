@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, Menu, dialog, session, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu, dialog, session } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -22,50 +22,37 @@ function createWindow() {
 
   mainWindow.loadFile('index.html');
 
-  // --- УНИВЕРСАЛЬНЫЙ ПЕРЕХВАТ СКАЧИВАНИЙ ---
-  const handleDownload = (event, item, webContents) => {
-    const filename = item.getFilename();
-    console.log('Перехвачено скачивание:', filename);
-    const savePath = dialog.showSaveDialogSync(mainWindow, {
-      defaultPath: path.join(app.getPath('downloads'), filename),
-      title: 'Сохранить файл'
+  // Перехват скачиваний через ВСЕ возможные сессии
+  const sessions = [
+    session.defaultSession,
+    session.fromPartition('persist:kaifbrowser'),
+    mainWindow.webContents.session
+  ];
+
+  sessions.forEach(sess => {
+    sess.on('will-download', (event, item, webContents) => {
+      const filename = item.getFilename();
+      console.log('Перехвачено скачивание:', filename);
+      const savePath = dialog.showSaveDialogSync(mainWindow, {
+        defaultPath: path.join(app.getPath('downloads'), filename),
+        title: 'Сохранить файл'
+      });
+
+      if (savePath) {
+        item.setSavePath(savePath);
+        item.on('updated', (event, state) => {
+          if (state === 'progressing') {
+            const progress = item.getReceivedBytes() / item.getTotalBytes();
+            mainWindow.webContents.send('download-progress', { id: item.id, filename, progress });
+          }
+        });
+        item.once('done', (event, state) => {
+          mainWindow.webContents.send('download-done', { filename, state });
+        });
+      } else {
+        event.preventDefault();
+      }
     });
-
-    if (savePath) {
-      item.setSavePath(savePath);
-      item.on('updated', (event, state) => {
-        if (state === 'progressing') {
-          const progress = item.getReceivedBytes() / item.getTotalBytes();
-          mainWindow.webContents.send('download-progress', { id: item.id, filename, progress });
-        }
-      });
-      item.once('done', (event, state) => {
-        mainWindow.webContents.send('download-done', { filename, state });
-        if (state === 'completed') {
-          shell.showItemInFolder(savePath);
-        }
-      });
-    } else {
-      event.preventDefault();
-    }
-  };
-
-  session.defaultSession.on('will-download', handleDownload);
-  const webviewSession = session.fromPartition('persist:kaifbrowser');
-  webviewSession.on('will-download', handleDownload);
-  mainWindow.webContents.session.on('will-download', handleDownload);
-
-  // Обработка новых окон (target="_blank")
-  mainWindow.webContents.setWindowOpenHandler((details) => {
-    const url = details.url;
-    // Если это файл — открываем в текущей вкладке
-    if (url.match(/\.(docx|pdf|zip|exe|msi|rar|7z|txt|jpg|png|gif|mp4|mp3|avi|mkv)$/i)) {
-      mainWindow.webContents.send('open-url', url);
-      return { action: 'deny' };
-    }
-    // Иначе — в новой вкладке
-    mainWindow.webContents.send('new-tab', url);
-    return { action: 'deny' };
   });
 }
 

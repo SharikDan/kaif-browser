@@ -483,7 +483,63 @@
         });
         webview.addEventListener('did-fail-load', (e) => { loadingIndicator.classList.remove('active'); console.warn('Ошибка загрузки:', e); });
 
-        window.addEventListener('beforeunload', () => saveTabs());
+        window.addEventListener('beforeunload', () => saveTabs());        // === ПЕРЕХВАТ ССЫЛОК НА ФАЙЛЫ ===
+        function isFileLink(url) {
+            if (!url) return false;
+            const extensions = ['.pdf','.doc','.docx','.xls','.xlsx','.ppt','.pptx','.zip','.rar','.7z','.tar','.gz','.jpg','.jpeg','.png','.gif','.bmp','.svg','.webp','.mp3','.mp4','.avi','.mkv','.mov','.txt','.csv','.json','.xml','.exe','.msi','.dmg','.deb','.rpm'];
+            const lower = url.toLowerCase();
+            return extensions.some(ext => lower.includes(ext) || lower.endsWith(ext));
+        }
+
+        webview.addEventListener('dom-ready', () => {
+            const clickInterceptor = `
+                (function() {
+                    function isFileLink(url) {
+                        if (!url) return false;
+                        const exts = ['.pdf','.doc','.docx','.xls','.xlsx','.ppt','.pptx','.zip','.rar','.7z','.tar','.gz','.jpg','.jpeg','.png','.gif','.bmp','.svg','.webp','.mp3','.mp4','.avi','.mkv','.mov','.txt','.csv','.json','.xml','.exe','.msi','.dmg'];
+                        const lower = url.toLowerCase();
+                        return exts.some(ext => lower.includes(ext) || lower.endsWith(ext));
+                    }
+                    document.addEventListener('click', function(e) {
+                        let target = e.target;
+                        while (target && target.tagName !== 'A') target = target.parentElement;
+                        if (!target) return;
+                        const href = target.getAttribute('href');
+                        if (!href) return;
+                        if (isFileLink(href)) {
+                            const isNewWindow = target.getAttribute('target') === '_blank';
+                            window.parent.postMessage({ type: 'file-link-clicked', url: href, openInNewTab: isNewWindow }, '*');
+                            if (!isNewWindow) e.preventDefault();
+                        }
+                    }, true);
+                })();
+            `;
+            webview.executeJavaScript(clickInterceptor);
+        });
+
+        window.addEventListener('message', (event) => {
+            const data = event.data;
+            if (data && data.type === 'file-link-clicked') {
+                let fullUrl = data.url;
+                if (fullUrl.startsWith('/')) {
+                    try {
+                        const base = new URL(webview.getURL());
+                        fullUrl = base.origin + fullUrl;
+                    } catch (e) {}
+                }
+                console.log('Обнаружена ссылка на файл:', fullUrl);
+                if (data.openInNewTab) navigateTo(fullUrl, true);
+                else navigateTo(fullUrl, false);
+            }
+        });
+
+        webview.addEventListener('new-window', (e) => {
+            if (isFileLink(e.url)) {
+                e.preventDefault();
+                navigateTo(e.url, true);
+            }
+        });
+
 
         loadTabs();
         setTimeout(updateScrollButtons, 100);
