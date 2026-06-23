@@ -12,5 +12,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getPasswords: () => ipcRenderer.invoke('get-passwords'),
   savePassword: (domain, username, password) => ipcRenderer.invoke('save-password', { domain, username, password }),
   getPasswordsForDomain: (domain) => ipcRenderer.invoke('get-passwords-for-domain', domain),
-  getWallpapers: () => ipcRenderer.invoke('get-wallpapers')
+  getDownloadsHistory: () => ipcRenderer.invoke('get-downloads-history'),
+  openDownloadFolder: (filePath) => ipcRenderer.invoke('open-download-folder', filePath),
+  getSearchHistory: () => ipcRenderer.invoke('get-search-history'),
+  addSearchHistory: (query) => ipcRenderer.invoke('add-search-history', query),
+  clearSearchHistory: () => ipcRenderer.invoke('clear-search-history'),
+  openPip: (url) => ipcRenderer.invoke('open-pip', url),
+  onDownloadHistoryUpdated: (callback) => ipcRenderer.on('download-history-updated', (event, data) => callback(data)),
+  onSearchHistoryUpdated: (callback) => ipcRenderer.on('search-history-updated', (event, data) => callback(data))
 });

@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, Menu, dialog, session } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu, dialog, session, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -40,6 +40,11 @@ function createWindow() {
       });
       item.once('done', (event, state) => {
         mainWindow.webContents.send('download-done', { filename, state });
+        if (state === 'completed') {
+          // Сохраняем в историю загрузок
+          addDownloadHistory(filename, savePath, item.getTotalBytes());
+          shell.showItemInFolder(savePath);
+        }
       });
     } else {
       event.preventDefault();
@@ -81,6 +86,7 @@ ipcMain.on('context-menu', (event, link) => {
   menu.popup();
 });
 
+// ===== Менеджер паролей =====
 const passwordsFile = path.join(app.getPath('userData'), 'passwords.json');
 function readPasswords() {
   try { return JSON.parse(fs.readFileSync(passwordsFile, 'utf8')); }
@@ -100,4 +106,90 @@ ipcMain.handle('save-password', (event, { domain, username, password }) => {
 ipcMain.handle('get-passwords-for-domain', (event, domain) => {
   const data = readPasswords();
   return data[domain] || {};
+});
+
+// ===== История загрузок =====
+const downloadsFile = path.join(app.getPath('userData'), 'downloads.json');
+let downloadsHistory = [];
+
+function loadDownloadsHistory() {
+  try {
+    const data = fs.readFileSync(downloadsFile, 'utf8');
+    downloadsHistory = JSON.parse(data);
+  } catch { downloadsHistory = []; }
+}
+
+function saveDownloadsHistory() {
+  fs.writeFileSync(downloadsFile, JSON.stringify(downloadsHistory, null, 2));
+}
+
+function addDownloadHistory(filename, path, size) {
+  downloadsHistory.unshift({
+    filename,
+    path,
+    size,
+    date: new Date().toISOString()
+  });
+  if (downloadsHistory.length > 100) downloadsHistory.pop();
+  saveDownloadsHistory();
+  mainWindow.webContents.send('download-history-updated', downloadsHistory);
+}
+
+loadDownloadsHistory();
+
+ipcMain.handle('get-downloads-history', () => downloadsHistory);
+ipcMain.handle('open-download-folder', (event, filePath) => {
+  if (filePath) {
+    shell.showItemInFolder(filePath);
+  } else {
+    shell.openPath(app.getPath('downloads'));
+  }
+});
+
+// ===== История поиска =====
+const searchHistoryFile = path.join(app.getPath('userData'), 'searchHistory.json');
+let searchHistory = [];
+
+function loadSearchHistory() {
+  try {
+    const data = fs.readFileSync(searchHistoryFile, 'utf8');
+    searchHistory = JSON.parse(data);
+  } catch { searchHistory = []; }
+}
+
+function saveSearchHistory() {
+  fs.writeFileSync(searchHistoryFile, JSON.stringify(searchHistory, null, 2));
+}
+
+loadSearchHistory();
+
+ipcMain.handle('get-search-history', () => searchHistory);
+ipcMain.handle('add-search-history', (event, query) => {
+  if (!query) return;
+  searchHistory = searchHistory.filter(item => item !== query);
+  searchHistory.unshift(query);
+  if (searchHistory.length > 100) searchHistory.pop();
+  saveSearchHistory();
+  mainWindow.webContents.send('search-history-updated', searchHistory);
+});
+ipcMain.handle('clear-search-history', () => {
+  searchHistory = [];
+  saveSearchHistory();
+  mainWindow.webContents.send('search-history-updated', searchHistory);
+});
+
+// ===== PiP (Picture-in-Picture) =====
+ipcMain.handle('open-pip', (event, url) => {
+  if (!url) return;
+  const pipWindow = new BrowserWindow({
+    width: 400,
+    height: 300,
+    alwaysOnTop: true,
+    frame: false,
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true
+    }
+  });
+  pipWindow.loadURL(url);
 });

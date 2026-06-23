@@ -11,91 +11,30 @@
         .window-controls button { -webkit-app-region: no-drag; width: 32px; height: 32px; border: none; border-radius: 6px; background: transparent; color: rgba(255,255,255,0.8); cursor: pointer; font-size: 16px; margin-left: 8px; transition: all 0.2s; }
         .window-controls button:hover { background: rgba(255,0,64,0.3); color: white; }
         .window-controls button.close:hover { background: #ff0040; }
-
-        .tabbar {
-            background: rgba(0,0,0,0.8);
-            padding: 10px 10px 0 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            border-bottom: 1px solid rgba(255,0,64,0.3);
-            position: relative;
-        }
-        .tabs-scroll-container {
-            flex: 1;
-            overflow-x: auto;
-            overflow-y: hidden;
-            display: flex;
-            gap: 4px;
-            padding-bottom: 4px;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-        }
+        .tabbar { background: rgba(0,0,0,0.8); padding: 10px 10px 0 10px; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid rgba(255,0,64,0.3); position: relative; }
+        .tabs-scroll-container { flex: 1; overflow-x: auto; overflow-y: hidden; display: flex; gap: 4px; padding-bottom: 4px; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
         .tabs-scroll-container::-webkit-scrollbar { height: 0; }
-        .tab {
-            flex-shrink: 0;
-            background: rgba(255,0,64,0.15);
-            border: 1px solid rgba(255,0,64,0.4);
-            border-bottom: none;
-            border-radius: 10px 10px 0 0;
-            padding: 8px 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            max-width: 180px;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
+        .tab { flex-shrink: 0; background: rgba(255,0,64,0.15); border: 1px solid rgba(255,0,64,0.4); border-bottom: none; border-radius: 10px 10px 0 0; padding: 8px 16px; cursor: pointer; display: flex; align-items: center; gap: 8px; max-width: 180px; transition: all 0.2s; white-space: nowrap; }
         .tab:hover { background: rgba(255,0,64,0.25); }
         .tab.active { background: rgba(255,0,64,0.4); border-color: #ff0040; box-shadow: 0 -2px 10px rgba(255,0,64,0.4); }
         .tab-title { flex: 1; overflow: hidden; text-overflow: ellipsis; font-size: 13px; }
-        .tab-close { width: 20px; height: 20px; border: none; border-radius: 50%; background: transparent; color: rgba(255,255,255,0.6); cursor: pointer; font-size: 14px; transition: all 0.2s; flex-shrink: 0; }
+        .tab-close { width: 20px; height: 20px; border: none; border-radius: 50%; background: transparent; color: rgba(255,255,255,0.6); cursor: pointer; font-size: 14px; flex-shrink: 0; }
         .tab-close:hover { background: rgba(255,0,64,0.6); color: white; }
-
-        .tab-nav-btn {
-            width: 28px;
-            height: 28px;
-            border: none;
-            border-radius: 50%;
-            background: rgba(255,0,64,0.3);
-            color: white;
-            cursor: pointer;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            flex-shrink: 0;
-            -webkit-app-region: no-drag;
-        }
+        .tab-nav-btn { width: 28px; height: 28px; border: none; border-radius: 50%; background: rgba(255,0,64,0.3); color: white; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; -webkit-app-region: no-drag; }
         .tab-nav-btn:hover { background: #ff0040; transform: scale(1.1); }
         .tab-nav-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
-
-        .new-tab {
-            width: 35px;
-            height: 35px;
-            border: none;
-            border-radius: 10px 10px 0 0;
-            background: rgba(255,0,64,0.2);
-            color: white;
-            cursor: pointer;
-            font-size: 20px;
-            transition: all 0.2s;
-            flex-shrink: 0;
-            -webkit-app-region: no-drag;
-        }
+        .new-tab { width: 35px; height: 35px; border: none; border-radius: 10px 10px 0 0; background: rgba(255,0,64,0.2); color: white; cursor: pointer; font-size: 20px; transition: all 0.2s; flex-shrink: 0; -webkit-app-region: no-drag; }
         .new-tab:hover { background: rgba(255,0,64,0.4); transform: translateY(-2px); }
-
         .navbar { background: rgba(0,0,0,0.85); padding: 12px 15px; display: flex; gap: 10px; align-items: center; }
         .nav-btn { width: 38px; height: 38px; border: none; border-radius: 10px; background: rgba(255,0,64,0.25); color: #ff0040; cursor: pointer; font-size: 18px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
         .nav-btn:hover { background: #ff0040; color: white; transform: scale(1.1); box-shadow: 0 0 15px rgba(255,0,64,0.5); }
         .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
         .url-bar { flex: 1; height: 38px; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,0,64,0.4); border-radius: 10px; padding: 0 15px; color: white; font-size: 14px; outline: none; transition: all 0.2s; }
         .url-bar:focus { border-color: #ff0040; background: rgba(255,255,255,0.15); box-shadow: 0 0 15px rgba(255,0,64,0.3); }
-
-        .welcome { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #0f0f0f 0%, #1a0a0a 50%, #0f0f0f 100%); }
-        .welcome-content { text-align: center; width: 100%; max-width: 700px; padding: 40px; }
+        .action-btn { width: 38px; height: 38px; border: none; border-radius: 10px; background: rgba(255,0,64,0.25); color: white; cursor: pointer; font-size: 18px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+        .action-btn:hover { background: rgba(255,0,64,0.6); }
+        .welcome { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #0f0f0f 0%, #1a0a0a 50%, #0f0f0f 100%); position: relative; transition: background-image 0.5s ease; }
+        .welcome-content { text-align: center; width: 100%; max-width: 700px; padding: 40px; z-index: 2; }
         .clock-container { margin-bottom: 50px; text-align: center; }
         .time { font-size: 120px; font-weight: 300; color: #ff0040; text-shadow: 0 0 50px rgba(255,0,64,0.8); letter-spacing: 4px; line-height: 1; animation: glow 3s ease-in-out infinite; }
         .date { font-size: 22px; color: rgba(255,255,255,0.7); margin-top: 15px; letter-spacing: 1px; }
@@ -105,13 +44,32 @@
         .search-input:focus { border-color: #ff0040; background: rgba(255,255,255,0.15); box-shadow: 0 0 20px rgba(255,0,64,0.4); }
         .search-btn-main { height: 55px; padding: 0 35px; background: linear-gradient(135deg, #ff0040, #ff0066); border: none; border-radius: 12px; color: white; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
         .search-btn-main:hover { transform: scale(1.05); box-shadow: 0 5px 25px rgba(255,0,64,0.6); }
-
+        .wallpaper-selector { display: flex; gap: 10px; margin-top: 30px; flex-wrap: wrap; justify-content: center; z-index: 2; }
+        .wallpaper-option { width: 50px; height: 50px; border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); cursor: pointer; transition: all 0.2s; background-size: cover; background-position: center; }
+        .wallpaper-option:hover { transform: scale(1.1); border-color: #ff0040; }
+        .wallpaper-option.active { border-color: #ff0040; box-shadow: 0 0 15px rgba(255,0,64,0.6); }
         .loading-indicator { position: fixed; top: 76px; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, #ff0040, transparent); display: none; z-index: 10000; }
         .loading-indicator.active { display: block; animation: loading 1.5s ease-in-out infinite; }
         @keyframes loading { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-
         .webview-container { flex: 1; display: none; background: white; }
         webview { width: 100%; height: 100%; border: none; }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 10001; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #1a1a1a; border: 2px solid #ff0040; border-radius: 16px; padding: 24px; max-width: 600px; width: 90%; max-height: 70vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(255,0,64,0.4); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .modal-title { font-size: 20px; font-weight: bold; color: #ff0040; }
+        .modal-close { background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
+        .modal-close:hover { color: #ff0040; }
+        .modal-item { padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .modal-item:hover { background: rgba(255,0,64,0.1); }
+        .modal-item .file-info { display: flex; flex-direction: column; flex: 1; }
+        .modal-item .file-name { color: white; font-size: 14px; }
+        .modal-item .file-size { font-size: 12px; color: rgba(255,255,255,0.5); }
+        .modal-item .open-folder-btn { background: none; border: none; color: #ff0040; cursor: pointer; font-size: 20px; }
+        .modal-item .open-folder-btn:hover { transform: scale(1.2); }
+        .modal-empty { color: rgba(255,255,255,0.5); text-align: center; padding: 20px; }
+        .clear-history-btn { background: rgba(255,0,64,0.3); border: none; border-radius: 8px; color: white; padding: 6px 16px; cursor: pointer; font-size: 14px; margin-right: 10px; }
+        .clear-history-btn:hover { background: #ff0040; }
     </style>
 </head>
 <body>
@@ -145,6 +103,9 @@
         <button class="nav-btn" onclick="goHome()" title="Домой"><svg style="width:20px;height:20px" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
         <input type="text" class="url-bar" id="urlBar" placeholder="Введите URL или поиск..." onkeypress="if(event.key==='Enter')navigate()">
         <button class="nav-btn" onclick="navigate()" title="Перейти"><svg style="width:20px;height:20px" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></button>
+        <button class="action-btn" onclick="toggleSearchHistory()" title="История поиска"><svg style="width:20px;height:20px" viewBox="0 0 24 24" fill="currentColor"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg></button>
+        <button class="action-btn" onclick="toggleDownloads()" title="Загрузки"><svg style="width:20px;height:20px" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg></button>
+        <button class="action-btn" onclick="openPip()" title="PiP"><svg style="width:20px;height:20px" viewBox="0 0 24 24" fill="currentColor"><path d="M19 7h-8v6h8V7zm2-4H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14z"/></svg></button>
     </div>
 
     <div class="welcome" id="welcome">
@@ -157,6 +118,7 @@
                 <input type="text" class="search-input" id="searchInput" placeholder="Поиск в Google..." onkeypress="if(event.key==='Enter')search(true)">
                 <button class="search-btn-main" onclick="search(true)">Поиск</button>
             </div>
+            <div class="wallpaper-selector" id="wallpaperSelector"></div>
         </div>
     </div>
 
@@ -164,11 +126,36 @@
         <webview id="webview" partition="persist:kaifbrowser" webpreferences="contextIsolation=no,nodeIntegration=yes"></webview>
     </div>
 
+    <div class="modal-overlay" id="historyModal">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">📜 История поиска</span>
+                <div>
+                    <button class="clear-history-btn" onclick="clearHistory()">Очистить</button>
+                    <button class="modal-close" onclick="closeModal('historyModal')">✕</button>
+                </div>
+            </div>
+            <div id="historyList"></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="downloadsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">⬇️ Загрузки</span>
+                <button class="modal-close" onclick="closeModal('downloadsModal')">✕</button>
+            </div>
+            <div id="downloadsList"></div>
+        </div>
+    </div>
+
     <script>
         const SEARCH_URL = 'https://www.google.com/search?q=';
         let tabs = [];
         let activeTab = null;
         let tabId = 0;
+        let currentWallpaper = 1;
+
         const webview = document.getElementById('webview');
         const welcome = document.getElementById('welcome');
         const webviewContainer = document.getElementById('webviewContainer');
@@ -188,6 +175,29 @@
         }
         updateClock();
         setInterval(updateClock, 1000);
+
+        function initWallpapers() {
+            const container = document.getElementById('wallpaperSelector');
+            for (let i = 1; i <= 17; i++) {
+                const div = document.createElement('div');
+                div.className = 'wallpaper-option' + (i === currentWallpaper ? ' active' : '');
+                div.style.backgroundImage = "url('wallpapers/" + i + ".jpg')";
+                div.dataset.id = i;
+                div.onclick = () => setWallpaper(i);
+                container.appendChild(div);
+            }
+            setWallpaper(currentWallpaper);
+        }
+
+        function setWallpaper(id) {
+            currentWallpaper = id;
+            document.querySelectorAll('.wallpaper-option').forEach(el => {
+                el.classList.toggle('active', parseInt(el.dataset.id) === id);
+            });
+            welcome.style.backgroundImage = "url('wallpapers/" + id + ".jpg')";
+            welcome.style.backgroundSize = 'cover';
+            welcome.style.backgroundPosition = 'center';
+        }
 
         function saveTabs() {
             const data = tabs.map(t => ({ id: t.id, url: t.url, title: t.title }));
@@ -243,6 +253,7 @@
         }
 
         function switchTab(id) {
+            if (id === activeTab) return;
             activeTab = id;
             const tab = tabs.find(t => t.id === id);
             if (!tab) return;
@@ -250,9 +261,7 @@
             if (tab.url) {
                 welcome.style.display = 'none';
                 webviewContainer.style.display = 'block';
-                setTimeout(() => {
-                    try { webview.src = tab.url; } catch (e) { console.warn(e); }
-                }, 50);
+                try { webview.src = tab.url; } catch (e) { console.warn(e); }
             } else {
                 welcome.style.display = 'flex';
                 webviewContainer.style.display = 'none';
@@ -288,8 +297,8 @@
 
         function updateScrollButtons() {
             const container = tabsContainer;
-            scrollLeftBtn.disabled = !(container.scrollLeft > 0);
-            scrollRightBtn.disabled = !(container.scrollLeft + container.clientWidth < container.scrollWidth - 2);
+            scrollLeftBtn.disabled = container.scrollLeft <= 0;
+            scrollRightBtn.disabled = container.scrollLeft + container.clientWidth >= container.scrollWidth - 2;
         }
 
         tabsContainer.addEventListener('scroll', updateScrollButtons);
@@ -305,7 +314,7 @@
                 if (tab) { tab.url = url; tab.title = url; }
                 welcome.style.display = 'none';
                 webviewContainer.style.display = 'block';
-                setTimeout(() => { try { webview.src = url; } catch (e) { console.warn(e); } }, 50);
+                try { webview.src = url; } catch (e) { console.warn(e); }
                 urlBar.value = url;
                 renderTabs();
                 saveTabs();
@@ -319,6 +328,7 @@
             if ((url.includes('.') && !url.includes(' ')) || url.startsWith('http')) {
                 navigateTo(url, false);
             } else {
+                window.electronAPI.addSearchHistory(url);
                 navigateTo(SEARCH_URL + encodeURIComponent(url), true);
             }
         }
@@ -350,6 +360,7 @@
         function search(openInNewTab = true) {
             const query = searchInput.value.trim();
             if (!query) return;
+            window.electronAPI.addSearchHistory(query);
             navigateTo(SEARCH_URL + encodeURIComponent(query), openInNewTab);
         }
 
@@ -365,7 +376,12 @@
         window.electronAPI.onRefresh(function(){ refresh(); });
 
         window.electronAPI.onDownloadProgress((data) => console.log('Загрузка ' + data.filename + ': ' + Math.round(data.progress*100) + '%'));
-        window.electronAPI.onDownloadDone((data) => console.log('Загрузка ' + data.filename + ' завершена (' + data.state + ')'));
+        window.electronAPI.onDownloadDone((data) => {
+            console.log('Загрузка ' + data.filename + ' завершена (' + data.state + ')');
+            if (document.getElementById('downloadsModal').classList.contains('active')) {
+                loadDownloads();
+            }
+        });
 
         async function autoFillForms(url) {
             try {
@@ -413,6 +429,84 @@
 
         window.addEventListener('beforeunload', () => saveTabs());
 
+        // ===== История и загрузки =====
+        function toggleSearchHistory() {
+            const modal = document.getElementById('historyModal');
+            if (modal.classList.contains('active')) {
+                modal.classList.remove('active');
+            } else {
+                loadHistory();
+                modal.classList.add('active');
+            }
+        }
+
+        function toggleDownloads() {
+            const modal = document.getElementById('downloadsModal');
+            if (modal.classList.contains('active')) {
+                modal.classList.remove('active');
+            } else {
+                loadDownloads();
+                modal.classList.add('active');
+            }
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function loadHistory() {
+            window.electronAPI.getSearchHistory().then(history => {
+                const list = document.getElementById('historyList');
+                if (!history || history.length === 0) {
+                    list.innerHTML = '<div class="modal-empty">История пуста</div>';
+                    return;
+                }
+                list.innerHTML = history.map(item => 
+                    '<div class="modal-item"><span class="file-name">' + item + '</span><button onclick="navigateTo(\'' + SEARCH_URL + encodeURIComponent(item) + '\', true)" style="background:none;border:none;color:#ff0040;cursor:pointer;font-size:16px;">🔍</button></div>'
+                ).join('');
+            });
+        }
+
+        function clearHistory() {
+            window.electronAPI.clearSearchHistory();
+            loadHistory();
+        }
+
+        function loadDownloads() {
+            window.electronAPI.getDownloadsHistory().then(downloads => {
+                const list = document.getElementById('downloadsList');
+                if (!downloads || downloads.length === 0) {
+                    list.innerHTML = '<div class="modal-empty">Нет загрузок</div>';
+                    return;
+                }
+                list.innerHTML = downloads.map(item => 
+                    '<div class="modal-item"><div class="file-info"><span class="file-name">' + item.filename + '</span><span class="file-size">' + (item.size / 1024 / 1024).toFixed(2) + ' MB</span></div><button class="open-folder-btn" onclick="window.electronAPI.openDownloadFolder(\'' + item.path.replace(/\\/g, '\\\\') + '\')">📂</button></div>'
+                ).join('');
+            });
+        }
+
+        function openPip() {
+            const currentUrl = webview.getURL();
+            if (currentUrl && currentUrl.startsWith('http')) {
+                window.electronAPI.openPip(currentUrl);
+            } else {
+                alert('Сначала откройте страницу с видео');
+            }
+        }
+
+        window.electronAPI.onSearchHistoryUpdated(() => {
+            if (document.getElementById('historyModal').classList.contains('active')) {
+                loadHistory();
+            }
+        });
+
+        window.electronAPI.onDownloadHistoryUpdated(() => {
+            if (document.getElementById('downloadsModal').classList.contains('active')) {
+                loadDownloads();
+            }
+        });
+
+        initWallpapers();
         loadTabs();
         setTimeout(updateScrollButtons, 100);
     </script>
