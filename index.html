@@ -21,334 +21,75 @@
             content: '';
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.5);
             z-index: -1;
         }
-        .titlebar {
-            background: rgba(0,0,0,0.9);
-            border-bottom: 2px solid #ff0040;
-            padding: 8px 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            -webkit-app-region: drag;
-            flex-shrink: 0;
-        }
-        .logo {
-            color: #ff0040;
-            font-weight: bold;
-            font-size: 18px;
-            text-shadow: 0 0 10px rgba(255,0,64,0.7);
-        }
-        .window-controls button {
-            -webkit-app-region: no-drag;
-            width: 32px;
-            height: 32px;
-            border: none;
-            border-radius: 6px;
-            background: transparent;
-            color: rgba(255,255,255,0.8);
-            cursor: pointer;
-            font-size: 16px;
-            margin-left: 8px;
-            transition: all 0.2s;
-        }
+        .titlebar { background: rgba(0,0,0,0.9); border-bottom: 2px solid #ff0040; padding: 8px 15px; display: flex; align-items: center; justify-content: space-between; -webkit-app-region: drag; flex-shrink: 0; }
+        .logo { color: #ff0040; font-weight: bold; font-size: 18px; }
+        .window-controls button { -webkit-app-region: no-drag; width: 32px; height: 32px; border: none; border-radius: 6px; background: transparent; color: rgba(255,255,255,0.8); cursor: pointer; font-size: 16px; margin-left: 8px; transition: all 0.2s; }
         .window-controls button:hover { background: rgba(255,0,64,0.3); color: white; }
         .window-controls button.close:hover { background: #ff0040; }
 
-        .tabbar {
-            background: rgba(0,0,0,0.85);
-            padding: 6px 10px 0 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            border-bottom: 1px solid rgba(255,0,64,0.3);
-            flex-shrink: 0;
-        }
-        .tabs-scroll-container {
-            flex: 1;
-            overflow-x: auto;
-            overflow-y: hidden;
-            display: flex;
-            gap: 4px;
-            padding-bottom: 4px;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-        }
+        .tabbar { background: rgba(0,0,0,0.85); padding: 6px 10px 0 10px; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid rgba(255,0,64,0.3); flex-shrink: 0; }
+        .tabs-scroll-container { flex: 1; overflow-x: auto; overflow-y: hidden; display: flex; gap: 4px; padding-bottom: 4px; scroll-behavior: smooth; }
         .tabs-scroll-container::-webkit-scrollbar { height: 0; }
-        .tab {
-            flex-shrink: 0;
-            background: rgba(255,0,64,0.15);
-            border: 1px solid rgba(255,0,64,0.4);
-            border-bottom: none;
-            border-radius: 8px 8px 0 0;
-            padding: 6px 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            max-width: 160px;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
+        .tab { flex-shrink: 0; background: rgba(255,0,64,0.15); border: 1px solid rgba(255,0,64,0.4); border-bottom: none; border-radius: 8px 8px 0 0; padding: 6px 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; max-width: 160px; transition: all 0.2s; white-space: nowrap; }
         .tab:hover { background: rgba(255,0,64,0.25); }
         .tab.active { background: rgba(255,0,64,0.4); border-color: #ff0040; box-shadow: 0 -2px 8px rgba(255,0,64,0.4); }
         .tab-title { flex: 1; overflow: hidden; text-overflow: ellipsis; font-size: 13px; }
         .tab-close { width: 18px; height: 18px; border: none; border-radius: 50%; background: transparent; color: rgba(255,255,255,0.6); cursor: pointer; font-size: 13px; flex-shrink: 0; }
         .tab-close:hover { background: rgba(255,0,64,0.6); color: white; }
-
-        .tab-nav-btn {
-            width: 26px; height: 26px; border: none; border-radius: 50%;
-            background: rgba(255,0,64,0.3); color: white; cursor: pointer; font-size: 16px;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; -webkit-app-region: no-drag;
-            transition: all 0.2s;
-        }
+        .tab-nav-btn { width: 26px; height: 26px; border: none; border-radius: 50%; background: rgba(255,0,64,0.3); color: white; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-app-region: no-drag; transition: all 0.2s; }
         .tab-nav-btn:hover { background: #ff0040; transform: scale(1.1); }
         .tab-nav-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
-
-        .new-tab {
-            width: 32px; height: 32px; border: none; border-radius: 8px 8px 0 0;
-            background: rgba(255,0,64,0.2); color: white; cursor: pointer; font-size: 18px;
-            flex-shrink: 0; -webkit-app-region: no-drag;
-            transition: all 0.2s;
-        }
+        .new-tab { width: 32px; height: 32px; border: none; border-radius: 8px 8px 0 0; background: rgba(255,0,64,0.2); color: white; cursor: pointer; font-size: 18px; flex-shrink: 0; -webkit-app-region: no-drag; transition: all 0.2s; }
         .new-tab:hover { background: rgba(255,0,64,0.4); transform: translateY(-2px); }
 
-        .navbar {
-            background: rgba(0,0,0,0.85);
-            padding: 8px 12px;
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-shrink: 0;
-            flex-wrap: wrap;
-        }
-        .nav-btn {
-            width: 34px; height: 34px; border: none; border-radius: 8px;
-            background: rgba(255,0,64,0.25); color: #ff0040; cursor: pointer; font-size: 16px;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s;
-        }
+        .navbar { background: rgba(0,0,0,0.85); padding: 8px 12px; display: flex; gap: 8px; align-items: center; flex-shrink: 0; flex-wrap: wrap; }
+        .nav-btn { width: 34px; height: 34px; border: none; border-radius: 8px; background: rgba(255,0,64,0.25); color: #ff0040; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .nav-btn:hover { background: #ff0040; color: white; transform: scale(1.05); }
         .nav-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
-        .url-bar {
-            flex: 1; min-width: 150px;
-            height: 34px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,0,64,0.4);
-            border-radius: 8px; padding: 0 12px; color: white; font-size: 14px; outline: none;
-            transition: all 0.2s;
-        }
+        .url-bar { flex: 1; min-width: 150px; height: 34px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,0,64,0.4); border-radius: 8px; padding: 0 12px; color: white; font-size: 14px; outline: none; transition: all 0.2s; }
         .url-bar:focus { border-color: #ff0040; background: rgba(255,255,255,0.15); }
-
-        .toolbar-buttons {
-            display: flex;
-            gap: 4px;
-            align-items: center;
-        }
-        .toolbar-btn {
-            background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer;
-            padding: 4px 8px; border-radius: 6px; font-size: 14px;
-            transition: all 0.2s;
-        }
+        .toolbar-buttons { display: flex; gap: 4px; align-items: center; }
+        .toolbar-btn { background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer; padding: 4px 8px; border-radius: 6px; font-size: 14px; transition: all 0.2s; }
         .toolbar-btn:hover { background: rgba(255,0,64,0.3); color: white; }
 
-        .welcome {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        .welcome-content {
-            text-align: center;
-            width: 100%;
-            max-width: 700px;
-        }
+        .welcome { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+        .welcome-content { text-align: center; width: 100%; max-width: 700px; }
         .clock-container { margin-bottom: 30px; }
-        .time {
-            font-size: 90px;
-            font-weight: 300;
-            color: #ff0040;
-            text-shadow: 0 0 40px rgba(255,0,64,0.6);
-            letter-spacing: 2px;
-            line-height: 1;
-        }
-        .date {
-            font-size: 20px;
-            color: rgba(255,255,255,0.7);
-            margin-top: 10px;
-        }
-        .search-box {
-            display: flex;
-            gap: 10px;
-            max-width: 650px;
-            margin: 0 auto;
-        }
-        .search-input {
-            flex: 1;
-            height: 48px;
-            background: rgba(255,255,255,0.08);
-            border: 2px solid rgba(255,0,64,0.4);
-            border-radius: 12px;
-            padding: 0 20px;
-            color: white;
-            font-size: 16px;
-            outline: none;
-            transition: all 0.2s;
-        }
+        .time { font-size: 90px; font-weight: 300; color: #ff0040; text-shadow: 0 0 40px rgba(255,0,64,0.6); letter-spacing: 2px; line-height: 1; }
+        .date { font-size: 20px; color: rgba(255,255,255,0.7); margin-top: 10px; }
+        .search-box { display: flex; gap: 10px; max-width: 650px; margin: 0 auto; }
+        .search-input { flex: 1; height: 48px; background: rgba(255,255,255,0.08); border: 2px solid rgba(255,0,64,0.4); border-radius: 12px; padding: 0 20px; color: white; font-size: 16px; outline: none; transition: all 0.2s; }
         .search-input:focus { border-color: #ff0040; background: rgba(255,255,255,0.15); }
-        .search-btn-main {
-            height: 48px;
-            padding: 0 30px;
-            background: linear-gradient(135deg, #ff0040, #ff0066);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+        .search-btn-main { height: 48px; padding: 0 30px; background: linear-gradient(135deg, #ff0040, #ff0066); border: none; border-radius: 12px; color: white; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
         .search-btn-main:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(255,0,64,0.5); }
 
-        .search-history {
-            margin-top: 15px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-        }
-        .history-item {
-            background: rgba(255,255,255,0.08);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            color: rgba(255,255,255,0.7);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+        .search-history { margin-top: 15px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+        .history-item { background: rgba(255,255,255,0.08); padding: 6px 14px; border-radius: 20px; font-size: 13px; color: rgba(255,255,255,0.7); cursor: pointer; transition: all 0.2s; }
         .history-item:hover { background: rgba(255,0,64,0.3); color: white; }
 
-        .wallpaper-panel {
-            display: none;
-            background: rgba(0,0,0,0.9);
-            padding: 12px;
-            border-top: 1px solid #ff0040;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            max-height: 120px;
-            overflow-y: auto;
-            flex-shrink: 0;
-        }
+        .wallpaper-panel { display: none; background: rgba(0,0,0,0.9); padding: 12px; border-top: 1px solid #ff0040; flex-wrap: wrap; gap: 8px; justify-content: center; max-height: 120px; overflow-y: auto; flex-shrink: 0; }
         .wallpaper-panel.show { display: flex; }
-        .wallpaper-thumb {
-            width: 60px;
-            height: 40px;
-            border-radius: 6px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.2s;
-            background-size: cover;
-            background-position: center;
-        }
+        .wallpaper-thumb { width: 60px; height: 40px; border-radius: 6px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; background-size: cover; background-position: center; }
         .wallpaper-thumb:hover { border-color: #ff0040; transform: scale(1.05); }
         .wallpaper-thumb.active { border-color: #ff0040; box-shadow: 0 0 10px #ff0040; }
 
-        .downloads-panel {
-            display: none;
-            position: fixed;
-            bottom: 60px;
-            right: 20px;
-            background: rgba(0,0,0,0.95);
-            border: 1px solid #ff0040;
-            border-radius: 12px;
-            padding: 12px;
-            min-width: 280px;
-            max-width: 350px;
-            max-height: 300px;
-            overflow-y: auto;
-            z-index: 999;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.8);
-        }
+        .downloads-panel { display: none; position: fixed; bottom: 60px; right: 20px; background: rgba(0,0,0,0.95); border: 1px solid #ff0040; border-radius: 12px; padding: 12px; min-width: 280px; max-width: 350px; max-height: 300px; overflow-y: auto; z-index: 999; box-shadow: 0 4px 30px rgba(0,0,0,0.8); }
         .downloads-panel.show { display: block; }
-        .download-item {
-            padding: 6px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            font-size: 13px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .download-item { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
         .download-item .filename { color: rgba(255,255,255,0.8); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .download-item .status { color: #ff0040; font-size: 12px; margin-left: 10px; }
-        .download-item .open-folder {
-            background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 14px;
-            margin-left: 8px;
-        }
+        .download-item .open-folder { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 14px; margin-left: 8px; }
         .download-item .open-folder:hover { color: #ff0040; }
 
-        #mini-player {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 320px;
-            background: rgba(0,0,0,0.9);
-            border: 2px solid #ff0040;
-            border-radius: 12px;
-            overflow: hidden;
-            z-index: 1000;
-            box-shadow: 0 4px 30px rgba(255,0,64,0.3);
-            cursor: move;
-        }
-        #mini-player video {
-            width: 100%;
-            display: block;
-        }
-        #mini-player .player-controls {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 10px;
-            background: rgba(0,0,0,0.8);
-        }
-        #mini-player .player-controls button {
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        #mini-player .player-controls button:hover { color: #ff0040; }
-
-        .webview-container {
-            flex: 1;
-            display: none;
-            background: white;
-        }
+        .webview-container { flex: 1; display: none; background: white; }
         webview { width: 100%; height: 100%; border: none; }
 
-        .loading-indicator {
-            position: fixed;
-            top: 76px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #ff0040, transparent);
-            display: none;
-            z-index: 10000;
-        }
+        .loading-indicator { position: fixed; top: 76px; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, #ff0040, transparent); display: none; z-index: 10000; }
         .loading-indicator.active { display: block; animation: loading 1.5s ease-in-out infinite; }
         @keyframes loading { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-
-        @media (max-width: 700px) {
-            .time { font-size: 60px; }
-            .search-box { flex-direction: column; }
-            .navbar { flex-wrap: wrap; }
-            #mini-player { width: 240px; }
-        }
     </style>
 </head>
 <body>
@@ -411,14 +152,6 @@
         <div id="downloadsList"></div>
     </div>
 
-    <div id="mini-player">
-        <video id="mini-video" controls autoplay></video>
-        <div class="player-controls">
-            <span style="color:rgba(255,255,255,0.6); font-size:12px;">🎬 Мини-плеер</span>
-            <button onclick="closeMiniPlayer()">✕</button>
-        </div>
-    </div>
-
     <script>
         const electronAPI = window.electronAPI;
         const SEARCH_URL = 'https://www.google.com/search?q=';
@@ -438,12 +171,8 @@
         const wallpaperPanel = document.getElementById('wallpaperPanel');
         const downloadsPanel = document.getElementById('downloadsPanel');
         const downloadsList = document.getElementById('downloadsList');
-        const miniPlayer = document.getElementById('mini-player');
-        const miniVideo = document.getElementById('mini-video');
 
-        let tabs = [];
-        let activeTab = null;
-        let tabId = 0;
+        let tabs = [], activeTab = null, tabId = 0;
         let searchHistoryItems = JSON.parse(localStorage.getItem('kaifbrowser_searchHistory') || '[]');
         let downloads = JSON.parse(localStorage.getItem('kaifbrowser_downloads') || '[]');
 
@@ -452,8 +181,7 @@
             document.getElementById('clockTime').textContent = now.toLocaleTimeString('ru-RU', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
             document.getElementById('clockDate').textContent = now.toLocaleDateString('ru-RU', { weekday:'long', year:'numeric', month:'long', day:'numeric' }).replace(/^./, s => s.toUpperCase());
         }
-        updateClock();
-        setInterval(updateClock, 1000);
+        updateClock(); setInterval(updateClock, 1000);
 
         function loadWallpaper(index) {
             const img = new Image();
@@ -474,9 +202,7 @@
 
         function toggleWallpaperPanel() {
             wallpaperPanel.classList.toggle('show');
-            if (wallpaperPanel.classList.contains('show')) {
-                renderWallpaperThumbs();
-            }
+            if (wallpaperPanel.classList.contains('show')) renderWallpaperThumbs();
         }
 
         function renderWallpaperThumbs() {
@@ -512,10 +238,7 @@
                 const div = document.createElement('div');
                 div.className = 'history-item';
                 div.textContent = item;
-                div.onclick = () => {
-                    searchInput.value = item;
-                    search(true);
-                };
+                div.onclick = () => { searchInput.value = item; search(true); };
                 searchHistory.appendChild(div);
             });
         }
@@ -547,9 +270,7 @@
 
         function toggleDownloadsPanel() {
             downloadsPanel.classList.toggle('show');
-            if (downloadsPanel.classList.contains('show')) {
-                renderDownloads();
-            }
+            if (downloadsPanel.classList.contains('show')) renderDownloads();
         }
 
         async function openDownloadFolder(folderPath) {
@@ -557,54 +278,6 @@
             const dirPath = lastSlash > 0 ? folderPath.substring(0, lastSlash) : folderPath;
             await electronAPI.openDownloadFolder(dirPath);
         }
-
-        let miniPlayerActive = false;
-
-        function openMiniPlayer(videoSrc) {
-            if (miniPlayerActive) {
-                miniVideo.src = videoSrc;
-                miniVideo.play();
-                return;
-            }
-            miniPlayer.style.display = 'block';
-            miniVideo.src = videoSrc;
-            miniVideo.play();
-            miniPlayerActive = true;
-        }
-
-        function closeMiniPlayer() {
-            miniPlayer.style.display = 'none';
-            miniVideo.pause();
-            miniVideo.src = '';
-            miniPlayerActive = false;
-        }
-
-        let isDragging = false;
-        let dragOffsetX = 0, dragOffsetY = 0;
-
-        miniPlayer.addEventListener('mousedown', (e) => {
-            if (e.target.closest('.player-controls') || e.target.tagName === 'VIDEO') {
-                isDragging = true;
-                const rect = miniPlayer.getBoundingClientRect();
-                dragOffsetX = e.clientX - rect.left;
-                dragOffsetY = e.clientY - rect.top;
-                miniPlayer.style.cursor = 'grabbing';
-            }
-        });
-        document.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            let x = e.clientX - dragOffsetX;
-            let y = e.clientY - dragOffsetY;
-            x = Math.max(0, Math.min(window.innerWidth - miniPlayer.offsetWidth, x));
-            y = Math.max(0, Math.min(window.innerHeight - miniPlayer.offsetHeight, y));
-            miniPlayer.style.left = x + 'px';
-            miniPlayer.style.top = y + 'px';
-            miniPlayer.style.bottom = 'auto';
-        });
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-            miniPlayer.style.cursor = 'move';
-        });
 
         function saveTabs() {
             const data = tabs.map(t => ({ id: t.id, url: t.url, title: t.title }));
@@ -617,21 +290,12 @@
             const active = localStorage.getItem('kaifbrowser_activeTab');
             if (saved) {
                 const parsed = JSON.parse(saved);
-                parsed.forEach(t => {
-                    tabId++;
-                    tabs.push({ id: 'tab-' + tabId, url: t.url || '', title: t.title || 'Новая вкладка' });
-                });
+                parsed.forEach(t => { tabId++; tabs.push({ id: 'tab-' + tabId, url: t.url || '', title: t.title || 'Новая вкладка' }); });
                 renderTabs();
-                if (active && tabs.find(t => t.id === active)) {
-                    switchTab(active);
-                } else if (tabs.length) {
-                    switchTab(tabs[0].id);
-                } else {
-                    newTab();
-                }
-            } else {
-                newTab();
-            }
+                if (active && tabs.find(t => t.id === active)) switchTab(active);
+                else if (tabs.length) switchTab(tabs[0].id);
+                else newTab();
+            } else newTab();
         }
 
         function newTab(url, title) {
@@ -652,7 +316,7 @@
             const idx = tabs.findIndex(t => t.id === id);
             if (idx === -1) return;
             tabs.splice(idx, 1);
-            if (tabs.length === 0) { newTab(); }
+            if (tabs.length === 0) newTab();
             else if (activeTab === id) {
                 const newIdx = Math.min(idx, tabs.length - 1);
                 switchTab(tabs[newIdx].id);
@@ -669,9 +333,7 @@
             if (tab.url) {
                 welcome.style.display = 'none';
                 webviewContainer.style.display = 'block';
-                setTimeout(() => {
-                    try { webview.src = tab.url; } catch (e) { console.warn(e); }
-                }, 50);
+                setTimeout(() => { try { webview.src = tab.url; } catch (e) {} }, 50);
             } else {
                 welcome.style.display = 'flex';
                 webviewContainer.style.display = 'none';
@@ -724,7 +386,7 @@
                 if (tab) { tab.url = url; tab.title = url; }
                 welcome.style.display = 'none';
                 webviewContainer.style.display = 'block';
-                setTimeout(() => { try { webview.src = url; } catch (e) { console.warn(e); } }, 50);
+                setTimeout(() => { try { webview.src = url; } catch (e) {} }, 50);
                 urlBar.value = url;
                 renderTabs();
                 saveTabs();
@@ -806,35 +468,6 @@
             }
         });
 
-        webview.addEventListener('dom-ready', () => {
-            const videoDetector = `
-                (function() {
-                    document.addEventListener('click', function(e) {
-                        let target = e.target;
-                        if (target.tagName === 'VIDEO') {
-                            window.parent.postMessage({
-                                type: 'video-detected',
-                                src: target.currentSrc || target.src
-                            }, '*');
-                        }
-                    }, true);
-                })();
-            `;
-            webview.executeJavaScript(videoDetector);
-        });
-
-        window.addEventListener('message', (event) => {
-            if (event.source !== webview) return;
-            const data = event.data;
-            if (data && data.type === 'video-detected' && data.src) {
-                openMiniPlayer(data.src);
-            }
-            if (data && data.type === 'save-password') {
-                electronAPI.savePassword(data.domain, data.username, data.password);
-                console.log('Пароль сохранён для', data.domain);
-            }
-        });
-
         async function autoFillForms(url) {
             try {
                 const domain = new URL(url).hostname;
@@ -849,6 +482,13 @@
             const script = '(function(){document.querySelectorAll("form").forEach(function(f){f.addEventListener("submit",function(){var u=this.querySelector("input[type=\\"text\\"],input[name=\\"username\\"],input[name=\\"email\\"]");var p=this.querySelector("input[type=\\"password\\"]");if(u&&p&&u.value&&p.value){window.parent.postMessage({type:"save-password",domain:window.location.hostname,username:u.value,password:p.value},"*");}});});})();';
             webview.executeJavaScript(script);
         }
+
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'save-password') {
+                electronAPI.savePassword(event.data.domain, event.data.username, event.data.password);
+                console.log('Пароль сохранён для', event.data.domain);
+            }
+        });
 
         webview.addEventListener('did-start-loading', () => loadingIndicator.classList.add('active'));
         webview.addEventListener('did-stop-loading', () => { loadingIndicator.classList.remove('active'); updateNavButtons(); });

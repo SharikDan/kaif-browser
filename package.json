@@ -1,6 +1,6 @@
 {
   "name": "kaif-browser",
-  "version": "16.0.0",
+  "version": "17.0.0",
   "description": "KaifBrowser - Modern Browser",
   "main": "main.js",
   "scripts": {
