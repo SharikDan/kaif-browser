@@ -24,32 +24,32 @@
             background: rgba(0,0,0,0.5);
             z-index: -1;
         }
-        .titlebar { background: rgba(0,0,0,0.9); border-bottom: 2px solid #ff0040; padding: 8px 15px; display: flex; align-items: center; justify-content: space-between; -webkit-app-region: drag; flex-shrink: 0; }
+        .titlebar { background: rgba(0,0,0,0.9); border-bottom: 2px solid #ff0040; padding: 8px 15px; display: flex; align-items: center; justify-content: space-between; -webkit-app-region: drag; }
         .logo { color: #ff0040; font-weight: bold; font-size: 18px; }
-        .window-controls button { -webkit-app-region: no-drag; width: 32px; height: 32px; border: none; border-radius: 6px; background: transparent; color: rgba(255,255,255,0.8); cursor: pointer; font-size: 16px; margin-left: 8px; transition: all 0.2s; }
+        .window-controls button { -webkit-app-region: no-drag; width: 32px; height: 32px; border: none; border-radius: 6px; background: transparent; color: rgba(255,255,255,0.8); cursor: pointer; }
         .window-controls button:hover { background: rgba(255,0,64,0.3); color: white; }
         .window-controls button.close:hover { background: #ff0040; }
 
         .tabbar { background: rgba(0,0,0,0.85); padding: 6px 10px 0 10px; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid rgba(255,0,64,0.3); flex-shrink: 0; }
         .tabs-scroll-container { flex: 1; overflow-x: auto; overflow-y: hidden; display: flex; gap: 4px; padding-bottom: 4px; scroll-behavior: smooth; }
         .tabs-scroll-container::-webkit-scrollbar { height: 0; }
-        .tab { flex-shrink: 0; background: rgba(255,0,64,0.15); border: 1px solid rgba(255,0,64,0.4); border-bottom: none; border-radius: 8px 8px 0 0; padding: 6px 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; max-width: 160px; transition: all 0.2s; white-space: nowrap; }
+        .tab { flex-shrink: 0; background: rgba(255,0,64,0.15); border: 1px solid rgba(255,0,64,0.4); border-bottom: none; border-radius: 8px 8px 0 0; padding: 6px 14px; cursor: pointer; display: flex; align-items: center; gap:8px; }
         .tab:hover { background: rgba(255,0,64,0.25); }
         .tab.active { background: rgba(255,0,64,0.4); border-color: #ff0040; box-shadow: 0 -2px 8px rgba(255,0,64,0.4); }
         .tab-title { flex: 1; overflow: hidden; text-overflow: ellipsis; font-size: 13px; }
         .tab-close { width: 18px; height: 18px; border: none; border-radius: 50%; background: transparent; color: rgba(255,255,255,0.6); cursor: pointer; font-size: 13px; flex-shrink: 0; }
         .tab-close:hover { background: rgba(255,0,64,0.6); color: white; }
-        .tab-nav-btn { width: 26px; height: 26px; border: none; border-radius: 50%; background: rgba(255,0,64,0.3); color: white; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-app-region: no-drag; transition: all 0.2s; }
+        .tab-nav-btn { width: 26px; height: 26px; border: none; border-radius: 50%; background: rgba(255,0,64,0.3); color: white; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
         .tab-nav-btn:hover { background: #ff0040; transform: scale(1.1); }
         .tab-nav-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
-        .new-tab { width: 32px; height: 32px; border: none; border-radius: 8px 8px 0 0; background: rgba(255,0,64,0.2); color: white; cursor: pointer; font-size: 18px; flex-shrink: 0; -webkit-app-region: no-drag; transition: all 0.2s; }
+        .new-tab { width: 32px; height: 32px; border: none; border-radius: 8px 8px 0 0; background: rgba(255,0,64,0.2); color: white; cursor: pointer; font-size: 18px; flex-shrink: 0; -webkit-app-region: no-drag; }
         .new-tab:hover { background: rgba(255,0,64,0.4); transform: translateY(-2px); }
 
         .navbar { background: rgba(0,0,0,0.85); padding: 8px 12px; display: flex; gap: 8px; align-items: center; flex-shrink: 0; flex-wrap: wrap; }
-        .nav-btn { width: 34px; height: 34px; border: none; border-radius: 8px; background: rgba(255,0,64,0.25); color: #ff0040; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .nav-btn { width: 34px; height: 34px; border: none; border-radius: 8px; background: rgba(255,0,64,0.25); color: #ff0040; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
         .nav-btn:hover { background: #ff0040; color: white; transform: scale(1.05); }
         .nav-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
-        .url-bar { flex: 1; min-width: 150px; height: 34px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,0,64,0.4); border-radius: 8px; padding: 0 12px; color: white; font-size: 14px; outline: none; transition: all 0.2s; }
+        .url-bar { flex: 1; min-width: 150px; height: 34px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,0,64,0.4); border-radius: 8px; padding: 0 12px; color: white; font-size: 14px; }
         .url-bar:focus { border-color: #ff0040; background: rgba(255,255,255,0.15); }
         .toolbar-buttons { display: flex; gap: 4px; align-items: center; }
         .toolbar-btn { background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer; padding: 4px 8px; border-radius: 6px; font-size: 14px; transition: all 0.2s; }
@@ -61,22 +61,22 @@
         .time { font-size: 90px; font-weight: 300; color: #ff0040; text-shadow: 0 0 40px rgba(255,0,64,0.6); letter-spacing: 2px; line-height: 1; }
         .date { font-size: 20px; color: rgba(255,255,255,0.7); margin-top: 10px; }
         .search-box { display: flex; gap: 10px; max-width: 650px; margin: 0 auto; }
-        .search-input { flex: 1; height: 48px; background: rgba(255,255,255,0.08); border: 2px solid rgba(255,0,64,0.4); border-radius: 12px; padding: 0 20px; color: white; font-size: 16px; outline: none; transition: all 0.2s; }
+        .search-input { flex: 1; height: 48px; background: rgba(255,255,255,0.08); border: 2px solid rgba(255,0,64,0.4); border-radius: 12px; padding: 0 20px; color: white; font-size: 16px; outline: none; }
         .search-input:focus { border-color: #ff0040; background: rgba(255,255,255,0.15); }
-        .search-btn-main { height: 48px; padding: 0 30px; background: linear-gradient(135deg, #ff0040, #ff0066); border: none; border-radius: 12px; color: white; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .search-btn-main { height: 48px; padding: 0 30px; background: linear-gradient(135deg, #ff0040, #ff0066); border: none; border-radius: 12px; color: white; font-size: 16px; font-weight: bold; }
         .search-btn-main:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(255,0,64,0.5); }
 
         .search-history { margin-top: 15px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
         .history-item { background: rgba(255,255,255,0.08); padding: 6px 14px; border-radius: 20px; font-size: 13px; color: rgba(255,255,255,0.7); cursor: pointer; transition: all 0.2s; }
         .history-item:hover { background: rgba(255,0,64,0.3); color: white; }
 
-        .wallpaper-panel { display: none; background: rgba(0,0,0,0.9); padding: 12px; border-top: 1px solid #ff0040; flex-wrap: wrap; gap: 8px; justify-content: center; max-height: 120px; overflow-y: auto; flex-shrink: 0; }
+        .wallpaper-panel { display: none; background: rgba(0,0,0,0.9); padding: 12px; border-top: 1px solid #ff0040; flex-wrap: wrap; gap: 8px; justify-content: center; max-height: 120px; overflow: auto; }
         .wallpaper-panel.show { display: flex; }
         .wallpaper-thumb { width: 60px; height: 40px; border-radius: 6px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; background-size: cover; background-position: center; }
         .wallpaper-thumb:hover { border-color: #ff0040; transform: scale(1.05); }
         .wallpaper-thumb.active { border-color: #ff0040; box-shadow: 0 0 10px #ff0040; }
 
-        .downloads-panel { display: none; position: fixed; bottom: 60px; right: 20px; background: rgba(0,0,0,0.95); border: 1px solid #ff0040; border-radius: 12px; padding: 12px; min-width: 280px; max-width: 350px; max-height: 300px; overflow-y: auto; z-index: 999; box-shadow: 0 4px 30px rgba(0,0,0,0.8); }
+        .downloads-panel { display: none; position: fixed; bottom: 60px; right: 20px; background: rgba(0,0,0,0.95); border: 1px solid #ff0040; border-radius: 12px; padding: 12px; min-width: 280px; }
         .downloads-panel.show { display: block; }
         .download-item { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
         .download-item .filename { color: rgba(255,255,255,0.8); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -176,12 +176,31 @@
         let searchHistoryItems = JSON.parse(localStorage.getItem('kaifbrowser_searchHistory') || '[]');
         let downloads = JSON.parse(localStorage.getItem('kaifbrowser_downloads') || '[]');
 
+        // Debounce / batching localStorage writes to avoid synchronous stalls
+        const _persistQueue = new Map();
+        let _persistTimer = null;
+        function scheduleLocalStorageWrite(key, value) {
+            _persistQueue.set(key, value);
+            if (_persistTimer) return;
+            _persistTimer = setTimeout(() => {
+                _persistQueue.forEach((v, k) => {
+                    try { localStorage.setItem(k, v); } catch (e) { console.warn('localStorage set error', e); }
+                });
+                _persistQueue.clear();
+                _persistTimer = null;
+            }, 500);
+        }
+
         function updateClock() {
             const now = new Date();
             document.getElementById('clockTime').textContent = now.toLocaleTimeString('ru-RU', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
             document.getElementById('clockDate').textContent = now.toLocaleDateString('ru-RU', { weekday:'long', year:'numeric', month:'long', day:'numeric' }).replace(/^./, s => s.toUpperCase());
         }
-        updateClock(); setInterval(updateClock, 1000);
+        let _clockInterval = null;
+        function startClock() { if (_clockInterval) return; updateClock(); _clockInterval = setInterval(updateClock, 1000); }
+        function stopClock() { if (_clockInterval) { clearInterval(_clockInterval); _clockInterval = null; } }
+        document.addEventListener('visibilitychange', () => { if (document.hidden) stopClock(); else startClock(); });
+        startClock();
 
         function loadWallpaper(index) {
             const img = new Image();
@@ -191,7 +210,7 @@
                 document.body.style.backgroundSize = 'cover';
                 document.body.style.backgroundPosition = 'center';
                 currentWallpaper = index;
-                localStorage.setItem('kaifbrowser_wallpaper', index);
+                scheduleLocalStorageWrite('kaifbrowser_wallpaper', String(index));
                 updateWallpaperThumbs();
             };
             img.onerror = () => {
@@ -208,12 +227,14 @@
         function renderWallpaperThumbs() {
             wallpaperPanel.innerHTML = '';
             for (let i = 1; i <= WALLPAPER_COUNT; i++) {
-                const thumb = document.createElement('div');
-                thumb.className = 'wallpaper-thumb' + (i === currentWallpaper ? ' active' : '');
-                thumb.style.backgroundImage = 'url(wallpapers/' + i + '.jpg)';
-                thumb.title = 'Обои ' + i;
-                thumb.onclick = () => loadWallpaper(i);
-                wallpaperPanel.appendChild(thumb);
+                const img = document.createElement('img');
+                img.className = 'wallpaper-thumb' + (i === currentWallpaper ? ' active' : '');
+                img.width = 60; img.height = 40; img.loading = 'lazy';
+                img.alt = 'Обои ' + i;
+                img.title = 'Обои ' + i;
+                img.src = 'wallpapers/' + i + '.jpg';
+                img.onclick = () => loadWallpaper(i);
+                wallpaperPanel.appendChild(img);
             }
         }
 
@@ -228,26 +249,29 @@
             searchHistoryItems = searchHistoryItems.filter(item => item !== query);
             searchHistoryItems.unshift(query);
             if (searchHistoryItems.length > 20) searchHistoryItems.pop();
-            localStorage.setItem('kaifbrowser_searchHistory', JSON.stringify(searchHistoryItems));
+            scheduleLocalStorageWrite('kaifbrowser_searchHistory', JSON.stringify(searchHistoryItems));
             renderSearchHistory();
         }
 
         function renderSearchHistory() {
+            // simple, small list — rebuild is fine but keep it lightweight
             searchHistory.innerHTML = '';
+            const frag = document.createDocumentFragment();
             searchHistoryItems.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'history-item';
                 div.textContent = item;
                 div.onclick = () => { searchInput.value = item; search(true); };
-                searchHistory.appendChild(div);
+                frag.appendChild(div);
             });
+            searchHistory.appendChild(frag);
         }
 
         function addDownload(filename, path, state) {
             state = state || 'completed';
             downloads.push({ filename: filename, path: path, state: state, time: Date.now() });
             if (downloads.length > 50) downloads.shift();
-            localStorage.setItem('kaifbrowser_downloads', JSON.stringify(downloads));
+            scheduleLocalStorageWrite('kaifbrowser_downloads', JSON.stringify(downloads));
             renderDownloads();
         }
 
@@ -257,15 +281,28 @@
                 downloadsList.innerHTML = '<div style="color:rgba(255,255,255,0.4); font-size:13px;">Нет загрузок</div>';
                 return;
             }
+            const frag = document.createDocumentFragment();
             downloads.slice().reverse().forEach(d => {
                 const item = document.createElement('div');
                 item.className = 'download-item';
                 const statusIcon = d.state === 'completed' ? '✅' : (d.state === 'progressing' ? '⏳' : '❌');
-                item.innerHTML = '<span class="filename" title="' + d.filename + '">' + d.filename + '</span>' +
-                    '<span class="status">' + statusIcon + '</span>' +
-                    '<button class="open-folder" onclick="openDownloadFolder(\'' + d.path.replace(/\\/g, '\\\\').replace(/'/g, "\\'") + '\')">📂</button>';
-                downloadsList.appendChild(item);
+                const filenameSpan = document.createElement('span');
+                filenameSpan.className = 'filename';
+                filenameSpan.title = d.filename;
+                filenameSpan.textContent = d.filename;
+                const statusSpan = document.createElement('span');
+                statusSpan.className = 'status';
+                statusSpan.textContent = statusIcon;
+                const openBtn = document.createElement('button');
+                openBtn.className = 'open-folder';
+                openBtn.textContent = '📂';
+                openBtn.onclick = () => openDownloadFolder(d.path);
+                item.appendChild(filenameSpan);
+                item.appendChild(statusSpan);
+                item.appendChild(openBtn);
+                frag.appendChild(item);
             });
+            downloadsList.appendChild(frag);
         }
 
         function toggleDownloadsPanel() {
@@ -279,22 +316,28 @@
             await electronAPI.openDownloadFolder(dirPath);
         }
 
-        function saveTabs() {
+        // Persist tabs with debounce
+        function saveTabsImmediate() {
             const data = tabs.map(t => ({ id: t.id, url: t.url, title: t.title }));
-            localStorage.setItem('kaifbrowser_tabs', JSON.stringify(data));
-            localStorage.setItem('kaifbrowser_activeTab', activeTab);
+            try {
+                scheduleLocalStorageWrite('kaifbrowser_tabs', JSON.stringify(data));
+                scheduleLocalStorageWrite('kaifbrowser_activeTab', String(activeTab || ''));
+            } catch (e) { console.warn('saveTabs error', e); }
         }
+        function saveTabs() { saveTabsImmediate(); }
 
         function loadTabs() {
             const saved = localStorage.getItem('kaifbrowser_tabs');
             const active = localStorage.getItem('kaifbrowser_activeTab');
             if (saved) {
-                const parsed = JSON.parse(saved);
-                parsed.forEach(t => { tabId++; tabs.push({ id: 'tab-' + tabId, url: t.url || '', title: t.title || 'Новая вкладка' }); });
-                renderTabs();
-                if (active && tabs.find(t => t.id === active)) switchTab(active);
-                else if (tabs.length) switchTab(tabs[0].id);
-                else newTab();
+                try {
+                    const parsed = JSON.parse(saved);
+                    parsed.forEach(t => { tabId++; tabs.push({ id: 'tab-' + tabId, url: t.url || '', title: t.title || 'Новая вкладка' }); });
+                    renderTabs();
+                    if (active && tabs.find(t => t.id === active)) switchTab(active);
+                    else if (tabs.length) switchTab(tabs[0].id);
+                    else newTab();
+                } catch (e) { console.warn('loadTabs parse error', e); newTab(); }
             } else newTab();
         }
 
@@ -347,24 +390,34 @@
                 const activeEl = tabsContainer.querySelector('.tab.active');
                 if (activeEl) activeEl.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
             }, 50);
-            updateScrollButtons();
+            updateScrollButtonsThrottled();
         }
 
         function renderTabs() {
             tabsContainer.innerHTML = '';
+            const frag = document.createDocumentFragment();
             tabs.forEach(tab => {
                 const div = document.createElement('div');
                 div.className = 'tab' + (tab.id === activeTab ? ' active' : '');
                 div.onclick = () => switchTab(tab.id);
-                div.innerHTML = '<span class="tab-title">' + (tab.title || 'Новая вкладка') + '</span><button class="tab-close" onclick="closeTab(\'' + tab.id + '\',event)">✕</button>';
-                tabsContainer.appendChild(div);
+                const titleSpan = document.createElement('span');
+                titleSpan.className = 'tab-title';
+                titleSpan.textContent = tab.title || 'Новая вкладка';
+                const closeBtn = document.createElement('button');
+                closeBtn.className = 'tab-close';
+                closeBtn.textContent = '✕';
+                closeBtn.onclick = (e) => closeTab(tab.id, e);
+                div.appendChild(titleSpan);
+                div.appendChild(closeBtn);
+                frag.appendChild(div);
             });
-            updateScrollButtons();
+            tabsContainer.appendChild(frag);
+            updateScrollButtonsThrottled();
         }
 
         function scrollTabs(direction) {
             tabsContainer.scrollBy({ left: direction * 200, behavior: 'smooth' });
-            setTimeout(updateScrollButtons, 100);
+            setTimeout(updateScrollButtonsThrottled, 100);
         }
 
         function updateScrollButtons() {
@@ -372,9 +425,15 @@
             document.getElementById('scrollLeftBtn').disabled = !(container.scrollLeft > 0);
             document.getElementById('scrollRightBtn').disabled = !(container.scrollLeft + container.clientWidth < container.scrollWidth - 2);
         }
+        let _rafScheduled = false;
+        function updateScrollButtonsThrottled() {
+            if (_rafScheduled) return;
+            _rafScheduled = true;
+            requestAnimationFrame(() => { updateScrollButtons(); _rafScheduled = false; });
+        }
 
-        tabsContainer.addEventListener('scroll', updateScrollButtons);
-        window.addEventListener('resize', updateScrollButtons);
+        tabsContainer.addEventListener('scroll', () => updateScrollButtonsThrottled(), { passive: true });
+        window.addEventListener('resize', updateScrollButtonsThrottled);
 
         function navigateTo(url, openInNewTab) {
             if (!url) return;
@@ -440,10 +499,11 @@
             e.preventDefault();
             const x = e.x, y = e.y;
             webview.executeJavaScript(
-                '(function(){var el=document.elementFromPoint('+x+','+y+');if(el){var l=el.href||el.getAttribute("href")||"";if(!l&&el.closest){var p=el.closest("a");if(p)l=p.href||"";}return JSON.stringify(l);}return JSON.stringify("");})()'
-            ).then(function(r){ electronAPI.showContextMenu(JSON.parse(r)); }).catch(function(){ electronAPI.showContextMenu(''); });
+                '(function(){var el=document.elementFromPoint('+x+','+y+');if(el){var l=el.href||el.getAttribute("href")||"";if(!l&&el.closest){var p=el.closest("a");if(p)l=p.href||"";}return JSON.stringify({link:l});}return JSON.stringify({link:""});})();'
+            ).then(function(r){ try { const parsed = JSON.parse(r); electronAPI.showContextMenu(parsed.link); } catch (e) { electronAPI.showContextMenu(''); } }).catch(function(){ electronAPI.showContextMenu(''); });
         });
 
+        // Ensure only one listener per signal from preload (prevent duplicate registrations)
         electronAPI.onOpenNewTab(function(link){ if (link) navigateTo(link, true); });
         electronAPI.onRefresh(function(){ refresh(); });
 
@@ -461,7 +521,7 @@
             const item = downloads.find(d => d.filename === data.filename && d.path === data.path);
             if (item) {
                 item.state = data.state === 'completed' ? 'completed' : 'cancelled';
-                localStorage.setItem('kaifbrowser_downloads', JSON.stringify(downloads));
+                scheduleLocalStorageWrite('kaifbrowser_downloads', JSON.stringify(downloads));
                 renderDownloads();
             } else {
                 addDownload(data.filename, data.path, data.state);
@@ -472,15 +532,16 @@
             try {
                 const domain = new URL(url).hostname;
                 const passwords = await electronAPI.getPasswordsForDomain(domain);
-                if (Object.keys(passwords).length === 0) return;
-                const script = '(function(){var data=' + JSON.stringify(passwords) + ';var inputs=document.querySelectorAll("input[type=\\"password\\"]");if(inputs.length===0)return;var u=document.querySelector("input[type=\\"text\\"],input[name=\\"username\\"],input[name=\\"email\\"]");if(u){u.value=Object.keys(data)[0];u.dispatchEvent(new Event("input",{bubbles:true}));}var p=inputs[0];if(p){p.value=data[Object.keys(data)[0]];p.dispatchEvent(new Event("input",{bubbles:true}));}})();';
-                webview.executeJavaScript(script);
+                if (!passwords || Object.keys(passwords).length === 0) return;
+                // Inject minimal, idempotent script that fills first matching form once
+                const script = '(function(){ if(window.__kaif_autoFillDone) return; window.__kaif_autoFillDone=true; try{ var p=' + JSON.stringify(passwords) + '; var inputs=document.querySelectorAll("input[type=\\"password\\"]"); if(inputs.length===0) return; var pass=inputs[0]; var form=pass.form||pass.closest("form"); if(!form) return; var uname=form.querySelector("input[type=\\"text\\"],input[type=\\"email\\"],input[name]"); if(uname){ var firstUser=Object.keys(p)[0]; if(firstUser) uname.value=firstUser; } var firstPassVal=Object.values(p)[0]; if(firstPassVal) pass.value=firstPassVal; }catch(e){} })();';
+                webview.executeJavaScript(script).catch(e => {});
             } catch (e) { console.warn('Автозаполнение ошибка:', e); }
         }
 
         function injectPasswordCapture() {
-            const script = '(function(){document.querySelectorAll("form").forEach(function(f){f.addEventListener("submit",function(){var u=this.querySelector("input[type=\\"text\\"],input[name=\\"username\\"],input[name=\\"email\\"]");var p=this.querySelector("input[type=\\"password\\"]");if(u&&p&&u.value&&p.value){window.parent.postMessage({type:"save-password",domain:window.location.hostname,username:u.value,password:p.value},"*");}});});})();';
-            webview.executeJavaScript(script);
+            const script = '(function(){ if(window.__kaif_inject_done) return; window.__kaif_inject_done=true; try{ document.querySelectorAll("form").forEach(function(f){ if(f.dataset && f.dataset.kaifBound) return; f.dataset.kaifBound = "1"; f.addEventListener("submit",function(){ try{ var u=this.querySelector("input[type=\\"text\\"],input[type=\\"email\\"],input[name]"); var p=this.querySelector("input[type=\\"password\\"]"); var username=(u && u.value) || ""; var password=(p && p.value) || ""; var domain=location.hostname; window.postMessage({ type: 'save-password', domain: domain, username: username, password: password }, '*'); }catch(e){} }); }); }catch(e){} })();';
+            webview.executeJavaScript(script).catch(e => {});
         }
 
         window.addEventListener('message', (event) => {
@@ -498,6 +559,7 @@
             const tab = tabs.find(t => t.id === activeTab);
             if (tab) { tab.url = url; tab.title = url; renderTabs(); saveTabs(); }
             updateNavButtons();
+            // Prefer dom-ready to inject scripts; autoFill and capture are idempotent
             setTimeout(() => { autoFillForms(url); setTimeout(injectPasswordCapture, 300); }, 500);
         });
         webview.addEventListener('page-title-updated', (e) => {
@@ -519,7 +581,7 @@
         renderSearchHistory();
         renderDownloads();
         loadTabs();
-        setTimeout(updateScrollButtons, 100);
+        setTimeout(updateScrollButtonsThrottled, 100);
 
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.downloads-panel') && !e.target.closest('.toolbar-btn')) {
