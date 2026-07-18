@@ -3,6 +3,73 @@ const path = require('path');
 const fs = require('fs');
 
 let mainWindow;
+let downloadHandlersRegistered = false;
+
+async function handleDownload(event, item, webContents) {
+  try {
+    const filename = item.getFilename();
+    const defaultPath = path.join(app.getPath('downloads'), filename);
+
+    // Show save dialog asynchronously so we don't block the main loop
+    const result = await dialog.showSaveDialog(mainWindow, {
+      defaultPath: defaultPath,
+      title: 'Сохранить файл'
+    });
+
+    if (result.canceled || !result.filePath) {
+      // If user cancelled, prevent the download
+      event.preventDefault();
+      return;
+    }
+
+    const savePath = result.filePath;
+    item.setSavePath(savePath);
+
+    const downloadInfo = { id: item.id, filename, path: savePath, progress: 0, state: 'progressing' };
+    if (mainWindow && mainWindow.webContents) mainWindow.webContents.send('download-started', downloadInfo);
+
+    item.on('updated', (evt, state) => {
+      if (state === 'progressing') {
+        const total = item.getTotalBytes();
+        const received = item.getReceivedBytes();
+        const progress = total ? (received / total) : 0;
+        if (mainWindow && mainWindow.webContents) mainWindow.webContents.send('download-progress', { id: item.id, filename, progress, path: savePath });
+      }
+    });
+
+    item.once('done', (evt, state) => {
+      if (mainWindow && mainWindow.webContents) mainWindow.webContents.send('download-done', { filename, state, path: savePath });
+    });
+  } catch (err) {
+    // If something fails, try to cancel gracefully
+    try { event.preventDefault(); } catch (e) {}
+    console.warn('handleDownload error:', err);
+  }
+}
+
+function registerDownloadHandlers() {
+  if (downloadHandlersRegistered) return;
+  downloadHandlersRegistered = true;
+
+  // Default session
+  if (session && session.defaultSession && session.defaultSession.listenerCount('will-download') === 0) {
+    session.defaultSession.on('will-download', (event, item, webContents) => {
+      handleDownload(event, item, webContents);
+    });
+  }
+
+  // Persisted webview partition
+  try {
+    const webviewSession = session.fromPartition('persist:kaifbrowser');
+    if (webviewSession && webviewSession.listenerCount('will-download') === 0) {
+      webviewSession.on('will-download', (event, item, webContents) => {
+        handleDownload(event, item, webContents);
+      });
+    }
+  } catch (e) {
+    // ignore if partition cannot be found yet
+  }
+}
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -22,44 +89,46 @@ function createWindow() {
 
   mainWindow.loadFile('index.html');
 
-  session.defaultSession.on('will-download', (event, item, webContents) => {
-    handleDownload(event, item, webContents);
-  });
-  const webviewSession = session.fromPartition('persist:kaifbrowser');
-  webviewSession.on('will-download', (event, item, webContents) => {
-    handleDownload(event, item, webContents);
-  });
-  mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
-    handleDownload(event, item, webContents);
+  // Ensure download handlers are registered once
+  registerDownloadHandlers();
+
+  mainWindow.on('closed', () => {
+    mainWindow = null;
   });
 }
 
-function handleDownload(event, item, webContents) {
-  const filename = item.getFilename();
-  const savePath = dialog.showSaveDialogSync(mainWindow, {
-    defaultPath: path.join(app.getPath('downloads'), filename),
-    title: 'Сохранить файл'
-  });
-  if (savePath) {
-    item.setSavePath(savePath);
-    const downloadInfo = { id: item.id, filename, path: savePath, progress: 0, state: 'progressing' };
-    mainWindow.webContents.send('download-started', downloadInfo);
-    item.on('updated', (event, state) => {
-      if (state === 'progressing') {
-        const progress = item.getReceivedBytes() / item.getTotalBytes();
-        mainWindow.webContents.send('download-progress', { id: item.id, filename, progress });
-      }
-    });
-    item.once('done', (event, state) => {
-      mainWindow.webContents.send('download-done', { filename, state, path: savePath });
-    });
-  } else {
-    event.preventDefault();
+// Async password file access using promises to avoid blocking the main thread
+const passwordsFile = path.join(app.getPath('userData'), 'passwords.json');
+async function readPasswords() {
+  try {
+    const contents = await fs.promises.readFile(passwordsFile, 'utf8');
+    return JSON.parse(contents || '{}');
+  } catch (e) {
+    return {};
   }
 }
+async function writePasswords(data) {
+  await fs.promises.mkdir(path.dirname(passwordsFile), { recursive: true }).catch(()=>{});
+  await fs.promises.writeFile(passwordsFile, JSON.stringify(data, null, 2), 'utf8');
+}
 
-ipcMain.handle('open-download-folder', (event, folderPath) => {
-  shell.openPath(folderPath);
+ipcMain.handle('get-passwords', async () => {
+  return await readPasswords();
+});
+ipcMain.handle('save-password', async (event, { domain, username, password }) => {
+  const data = await readPasswords();
+  if (!data[domain]) data[domain] = {};
+  data[domain][username] = password;
+  await writePasswords(data);
+  return true;
+});
+ipcMain.handle('get-passwords-for-domain', async (event, domain) => {
+  const data = await readPasswords();
+  return data[domain] || {};
+});
+
+ipcMain.handle('open-download-folder', async (event, folderPath) => {
+  return await shell.openPath(folderPath);
 });
 
 app.whenReady().then(() => {
@@ -89,25 +158,4 @@ ipcMain.on('context-menu', (event, link) => {
     { label: 'Обновить', click: () => event.sender.send('refresh-page') }
   ]);
   menu.popup();
-});
-
-const passwordsFile = path.join(app.getPath('userData'), 'passwords.json');
-function readPasswords() {
-  try { return JSON.parse(fs.readFileSync(passwordsFile, 'utf8')); }
-  catch { return {}; }
-}
-function writePasswords(data) {
-  fs.writeFileSync(passwordsFile, JSON.stringify(data, null, 2));
-}
-ipcMain.handle('get-passwords', () => readPasswords());
-ipcMain.handle('save-password', (event, { domain, username, password }) => {
-  const data = readPasswords();
-  if (!data[domain]) data[domain] = {};
-  data[domain][username] = password;
-  writePasswords(data);
-  return true;
-});
-ipcMain.handle('get-passwords-for-domain', (event, domain) => {
-  const data = readPasswords();
-  return data[domain] || {};
 });
